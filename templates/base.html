@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,13 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     {% include "css.html" %}
-    
+
     <title>{% block title %}{% endblock title %}</title>    
 </head>
 <body>
+    {% include "navbar.html" %}
 
-    {% block content %}
-    {% endblock content %}
+ 
+    <div class="container-fluid">
+        {% block content %}
+        {% endblock content %}
+    </div>
+
 
 
     {% include "js.html" %}

@@ -1,0 +1,5 @@
+#search-input.active.focus, search-input.active:focus, search-input.focus, search-input.focus:active, #search-input:active:focus, #search-input:focus {
+  outline:none;
+  box-shadow: none;
+  outline-offset: -2px;
+}

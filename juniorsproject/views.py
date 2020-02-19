@@ -8,4 +8,6 @@ def groups(request):
 
 def group_detail(request):
     return render(request,'group_page.html')
-    
+
+def post(request):
+    return render(request, 'create_post.html')

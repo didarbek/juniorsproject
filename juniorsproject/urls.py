@@ -22,6 +22,7 @@ from .views import home,groups
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
+    path('groups/',groups,name='groups'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

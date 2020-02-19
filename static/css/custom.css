@@ -31,3 +31,9 @@
     from, to { border-color: transparent }
     50% { border-color: orange; }
   }
+
+.custom-menu{
+  text-align: center;
+  margin-left: -20px;
+}
+

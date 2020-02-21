@@ -6,13 +6,14 @@ from .managers import CustomUserManager
 
 # Create your models here.
 class CustomUser(AbstractUser): 
-    email =  models.EmailField(_('email address'), unique=True)
-    username =  models.EmailField(_('username'), unique=False)
+    email =  models.EmailField(_('email_address'), unique=True, name='email')
+    username =  models.CharField(_('username'), unique=True, max_length=128)
+
 
 
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
     objects = CustomUserManager()
 

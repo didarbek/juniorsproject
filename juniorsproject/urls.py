@@ -24,7 +24,10 @@ urlpatterns = [
     path('', home, name='home'),
     path('groups/',groups,name='groups'),
     path('group_detail/',group_detail,name='group_detail'),
-    path('post/', post, name='post')
+    path('post/', post, name='post'),
+    path('account/', include('users.urls')),
+    path('accounts/', include('allauth.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

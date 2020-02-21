@@ -31,7 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+     # Apps 
     'users.apps.UsersConfig',
+    'django.contrib.sites',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,7 +44,30 @@ INSTALLED_APPS = [
     'communities',
     'posts',
     'users',
+    # Additional app
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'crispy_forms',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.facebook',
 ]
+
+SITE_ID = 2
+
+
+
+AUTHENTICATION_BACKENDS = (
+    # Default backend -- used to login by username in Django admin
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -66,6 +92,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
+
             ],
         },
     },
@@ -73,7 +101,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'juniorsproject.wsgi.application'
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -127,6 +155,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
 MEDIA_URL = '/media/'
 
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 AUTH_USER_MODEL = 'users.CustomUser' 
+
+LOGIN_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'home'
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+SOCIALACCOUNT_QUERY_EMAIL = True
+
+SESSION_COOKIE_AGE = 400

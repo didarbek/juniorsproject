@@ -4,6 +4,21 @@
   outline-offset: -2px;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+#hint_id_new_password1{
+  display: none;
+}
+
+
+.dropdown-toggle::after { 
+  margin-left: 60px;
+} 
+
+
+
 
 /* GLOBAL STYLES */
 

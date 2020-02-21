@@ -1,6 +1,7 @@
 from datetime import timedelta
 from django.conf import settings
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.db import models
@@ -15,9 +16,9 @@ class Community(models.Model):
     slug = models.SlugField(max_length=100,null=True,blank=True)
     description = models.TextField(max_length=500)
     cover = models.ImageField(upload_to='community_covers/',blank=True,null=True)
-    admins = models.ManyToManyField(User,related_name='inspected_communities')
-    subscribers = models.ManyToManyField(User,related_name='subscribed_communities')
-    bannned_users = models.ManyToManyField(User,related_name='forbidden_communities')
+    admins = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='inspected_communities')
+    subscribers = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='subscribed_communities')
+    bannned_users = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='forbidden_communities')
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
 

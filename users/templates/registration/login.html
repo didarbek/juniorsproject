@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 
 {% block content %}
 
@@ -47,6 +48,14 @@
                   </div>
           </div>
           </form>
+          <div class="form-group offset-3">
+              <b class="offset-3 p-3">Or use</b>
+            <div class="col-md-8 offset-2">
+                <a href="/accounts/github/login" class="text-dark"><i class="fab fa-github fa-2x p-2"></i></a>
+                <a href="/accounts/facebook/login"><i class="fab fa-facebook fa-2x p-2"></i></a>
+                <a href='/accounts/google/login' class="text-dark"><i class="fab fa-google fa-2x p-2"></i></a>  
+            </div> 
+        </div>
       </div>
   </div>
       </div>

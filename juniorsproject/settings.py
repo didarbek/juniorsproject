@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'communities',
     'posts',
     'users',
+    'comments',
     # Additional app
     'allauth',
     'allauth.account',

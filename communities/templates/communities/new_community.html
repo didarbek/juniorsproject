@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Create Community{% endblock %}
+
+{% block form_content %}
+{% include "includes/page_heading.html" with text="Create Community" %}
+
+<form action="{% url 'new_community' %}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ community_form|crispy }}
+ <button type="submit" class="btn btn-success btn-block">Submit</button>
+</form>
+{% endblock %}

@@ -7,7 +7,7 @@ def groups(request):
     return render(request,'groups.html')
 
 def group_detail(request):
-    return render(request,'group_page.html')
+    return render(request,'community_page.html')
 
 def post(request):
     return render(request, 'create_post.html')

@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'search',
     'reports',
     # Additional app
+    'sorl.thumbnail',
+    'corsheaders',
     'widget_tweaks',
     'django.contrib.humanize',
     'emoticons',

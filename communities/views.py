@@ -11,9 +11,13 @@ from django.contrib.auth.decorators import login_required
 from utils import check_image_extension
 from .decorators import user_is_community_admin, user_is_not_banned_from_community
 from .forms import CommunityForm
+from posts.models import Post
 from django.conf import settings
+
 # Create your views here.
+
 User = settings.AUTH_USER_MODEL
+
 class CommunitiesPageView(ListView):
     model = Community
     queryset = Community.objects.all()
@@ -38,7 +42,7 @@ class CommunityPageView(ListView):
         context['community'] = self.community
         return context
 
-class UserSubscriptionListPage(LoginRequiredMixin,ListView):
+class UserSubscriptionListView(LoginRequiredMixin,ListView):
     model = Community
     paginate_by = 10
     template_name = 'communities/user_subscription_list.html'

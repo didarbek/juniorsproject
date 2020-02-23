@@ -6,11 +6,11 @@ from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from django.views.generic import ListView
 import requests
-# from comments.forms import CommentForm
-# from mysite.decorators import ajax_required
-# from notifications.models import Notification
+from comments.forms import CommentForm
+from juniorsproject.decorators import ajax_required
+from notifications.models import Notification
 from utils import image_compression
-# from .decorators import user_is_subject_author
+from .decorators import user_is_post_author
 from .forms import PostForm
 from .models import Post
 from django.conf import settings
@@ -82,7 +82,7 @@ def post_detail(request,community,post):
                     new_comment.save()
 
                     if request.user is not post.author:
-                        Notofication.objects.create(
+                        Notification.objects.create(
                             Actor=new_comment.commenter,
                             Object=new_comment.post,
                             Target=post.author,

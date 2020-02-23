@@ -7,9 +7,9 @@
 
     <div style="float:left; width:80%;">
       <h5 style="font-size:16px;">
-        <a href="{{ community.get_absolute_url }}" class="card-link">{{ board.title }}</a>
+        <a href="{{ community.get_absolute_url }}" class="card-link">{{ community.title }}</a>
       </h5>
-      <p>{{ board.description|markdown|truncatewords_html:50 }}</p>
+      <p>{{ community.description|markdown|truncatewords_html:50 }}</p>
       <p class="text-muted">
         <span title="{{ community.subscribers.count }}">{{ community.subscribers.count }} subscribers</span>, created
         <span title="{{ community.created|date:"D d M Y" }} | {{ community.created|time:"H:i:s" }}">{{ community.created|naturaltime }}</span> &bull;
@@ -18,7 +18,7 @@
     </div>
 
     <div class="text-center" style="float:right; width:20%;">
-      {% if board in request.user.subscribed_boards.all %}
+      {% if community in request.user.subscribed_communities.all %}
         <a href="{% url 'subscribe' community.slug %}" class="btn btn-secondary btn-sm" id="subscribe_community">Unsubscribe</a>
       {% else %}
         <a href="{% url 'subscribe' community.slug %}" class="btn btn-primary btn-sm" id="subscribe_community">Subscribe</a>

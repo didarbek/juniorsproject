@@ -22,18 +22,18 @@ class CommunitiesPageView(ListView):
     model = Community
     queryset = Community.objects.all()
     pagiante_by = 20
-    template_name = 'communities/communities_list.html'
+    template_name = 'communities/view_all_communities.html'
     context_object_name = 'communities'
 
 class CommunityPageView(ListView):
     model = Post
     paginate_by = 20
-    template_name = 'communities/community_detail.html'
+    template_name = 'communities/community.html'
     context_object_name = 'posts'
 
     def get_queryset(self,**kwargs):
         self.community = get_object_or_404(Community,slug=self.kwargs['community'])
-        return self.community.submitted_subjects.filter(active=True)
+        return self.community.submitted_posts.filter(active=True)
 
     def get_context_data(self,*args,**kwargs):
         context = super().get_context_data(*args,**kwargs)

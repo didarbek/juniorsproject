@@ -2,7 +2,7 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-# from mysite.decorators import ajax_required
+from juniorsproject.decorators import ajax_required
 from posts.models import Post
 from .decorators import user_is_comment_owner
 from .models import Comment

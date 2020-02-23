@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'posts',
     'users',
     'comments',
-    'notofications',
+    'notifications',
     # Additional app
     'allauth',
     'allauth.account',

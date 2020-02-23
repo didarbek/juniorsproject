@@ -1,6 +1,6 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
-from .views import Signup
+from .views import Signup ,UserProfilePageView , profile_edit, FollowersPageView, FollowingPageView
 app_name = 'users'
 
 urlpatterns = [
@@ -13,5 +13,8 @@ urlpatterns = [
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(success_url = reverse_lazy('users:password_reset_complete')), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
-
+    path('profile/', UserProfilePageView.as_view(), name='user_profile'),
+    path('profile-edit/', profile_edit, name='profile_edit'),
+    path('all-followers', FollowersPageView.as_view(), name='view_all_followers'),
+    path('all-following', FollowingPageView.as_view(), name='view_following')
 ]

@@ -116,11 +116,12 @@ class UserProfilePageView(LoginRequiredMixin,ListView):
     template_name = 'users/profile.html'
     context_object_name = 'posts'
 
-    def get_queryset(self,**kwargs):
-        self.user = get_object_or_404(User,username=self.kwargs['username'])
-        return Post.get_posts(self.user)
+    # def get_queryset(self,**kwargs):
+    #     self.user = get_object_or_404(User,username=self.kwargs['username'])
+    #     return Post.get_posts(self.user)
 
-    def get_context_data(self,*args,**kwargs):
-        context = super().get_context_data(*args,**kwargs)
-        context["user"] = self.user
-        return context
+    # def get_context_data(self,*args,**kwargs):
+    #     context = super().get_context_data(*args,**kwargs)
+    #     context["user"] = self.user
+    #     return context
+

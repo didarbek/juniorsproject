@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'comments',
     'notofications',
     'search',
+    'reports',
     # Additional app
     'widget_tweaks',
     'django.contrib.humanize',

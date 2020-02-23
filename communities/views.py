@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from utils import check_image_extension
 from .decorators import user_is_community_admin, user_is_not_banned_from_community
 from .forms import CommunityForm
+from posts.models import Post
 
 # Create your views here.
 

@@ -17,8 +17,9 @@ from utils import check_image_extension
 from notifications.models import Notification
 from .forms import ProfileEditForm,UserEditForm
 import requests
-from django.contrib.auth.models import User
+from django.conf import settings
 
+User = settings.AUTH_USER_MODEL
 # Create your views here.
 
 class Signup(generic.CreateView):

@@ -1,8 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from posts.models import Post
 
 # Create your models here.
+
+User = settings.AUTH_USER_MODEL
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)

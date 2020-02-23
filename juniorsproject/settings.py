@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'posts',
     'users',
     'comments',
-    'notofications',
+    'notifications',
     'search',
     'reports',
     # Additional app

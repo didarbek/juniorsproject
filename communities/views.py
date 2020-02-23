@@ -7,14 +7,16 @@ from django.utils.decorators import method_decorator
 import requests
 from django.http import HttpResponse
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from utils import check_image_extension
 from .decorators import user_is_community_admin, user_is_not_banned_from_community
 from .forms import CommunityForm
 from posts.models import Post
+from django.conf import settings
 
 # Create your views here.
+
+User = settings.AUTH_USER_MODEL
 
 class CommunitiesPageView(ListView):
     model = Community

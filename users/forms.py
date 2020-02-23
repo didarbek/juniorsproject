@@ -4,7 +4,9 @@ from .models import CustomUser
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, Div, Fieldset, MultiField
 from .models import Profile
-from django.contrib.auth.models import User
+from django.conf import settings
+
+User = settings.AUTH_USER_MODEL
 
 class CustomUserCreationForm(UserCreationForm):
 
@@ -24,9 +26,9 @@ class CustomUserChangeForm(UserChangeForm):
         fields = ('email',)
 
 class UserEditForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ('first_name','last_name','email')
+  
+    model = User
+    fields = ('first_name','last_name','email')
 
 class ProfileEditForm(forms.ModelForm):
     class Meta:

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Subscription List{% endblock %}
+
+{% block content %}
+
+{% include "includes/page_heading.html" with text="Subscription List" %}
+<div class="alert alert-light text-center" role="alert">
+  Subscribe interesting communities to populate your home feed with interesting posts.
+</div>
+{% if subscriptions %}
+  {% include "includes/partial_community.html" with communities=subscriptions %}
+{% else %}
+  <div class="card p-4 my-4 mx-0">
+    <h6 class="text-center">No Subscriptions Found</h6>
+    <div style="margin:0 auto;">
+    <p class="text-muted">You have not subscribed any communities yet.</p>
+    </div>
+  </div>
+{% endif %}
+
+{% endblock %}

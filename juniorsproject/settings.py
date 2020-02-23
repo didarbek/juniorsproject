@@ -44,7 +44,12 @@ INSTALLED_APPS = [
     'users',
     'comments',
     'notifications',
+    'search',
+    'reports',
     # Additional app
+    'widget_tweaks',
+    'django.contrib.humanize',
+    'emoticons',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

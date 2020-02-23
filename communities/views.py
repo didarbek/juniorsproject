@@ -42,7 +42,7 @@ class CommunityPageView(ListView):
         context['community'] = self.community
         return context
 
-class UserSubscriptionListPage(LoginRequiredMixin,ListView):
+class UserSubscriptionListView(LoginRequiredMixin,ListView):
     model = Community
     paginate_by = 10
     template_name = 'communities/user_subscription_list.html'

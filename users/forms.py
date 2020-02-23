@@ -26,7 +26,7 @@ class CustomUserChangeForm(UserChangeForm):
         fields = ('email',)
 
 class UserEditForm(forms.ModelForm):
-  
+
     model = User
     fields = ('first_name','last_name','email')
 

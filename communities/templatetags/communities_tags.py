@@ -1,10 +1,12 @@
 import random
 from django import template
-from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 import markdown
+from django.conf import settings
 from ..models import Community
 register = template.Library()
+
+User = settings.AUTH_USER_MODEL
 
 @register.inclusion_tag('includes/communities_container.html')
 def communities_container_items(user):

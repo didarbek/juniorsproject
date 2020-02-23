@@ -1,8 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
 from posts.models import Post
-
+from django.conf import settings
 # Create your models here.
+User = settings.AUTH_USER_MODEL
 
 class Notification(models.Model):
 

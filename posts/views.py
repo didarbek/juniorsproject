@@ -1,7 +1,6 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.db import OperationalError
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
@@ -14,6 +13,9 @@ from utils import image_compression
 # from .decorators import user_is_subject_author
 from .forms import PostForm
 from .models import Post
+from django.conf import settings
+
+User = settings.AUTH_USER_MODEL
 
 # Create your views here.
 

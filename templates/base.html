@@ -12,14 +12,10 @@
 <body style="background-color: #f1f1f1;">
     {% include "navbar.html" %}
 
- 
     <div class="container " style="min-height: 100%;   margin-bottom:50%; ">
         {% block content %}
         {% endblock content %}
     </div>
-
-    {% block form_content %}
-    {% endblock %}
     
     {% include "footer.html" %}
 

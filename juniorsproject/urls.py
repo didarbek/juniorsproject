@@ -35,10 +35,9 @@ urlpatterns = [
     path('post/', post, name='post'),
     path('account/', include('users.urls')),
     path('accounts/', include('allauth.urls')),
-    path('communities/', include('communities.urls')),
-    # path('communities/', include('comments.urls')),
-    # path('communities/', include('posts.urls')),
-
+    path('', include('communities.urls')),
+    path('', include('comments.urls')),
+    path('', include('posts.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

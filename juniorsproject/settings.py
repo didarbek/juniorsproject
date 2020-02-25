@@ -51,6 +51,10 @@ INSTALLED_APPS = [
 
     # crispy 
     'crispy_forms',
+    
+    # django contries 
+    'django_countries',
+
 
     # allauth outh website
     'allauth.socialaccount.providers.google',

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load socialaccount %}
+
+{% block content %}
+
+
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="card">
+          <div class="card-header text-center"><h5>Login</h5></div>
+          <div class="card-body">
+              <form action="" method="POST">
+                  {% csrf_token %}
+                  <div class="form-group offset-md-3 ">
+                      <div class="col-md-8">
+                           {{form.username|as_crispy_field}}
+                      </div>
+                  </div>
+                   <div class="form-group  offset-md-3">
+                      <div class="col-md-8">
+                          {{form.password|as_crispy_field}} 
+  
+                      </div>
+                  </div> 
+                  <div class="form-group row">
+                      <div class="col-md-6 offset-md-4">
+                          <div class="checkbox">
+                              <label>
+                                  <input type="checkbox" name="remember"> Remember Me
+                              </label>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-6 offset-md-4">
+                      <button type="submit" class="btn btn-primary">
+                          Login
+                      </button>
+                      <a href="{% url 'users:password_reset' %}" class="btn btn-link">
+                          Forgot Your Password?
+                      </a>
+                  </div>
+                  <div class="text-danger pt-5 pb-5" >
+                    <b>{{ form.non_field_errors }}</b> 
+                    <b>{{form.password.errors}}</b>
+                    <b>{{form.username.errors}}</b>
+                  </div>
+          </div>
+          </form>
+          <div class="form-group offset-3">
+              <b class="offset-3 p-3">Or use</b>
+            <div class="col-md-8 offset-2">
+                <a href="/accounts/github/login" class="text-dark"><i class="fab fa-github fa-2x p-2"></i></a>
+                <a href="/accounts/facebook/login"><i class="fab fa-facebook fa-2x p-2"></i></a>
+                <a href='/accounts/google/login' class="text-dark"><i class="fab fa-google fa-2x p-2"></i></a>  
+            </div> 
+        </div>
+      </div>
+  </div>
+      </div>
+    </div>
+  
+{% endblock content %}

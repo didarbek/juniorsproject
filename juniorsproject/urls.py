@@ -18,27 +18,12 @@ from django.urls import path,include,re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import home,groups,group_detail, post
-import communities.views as communities_views
-import comments.views as comments_views
-import notifications.views as notifications_views
-import reports.views as reports_views
-import search.views as search_views
-import posts.views as posts_views
-import users.views as users_views
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
-    path('groups/',groups,name='groups'),
-    path('group_detail/',group_detail,name='group_detail'),
-    # path('post/', post, name='post'),
-    path('post/', include('posts.urls')),
-    path('account/', include('users.urls')),
-    path('accounts/', include('allauth.urls')),
-    path('', include('communities.urls')),
-    path('', include('comments.urls')),
-    path('', include('posts.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

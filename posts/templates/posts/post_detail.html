@@ -2,9 +2,7 @@
 {% block content %}
 <div class="row">
     <div class="col-8 ">
-        {% for post in posts  %}
         <div class="col-10 pb-3">
-            
             <div class="card">
                 <h6 class="card-header bg-white border-bottom-0 pb-0">
                     <a href="#" class="mr-2 card-link"></a>
@@ -29,33 +27,6 @@
         </div>
         {% endfor %}
     </div>
-    <div class="col-4">
-        <div class="col-12 pb-5">
-            <div class="card">
-                <div class="card-header text-center">Top languages are used</div>
-                <div class="card-body text-center">
-                    <a href="#" class="card-link">Python</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="card-link">Javascript</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="card-link">TypeScript</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 pb-5">
-            <div class="card">
-                <div class="card-header text-center">Top technologies are used</div>
-                <div class="card-body text-center">
-                    <a href="#" class="card-link">Docker</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="card-link">Angular</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="card-link">React</a>
-
-                </div>
-            </div>
-        </div>
-    
     </div>
 </div>
 

@@ -29,3 +29,11 @@ class Post(models.Model):
         return reverse('post_detail',
                        args=[self.community.slug,
                              self.slug])
+
+    @staticmethod
+    def get_posts(user=None):
+        if user:
+            posts = Post.objects.filter(active=True,author=user)
+        else:
+            posts = Post.objects.filter(active=True)
+        return posts

@@ -138,7 +138,7 @@ def like_post(request,post):
     if post in user.liked_posts.all():
         post.points.remove(user)
         data['is_starred'] = False
-     else:
+    else:
         post.points.add(user)
         data['is_starred'] = True
     data['total_points'] = post.points.count()

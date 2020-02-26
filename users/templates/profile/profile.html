@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<form action="" method="POST" enctype="multipart/form-data">
+    <div class="row justify-content-center" >
+        <div class="card col-12 m-4 p-0 pb-4 " >
+            <div class="card-header text-center"><h5>Profile</h5></div>
+            <div class="row">
+                <div class="col-5">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        <img src="{{user.profile.img_profile.url}}" width="300px" height="300px" class="rounded">
+                        {{profile_form.img_profile|as_crispy_field}}                        
+                   </div>
+                </div>
+                <div class="col-6">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        {{user_form|crispy}}
+                        <!-- {{profile_form|crispy}} -->
+                        {{profile_form.birth_date|as_crispy_field}}
+                        {{profile_form.gender|as_crispy_field}}
+                        {{profile_form.countries|as_crispy_field}}
+
+                        <button type="submit" class="btn btn-primary float-right" id="btn">Update</button>
+                    
+                    </div>
+
+                    <div class="text-danger p-2 m-2">
+                        {{ profile_form.non_field_errors }}
+                        {{ user_form.non_field_errors }}
+                        {{profile_form.img_profile.errors}}
+
+                    </div>
+
+                </div>
+            </div>
+          
+        </div>
+    </div>
+</form>
+{% endblock content %}

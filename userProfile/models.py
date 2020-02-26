@@ -5,6 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 # Create your models here.
 
+
 User = settings.AUTH_USER_MODEL
 
 GENDER_CHOICES = [
@@ -12,9 +13,14 @@ GENDER_CHOICES = [
     ('female', 'Female')
 ]
 
+def user_directory_path(instance, filename):
+    all_path = 'user_{0}/{1}'.format(instance.user.id, filename)
+
+    return all_path
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    img_profile  = models.ImageField(verbose_name='Your image', upload_to='ProfileImage/%Y/%m/%d/')
+    img_profile  = models.ImageField(verbose_name='image profile', upload_to=user_directory_path)
     birth_date = models.DateField(verbose_name='Birth date', blank=True, null=True)
     gender = models.CharField(max_length=10,choices=GENDER_CHOICES)
     countries = CountryField()

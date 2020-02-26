@@ -12,6 +12,7 @@ import os
 User = settings.AUTH_USER_MODEL
 # Create your views here.
 
+
 class Signup(generic.CreateView):
     form_class = CustomUserCreationForm
     template_name = 'registration/signup.html'

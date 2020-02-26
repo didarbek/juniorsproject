@@ -25,10 +25,12 @@
                         {{profile_form.birth_date|as_crispy_field}}
                         {{profile_form.gender|as_crispy_field}}
                         {{profile_form.countries|as_crispy_field}}
+                        <a href="{% url 'users:password_change' %}" class="card-link"><h5>Change password</h5></a>
 
-                        <button type="submit" class="btn btn-primary float-right" id="btn">Update</button>
                     
                     </div>
+                    <button type="submit" class="btn btn-primary float-right" id="btn">Update</button>
+
 
                     <div class="text-danger p-2 m-2">
                         {{ profile_form.non_field_errors }}

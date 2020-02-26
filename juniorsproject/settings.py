@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-     # Apps 
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,13 +38,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Additional app
-    'allauth',
+    # our apps 
     'users',
     'posts',
+    'userProfile',
+
+
+    # allauth apps
+    'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
+    # crispy 
     'crispy_forms',
+    
+    # django contries 
+    'django_countries',
+
+
+    # allauth outh website
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.facebook',

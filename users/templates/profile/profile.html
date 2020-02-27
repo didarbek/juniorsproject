@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %} 
 
 {% load static %}
 
 {% load crispy_forms_tags %}
 
-{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+
 
 
 
@@ -35,7 +36,6 @@
                         {{user_form|crispy}}
                         <!-- {{profile_form|crispy}} -->
                         {{profile_form.birth_date|as_crispy_field}}
-                        {% bootstrap_javascript jquery='full' %} 
                         {{ profile_form.media }}  
                         {{profile_form.gender|as_crispy_field}}
                         {{profile_form.countries|as_crispy_field}}

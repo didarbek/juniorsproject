@@ -38,8 +38,12 @@
     z-index:9998;
 }
 
+.drop-group-custom{
+  width: 250px;
+}
 
 </style>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3 mb-5 bg-white rounded" style="height: 70px;">
     <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'img/juniorsicon.svg' %}" width="100" height="100" alt=""></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,8 +61,8 @@
             <button class="btn btn-outline-primary dropdown-toggle pr-4 pl-4 dropdown-toggle"  id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offest='10,20'>
                 Groups
             </button>
-            <div class="dropdown-menu custom-menu p-3 dropdown-group" aria-labelledby="dropdownMenu2">
-              <input type="text">
+            <div class="dropdown-menu custom-menu p-3 dropdown-group drop-group-custom" aria-labelledby="dropdownMenu2">
+              <input type="text" class="form-control" >
               <div class="dropdown-divider"></div>
               <button class="dropdown-item" type="button">
                   Group 1
@@ -76,12 +80,10 @@
         </li>
         <li>
             <form class="input-group my-2 my-lg-0">
-              <span class="input-group-append">
-                <button class="btn btn-outline-secondary border-right-0 border" type="button">
-                      <i class="fa fa-search"></i>
-                </button>
-              </span>
-                <input class="form-control border-left-0" type="search" placeholder="Search" aria-label="Search" aria-describedby="inputGroup-sizing-default" id="search-input">
+                <input class="form-control" id="search-input" type="search" placeholder="Search" aria-label="Search" aria-describedby="button-addon4" id="search-input">
+                <div class="input-group-append" id="button-addon4">
+                  <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                </div>
             </form>
         </li>   
       </ul>
@@ -92,8 +94,8 @@
       <ul class="navbar-nav">
         <li>
           <div class="dropdown mr-3 ml-3 ">
-              <button class="btn btn-outline-secondary dropdown-toggle"  id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offest='10,20' style="width: 80px;">
-                <img src="{{user.profile.img_profile.url}}" width="30px" height="30px" class="rounded" alt="">
+              <button class="btn btn-outline-secondary dropdown-toggle"  id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offest='10,20' style="width: 100px;">
+                <img src="{{user.profile.img_profile.url}}" width="30px" height="30px" class="rounded mr-2 ml-2" alt="">
                 {{user.username}}
               </button>
               <div class="dropdown-menu dropdown-menu-right user-dropdown" aria-labelledby="dropdownMenu2" style="border-radius: 0; margin-top: -1px;">

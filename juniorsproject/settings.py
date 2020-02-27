@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # users app 
     'users',
     'django.contrib.sites',
     'django.contrib.admin',
@@ -53,6 +54,10 @@ INSTALLED_APPS = [
     
     # django contries 
     'django_countries',
+
+    # bootstrap-datepicker 
+    'bootstrap_datepicker_plus',
+    'bootstrap4',
 
 
     # allauth outh website

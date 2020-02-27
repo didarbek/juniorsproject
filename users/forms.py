@@ -4,8 +4,15 @@ from .models import CustomUser
 from crispy_forms.helper import FormHelper
 from django.conf import settings
 from .models import Profile
+from django.forms.widgets import ClearableFileInput
+from bootstrap_datepicker_plus import DatePickerInput
 
 User = settings.AUTH_USER_MODEL
+
+
+class CustomClearableFileInput(ClearableFileInput):
+    template_name = 'profile/custom_clear_file_input.html'
+
 
 class CustomUserCreationForm(UserCreationForm):
     
@@ -34,6 +41,10 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('img_profile', 'birth_date', 'gender', 'countries')
-
+        widgets = {
+            'img_profile':CustomClearableFileInput(),
+            'birth_date':DatePickerInput(format='%m/%d/%Y')
+        }
     
+ 
 

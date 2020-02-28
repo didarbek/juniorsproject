@@ -78,7 +78,7 @@ def create_group(request):
             new_group.admins.add(request.user)
             new_group.subscribers.add(request.user)
             return redirect(new_group.get_absolute_url())
-    return render(request,'posts/create_group.html',{'group_form':group_form})
+    return render(request,'groups/create_group.html',{'group_form':group_form})
 
 @login_required
 @user_is_group_admin

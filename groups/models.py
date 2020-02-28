@@ -2,6 +2,8 @@ from django.db import models
 from datetime import timedelta
 from django.conf import settings
 from django.utils import timezone
+from django.urls import reverse
+from slugify import UniqueSlugify
 
 # Create your models here.
 
@@ -14,7 +16,7 @@ class Group(models.Model):
     cover = models.ImageField(upload_to='group_covers/', blank=True, null=True)
     admins = models.ManyToManyField(User, related_name='inspected_groups')
     subscribers = models.ManyToManyField(User, related_name='subscribed_groups')
-    banned_users = models.ManyToManyField(User, related_name='forbidden_groups')
+    banned_users = models.ManyToManyField(User, related_name='forbidden_groups',blank=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
 
@@ -24,8 +26,13 @@ class Group(models.Model):
     def __str__(self):
         return self.title
     
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = group_slugify(f"{self.title}")
+        super().save(*args, **kwargs)
+
     def get_absolute_url(self):
-        return reverse('group',
+        return reverse('groups:group',
                        args=[self.slug])
     
     def get_admins(self):
@@ -40,3 +47,16 @@ class Group(models.Model):
 
     def recent_posts(self):
         return self.submitted_posts.filter(created__gte=timezone.now() - timedelta(days=3)).count()
+
+def group_unique_check(text, uids):
+    if text in uids:
+        return False
+    return not Group.objects.filter(slug=text).exists()
+
+group_slugify = UniqueSlugify(
+                    unique_check=group_unique_check,
+                    to_lower=True,
+                    max_length=80,
+                    separator='_',
+                    capitalize=False
+                )

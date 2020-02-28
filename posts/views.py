@@ -124,8 +124,6 @@ def new_post(request):
                             names_list.append(user)
                     except:
                         pass
-            if new_post.photo:
-                image_compression(new_post.photo.name)
             return redirect(new_post.get_absolute_url())
 
     return render(request,'posts/create_post.html',{'post_form':post_form})

@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # users app 
+    'users',
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,12 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # our apps 
-    'users',
     'posts',
     'userProfile',
     'groups',
     'notifications',
-
 
     # allauth apps
     'allauth',
@@ -56,6 +56,10 @@ INSTALLED_APPS = [
     
     # django contries 
     'django_countries',
+
+    # bootstrap-datepicker 
+    'bootstrap_datepicker_plus',
+    'bootstrap4',
 
 
     # allauth outh website
@@ -181,3 +185,5 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 SOCIALACCOUNT_QUERY_EMAIL = True
 
 # SESSION_COOKIE_AGE = 400
+
+

@@ -10,7 +10,7 @@ from .forms import PostForm
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 
-# Create your views here.
+# # Create your views here.
 
 User = settings.AUTH_USER_MODEL
 

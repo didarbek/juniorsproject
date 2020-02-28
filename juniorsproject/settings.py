@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'users',
     'posts',
     'userProfile',
+    'groups',
+    'notifications',
 
 
     # allauth apps

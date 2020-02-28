@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Change Your Group Cover{% endblock title %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <label>Cover photo</label>
+      <input type="file" class="form-control-file">
+    </div>
+     <button type="submit" class="btn btn-primary btn-block">Submit</button>
+  </form>
+{% endblock content %}

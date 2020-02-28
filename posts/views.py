@@ -38,20 +38,20 @@ class HomePage(ListView):
         context = super().get_context_data(**kwargs)
         return context
     
-def _html_comments(comment_id,community,post):
-    post = get_object_or_404(Post,community__slug=community.slug,slug=post.slug)
+def _html_comments(comment_id,group,post):
+    post = get_object_or_404(Post,group__slug=group.slug,slug=post.slug)
     comment = post.comments.get(id=comment_id)
     user = comment.commenter
     html = ''
     html = '{0}{1}'.format(html,render_to_string('comments/comments.html',{'comment': comment,'user': user,}))
     return html
 
-def post_detail(request,community,post):
-    post = get_object_or_404(Post,community__slug=community,slug=post)
+def post_detail(request,group,post):
+    post = get_object_or_404(Post,group__slug=group,slug=post)
     comments = post.comments.filter(active=True)
-    community = post.community
+    group = post.group
     user = request.user
-    admins = community.admins.all()
+    admins = group.admins.all()
 
     if request.is_ajax():
         if request.user.is_authenticated:
@@ -89,7 +89,7 @@ def post_detail(request,community,post):
                             except:
                                 pass
                     new_comment_id = new_comment.id
-                    html = _html_comments(new_comment_id,community,post)
+                    html = _html_comments(new_comment_id,group,post)
                     return HttpResponse(html)
 
 @login_required

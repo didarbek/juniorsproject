@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
+from groups.models import Group
 
 # Create your models here.
 
@@ -13,11 +14,12 @@ class Post(models.Model):
     body = models.TextField(max_length=5000, blank=True, null=True)
     image = models.ImageField(upload_to='post_photos/',blank=True, null=True)
     author = models.ForeignKey(User, related_name='posted_posts', on_delete=models.CASCADE)
-    # community = models.ForeignKey(Community, related_name='submitted_posts', on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, related_name='submitted_posts', on_delete=models.CASCADE)
     points = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_posts', blank=True)
     mentioned = models.ManyToManyField(User, related_name='m_in_posts', blank=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
 
     class Meta:
         ordering = ('-created',)
@@ -37,3 +39,4 @@ class Post(models.Model):
         else:
             posts = Post.objects.filter(active=True)
         return posts
+        

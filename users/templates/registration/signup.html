@@ -8,7 +8,8 @@
         <div class="card">
           <div class="card-header text-center"><h2>Register</h2></div>
           <div class="card-body">
-              <form action="" method="">
+              <form action="" method="POST">
+                  {% csrf_token %}
                   <div class="form-group  offset-3">
                       <div class="col-md-8">
                           {{form.email|as_crispy_field}}
@@ -44,7 +45,9 @@
                           Register
                       </button>
                   </div>
-       
+                  <div class="text-danger pt-5 pb-5" >
+                    <b>{{form.non_field_errors }}</b> 
+                  </div>
           </div>
           </form>
       </div>

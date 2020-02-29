@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% load humanize %}
+
 {% block title %}Home{% endblock title %}
 
 {% block content %}
@@ -17,47 +19,33 @@
           <small>Secondary Text</small>
         </h1>
 
-        <!-- Blog Post -->
-        <div class="card mb-4">
-          <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-          <div class="card-body">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
-          </div>
-          <div class="card-footer text-muted">
-            Posted on January 1, 2017 by
-            <a href="#">Start Bootstrap</a>
-          </div>
-        </div>
 
+        {% for post in posts %}
         <!-- Blog Post -->
         <div class="card mb-4">
-          <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+          {% if post.image %}
+          <img class="card-img-top" src="{{ post.image.url }}" alt="Card image cap">
+          {% endif %}
           <div class="card-body">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
+            <h2 class="card-title">{{ post.title }}</h2>
+            <p class="card-text">{{ post.body|truncatewords_html:50|urlize }}</p>
+            <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
+            {% if post in user.liked_posts.all %}
+              <a href="{% url 'posts:like' post.slug %}" class="btn btn-primary float-right"><i class="fas fa-thumbs-down"></i></a>
+            {% else %}
+              <a href="{% url 'posts:like' post.slug %}" class="btn btn-primary float-right"><i class="fas fa-thumbs-up"></i></a>
+            {% endif %}
           </div>
           <div class="card-footer text-muted">
-            Posted on January 1, 2017 by
-            <a href="#">Start Bootstrap</a>
+            Posted on {{ post.created|naturaltime }} by
+            <a href="">{{ post.author.profile.screen_name }}</a>
+            <p class="float-right">{{ post.comments.count }} Comments</p>
           </div>
         </div>
+        {% endfor %}
 
-        <!-- Blog Post -->
-        <div class="card mb-4">
-          <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-          <div class="card-body">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
-          </div>
-          <div class="card-footer text-muted">
-            Posted on January 1, 2017 by
-            <a href="#">Start Bootstrap</a>
-          </div>
-        </div>
+  
+
 
         <!-- Pagination -->
         <ul class="pagination justify-content-center mb-4">
@@ -77,7 +65,7 @@
         <!-- Side Widget -->
         <div class="card" style="width: 18rem;margin-top:80px;">
           <div class="card-body">
-            <h5 class="card-title text-center">Top Communities</h5>
+            <h5 class="card-title text-center">Top Groups</h5>
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">1<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
@@ -87,7 +75,7 @@
             <li class="list-group-item">5<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
           </ul>
           <div class="card-body">
-            <a href="#" class="card-link float-right">More Communities</a>
+            <a href="#" class="card-link float-right">More Groups</a>
           </div>
         </div>
 

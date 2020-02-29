@@ -9,6 +9,7 @@ from django.db import OperationalError
 from .forms import PostForm
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
+from comments.forms import CommentForm
 
 # # Create your views here.
 
@@ -91,6 +92,13 @@ def post_detail(request,group,post):
                     new_comment_id = new_comment.id
                     html = _html_comments(new_comment_id,group,post)
                     return HttpResponse(html)
+    return render(request, 'posts/post_detail.html', {
+        'post':post,
+        'comments':comments,
+        'group':group,
+        'admins':admins,
+    })
+
 
 @login_required
 def new_post(request):

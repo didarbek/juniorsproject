@@ -95,7 +95,7 @@
         <li>
           <div class="dropdown mr-3 ml-3 ">
               <button class="btn btn-outline-secondary dropdown-toggle"  id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offest='10,20' style="width: 100px;">
-                <img src="{{ user.profile.img_profile.url }}" width="30px" height="30px" class="rounded mr-2 ml-2" alt="">
+                <img src="{{ user.profile.get_picture }}" width="30px" height="30px" class="rounded mr-2 ml-2" alt="">
                 {{user.username}}
               </button>
               <div class="dropdown-menu dropdown-menu-right user-dropdown" aria-labelledby="dropdownMenu2" style="border-radius: 0; margin-top: -1px;">

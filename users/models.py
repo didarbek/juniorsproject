@@ -53,6 +53,22 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
     
+    def screen_name(self):
+        try:
+            if self.user.get_full_name():
+                return self.user.get_full_name()
+            else:
+                return self.user.username
+        except:  
+            return self.user.username
+
+    def get_picture(self):
+        default_picture = settings.STATIC_URL + 'img/default_picture.png'
+        if self.img_profile:
+            return self.img_profile.url
+        else:
+            return default_picture
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

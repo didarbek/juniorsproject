@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from django.views.generic import ListView
+from django.views.generic import ListView,DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
@@ -7,8 +7,11 @@ from .models import Post
 from .decorators import post_author
 from django.db import OperationalError
 from .forms import PostForm
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse,JsonResponse,HttpResponseRedirect
 from django.template.loader import render_to_string
+from comments.forms import CommentForm
+from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy,reverse
 
 # # Create your views here.
 
@@ -52,45 +55,29 @@ def post_detail(request,group,post):
     group = post.group
     user = request.user
     admins = group.admins.all()
+    new_comment = None
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            comment_form = CommentForm(data=request.POST or None)
+            if comment_form.is_valid():
+                new_comment = comment_form.save(commit=False)
+                new_comment.commenter = request.user
+                new_comment.post = post
+                new_comment.save()
+                new_comment_id = new_comment.id
+                return HttpResponseRedirect(post.get_absolute_url())
+        else:
+            comment_form = CommentForm()
 
-    if request.is_ajax():
-        if request.user.is_authenticated:
-            if request.method == 'POST':
-                comment_form = CommentForm(data=request.POST or None)
-                if comment_form.is_valid():
-                    new_comment = comment_form.save(commit=False)
-                    new_comment.commenter = request.user
-                    new_comment.post = post
-                    new_comment.save()
-                    if request.user is not post.author:
-                        Notification.objects.create(
-                            Actor=new_comment.commenter,
-                            Object=new_comment.post,
-                            Target=post.author,
-                            notif_type='comment'
-                        )
-                    words = new_comment.body
-                    words = words.split(" ")
-                    names_list = []
-                    for word in words:
-                        if word[:2] == "u/":
-                            u = word[2:]
-                            try:
-                                user = User.objects.get(username=u)
-                                if user not in names_list:
-                                    if request.user is not user:
-                                        Notification.objects.create(
-                                            Actor=new_comment.commenter,
-                                            Object=new_comment.post,
-                                            Target=user,
-                                            notif_type='comment_mentioned'
-                                        )
-                                    names_list.append(user)
-                            except:
-                                pass
-                    new_comment_id = new_comment.id
-                    html = _html_comments(new_comment_id,group,post)
-                    return HttpResponse(html)
+    return render(request, 'posts/post_detail.html', {
+        'new_comment':new_comment,
+        'comment_form':comment_form,
+        'post':post,
+        'comments':comments,
+        'group':group,
+        'admins':admins,
+    })
+
 
 @login_required
 def new_post(request):
@@ -104,28 +91,9 @@ def new_post(request):
             new_post.save()
             new_post.points.add(author)
             new_post.save()
-            words = new_post.title + ' ' + new_post.body
-            words = words.split(" ")
-            names_list = []
-            for word in words:
-                if word[:2] == "u/":
-                    u = word[2:]
-                    try:
-                        user = User.objects.get(username=u)
-                        if user not in names_list:
-                            new_post.mentioned.add(user)
-                            if request.user is not user:
-                                Notification.objects.create(
-                                    Actor=new_post.author,
-                                    Object=new_post,
-                                    Target=user,
-                                    notif_type='post_mentioned'
-                                )
-                            names_list.append(user)
-                    except:
-                        pass
             return redirect(new_post.get_absolute_url())
-
+    else:
+        post_form = PostForm()
     return render(request,'posts/create_post.html',{'post_form':post_form})
 
 @login_required
@@ -140,14 +108,14 @@ def like_post(request,post):
         post.points.add(user)
         data['is_starred'] = True
     data['total_points'] = post.points.count()
-    return JsonResponse(data)
+    return reverse('posts:post',args=[self.slug])
 
 @login_required
 @post_author
 def delete_post(request,post):
     post = get_object_or_404(Post,slug=post)
     post.delete()
-    return HttpResponse('Post has been deleted.')
+    return HttpResponseRedirect(reverse('posts:home'))
 
 @login_required
 @post_author

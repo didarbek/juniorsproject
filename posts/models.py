@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
 from groups.models import Group
+from slugify import UniqueSlugify
 
 # Create your models here.
 
@@ -27,8 +28,13 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = post_slugify(f"{self.title}")
+        super().save(*args, **kwargs)
+
     def get_absolute_url(self):
-        return reverse('post_detail',
+        return reverse('posts:post_detail',
                        args=[self.group.slug,
                              self.slug])
 
@@ -40,3 +46,16 @@ class Post(models.Model):
             posts = Post.objects.filter(active=True)
         return posts
         
+def post_unique_check(text, uids):
+    if text in uids:
+        return False
+    return not Post.objects.filter(slug=text).exists()
+
+
+post_slugify = UniqueSlugify(
+                    unique_check=post_unique_check,
+                    to_lower=True,
+                    max_length=80,
+                    separator='_',
+                    capitalize=False
+                )

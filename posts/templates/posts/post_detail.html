@@ -8,49 +8,36 @@
 
 {% block content %}
 <!-- Page Content -->
-<div class="container">
-
     <div class="row">
-
-      <!-- Post Content Column -->
       <div class="col-lg-8">
 
-        {% if post in user.liked_posts.all %}
-        <a href="{% url 'posts:like' post.slug %}"><i class="fas fa-thumbs-down"></i></a>
-        {% else %}
-        <a href="{% url 'posts:like' post.slug %}"><i class="fas fa-thumbs-up"></i></a>
-        {% endif %}
         <!-- Title -->
-        {% ifequal post.author request.user %}
-        <a href="{% url 'posts:delete_post' post.slug %}">Delete</a>
-        {% endifequal %}
-        <h1 class="mt-4">{{ post.title }}</h1>
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title">
+              <h1 class="mt-4">{{ post.title }}</h1>
+            </div>
+            <p class="lead">{{ post.body }}</p>    
+            {% if post.image %}
+            <img class="img-fluid rounded" src="{{ post.image.url }}" alt="">
+            {% endif %}
+          </div>
+          <div class="card-footer text-muted">
+            Posted on {{ post.created|naturaltime }} by
+            <a href="">{{ post.author.username }}</a>
+            {% if post in user.liked_posts.all %}
+            <a href="{% url 'posts:like' post.slug %}" class="ml-5"><i class="fas fa-thumbs-down"></i></a>
+            {% else %}
+            <a href="{% url 'posts:like' post.slug %}" class="ml-5"><i class="fas fa-thumbs-up"></i></a>
+            {% endif %}
+            {% ifequal post.author request.user %}
+            <b class="pl-5 float-right"><a href="{% url 'posts:delete_post' post.slug %}" data-toggle="tooltip" data-placement="top" title="Delete post"><i class="fas fa-trash"></i></a></b>
+            {% endifequal %}
+            <p class="float-right">{{ post.comments.count }} Comments</p>
+          </div>
+        </div>
 
-        <!-- Author -->
-        <p class="lead">
-          by
-          <a href="">{{ post.author.username }}</a>
-        </p>
-
-        <hr>
-
-        <!-- Date/Time -->
-        <p>Posted on {{ post.created|naturaltime }}</p>
-
-        <hr>
-
-        <!-- Preview Image -->
-        {% if post.image %}
-        <img class="img-fluid rounded" src="{{ post.image.url }}" alt="">
-        {% endif %}
-        <hr>
-
-        <a href="{{ group.get_absolute_url }}">{{ post.group.slug }}</a>
-
-        <!-- Post Content -->
-        <p class="lead">{{ post.body }}</p>
-        <hr>
-
+        <!-- <a href="{{ group.get_absolute_url }}">{{ post.group.slug }}</a> -->
         <!-- Comments Form -->
         <div class="card my-4">
           <h5 class="card-header">Leave a Comment:</h5>
@@ -62,7 +49,7 @@
             </form>
           </div>
         </div>
-
+        
         <!-- Single Comment -->
         {% if comments %}
         {% for comment in comments %}
@@ -117,8 +104,4 @@
       </div>
 </div>
     </div>
-    <!-- /.row -->
-
-  </div>
-  <!-- /.container -->
 {% endblock content %}

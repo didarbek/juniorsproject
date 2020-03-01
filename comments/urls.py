@@ -1,8 +1,8 @@
 from django.urls import path
-from . import views
+from .views import delete_comment
 
 app_name = 'comments'
 
 urlpatterns = [
-    path('delete_comment/<pk>/',views.delete_comment,name='delete_comment'),
+    path('delete_comment/<int:pk>/',delete_comment, name='delete_comment'),
 ]

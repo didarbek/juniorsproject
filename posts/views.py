@@ -20,9 +20,6 @@ User = settings.AUTH_USER_MODEL
 def home(request):
     return render(request,'posts/posts.html')
 
-def post_detail(request):
-    return render(request,'posts/post_detail.html')
-    
 def get_home_posts():
     try:
         home_posts = Post.get_posts()

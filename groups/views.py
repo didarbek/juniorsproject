@@ -78,6 +78,8 @@ def create_group(request):
             new_group.admins.add(request.user)
             new_group.subscribers.add(request.user)
             return redirect(new_group.get_absolute_url())
+    else:
+        group_form = GroupForm()
     return render(request,'groups/create_group.html',{'group_form':group_form})
 
 @login_required

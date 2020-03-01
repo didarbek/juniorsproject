@@ -4,7 +4,8 @@ from .decorators import user_is_comment_owner
 from .models import Comment
 from posts.models import Post
 from django.template.loader import render_to_string
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
+from django.urls import reverse
 
 # Create your views here.
 
@@ -13,7 +14,7 @@ def _html_comments(comment_id,group,post):
     comment = post.comments.get(id=comment_id)
     user = comment.commenter
     html = ''
-    html = '{0}{1}'.format(html,render_to_string('commets/post_comments.html',{'comment':comment,'user':user}))
+    html = '{0}{1}'.format(html,render_to_string('comments/post_comments.html',{'comment':comment,'user':user}))
     return html
 
 @login_required
@@ -38,4 +39,4 @@ def deactivate_comment(request,pk):
 def delete_comment(request,pk):
     comment = get_object_or_404(Comment,pk=pk)
     comment.delete()
-    return HttpResponse('This comment has been deleted.')
+    return HttpResponseRedirect("")

@@ -21,6 +21,9 @@
         <a href="{% url 'posts:like' post.slug %}"><i class="fas fa-thumbs-up"></i></a>
         {% endif %}
         <!-- Title -->
+        {% ifequal post.author request.user %}
+        <a href="{% url 'posts:delete_post' post.slug %}">Delete</a>
+        {% endifequal %}
         <h1 class="mt-4">{{ post.title }}</h1>
 
         <!-- Author -->
@@ -52,7 +55,7 @@
         <div class="card my-4">
           <h5 class="card-header">Leave a Comment:</h5>
           <div class="card-body">
-            <form>
+            <form method="POST">
               {{ comment_form|crispy }}
               {% csrf_token %}
               <button type="submit" class="btn btn-primary">Submit</button>
@@ -66,14 +69,14 @@
         <div class="media mb-4">
           <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
           <div class="media-body">
-            <h5 class="mt-0"><a href="">{{ comment.commenter }}</a></h5>
-            {{ comment.body }}
-            <h6>{{ comment.created|naturaltime }}</h6>
             {% ifequal user comment.commenter %}
-            <a href="{% url 'comments:delete_comment' %}" class="float-right"><i class="fas fa-trash"></i></a>
+            <a href="{% url 'comments:delete_comment' comment.id %}" class="float-right" style="color:red;"><i class="fas fa-trash"></i></a>
             {% else %}
             <a href="" class="float-right">Reply</a>
             {% endifequal %}
+            <h5 class="mt-0"><a href="">{{ comment.commenter }}</a></h5>
+            {{ comment.body }}
+            <h6>{{ comment.created|naturaltime }}</h6>
           </div>
         </div>
       </div>
@@ -112,7 +115,7 @@
         </div>
 
       </div>
-
+</div>
     </div>
     <!-- /.row -->
 

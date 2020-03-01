@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     # our apps 
-    'posts',
     'groups',
+    'posts',
     'notifications',
     'comments',
 
@@ -176,8 +176,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 AUTH_USER_MODEL = 'users.CustomUser' 
 
 LOGIN_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
-LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'posts:home'
+LOGIN_REDIRECT_URL = 'posts:home'
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
 ACCOUNT_USERNAME_REQUIRED = False

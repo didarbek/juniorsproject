@@ -8,30 +8,24 @@
 
 {% block content %}
 <!-- Page Content -->
-<div class="container">
-
     <div class="row">
-
       <!-- Blog Entries Column -->
       <div class="col-md-8">
-
-        <h1 class="my-4">Page Heading
-          <small>Secondary Text</small>
-        </h1>
-
-
         {% for post in posts %}
         <!-- Blog Post -->
         <div class="card mb-4">
-          {% if post.image %}
-          <img class="card-img-top" src="{{ post.image.url }}" alt="Card image cap">
-          {% endif %}
           <div class="card-body">
+            <a href="{{ group.get_absolute_url }}" data-toggle="tooltip" data-placement="top" title="{{ post.group.slug }} group"><i class="fas fa-users"></i> {{ post.group.slug }}</a>
             <h2 class="card-title">{{ post.title }}</h2>
             <p class="card-text">{{ post.body|truncatewords_html:50|urlize }}</p>
+            {% if post.image %}
+            <img class="card-img pb-2" src="{{ post.image.url }}" alt="Card image cap">
+            {% endif %}
             <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
             {% if post in user.liked_posts.all %}
               <a href="{% url 'posts:like' post.slug %}" class="btn btn-primary float-right"><i class="fas fa-thumbs-down"></i></a>
+              <a href="{% url 'posts:like' post.slug %}" class="btn btn-primary float-right"><i class="fas fa-thumbs-up"></i></a>
+
             {% else %}
               <a href="{% url 'posts:like' post.slug %}" class="btn btn-primary float-right"><i class="fas fa-thumbs-up"></i></a>
             {% endif %}
@@ -43,9 +37,6 @@
           </div>
         </div>
         {% endfor %}
-
-  
-
 
         <!-- Pagination -->
         <ul class="pagination justify-content-center mb-4">
@@ -61,9 +52,8 @@
 
       <!-- Sidebar Widgets Column -->
       <div class="col-md-4">
-
         <!-- Side Widget -->
-        <div class="card" style="width: 18rem;margin-top:80px;">
+        <div class="card" style="width: 18rem;">
           <div class="card-body">
             <h5 class="card-title text-center">Top Groups</h5>
           </div>
@@ -80,10 +70,6 @@
         </div>
 
       </div>
-
     </div>
     <!-- /.row -->
-
-  </div>
-  <!-- /.container -->
 {% endblock content %}

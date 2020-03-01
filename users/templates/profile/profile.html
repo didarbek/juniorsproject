@@ -26,7 +26,7 @@
                 <div class="col-5">
                     <div class="card-body">
                         {% csrf_token %}
-                        <img src="{{user.profile.img_profile.url}}" width="300px" height="300px" class="rounded" alt="">
+                        <img src="{{user.profile.get_picture}}" width="300px" height="300px" class="rounded" alt="">
                         <div class="offset-2">{{profile_form.img_profile}}        </div>                 
                    </div>
                 </div>

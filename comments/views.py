@@ -1,12 +1,13 @@
-from django.shortcuts import render,get_object_or_404,redirect
+from django.shortcuts import render,get_object_or_404,redirect, Http404
 from django.contrib.auth.decorators import login_required
 from .decorators import user_is_comment_owner
 from .models import Comment
 from posts.models import Post
 from django.template.loader import render_to_string
 from django.http import HttpResponse,HttpResponseRedirect
-from django.urls import reverse
-
+from django.urls import reverse, reverse_lazy
+from django.views import generic
+from posts.models import Post
 # Create your views here.
 
 def _html_comments(comment_id,group,post):
@@ -34,9 +35,17 @@ def deactivate_comment(request,pk):
         return redirect('posts:home')
     return redirect('posts:home')
 
+
+# class DeleteComment(generic.DeleteView):
+#     model = Comment
+#     success_url = 'posts:'
+
 @login_required
 @user_is_comment_owner
+
 def delete_comment(request,pk):
     comment = get_object_or_404(Comment,pk=pk)
+
     comment.delete()
-    return HttpResponseRedirect("")
+    return redirect("posts:home")
+   

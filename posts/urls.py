@@ -10,4 +10,5 @@ urlpatterns = [
     path('<post>/like/',views.like_post,name='like'),
     path('new_post/',views.new_post,name='new_post'),
     path('edit_post/<post>/',views.edit_post,name='edit_post'),
+    path('search/',views.SearchView.as_view(),name='search_results'),
 ]

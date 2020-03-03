@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 from comments.forms import CommentForm
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy,reverse
+from django.db.models import Q
 
 # # Create your views here.
 
@@ -53,18 +54,17 @@ def post_detail(request,group,post):
     user = request.user
     admins = group.admins.all()
     new_comment = None
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            comment_form = CommentForm(data=request.POST or None)
-            if comment_form.is_valid():
-                new_comment = comment_form.save(commit=False)
-                new_comment.commenter = request.user
-                new_comment.post = post
-                new_comment.save()
-                new_comment_id = new_comment.id
-                return HttpResponseRedirect(post.get_absolute_url())
-        else:
-            comment_form = CommentForm()
+    if request.method == 'POST':
+        comment_form = CommentForm(data=request.POST or None)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.commenter = request.user
+            new_comment.post = post
+            new_comment.save()
+            new_comment_id = new_comment.id
+            return HttpResponseRedirect(post.get_absolute_url())
+    else:
+        comment_form = CommentForm()
 
     return render(request, 'posts/post_detail.html', {
         'new_comment':new_comment,
@@ -128,3 +128,12 @@ def edit_post(request,post):
     else:
         post_form = PostForm(instance=post)
     return render(request,'posts/edit_post.html',{'post_form':post_form})
+
+class SearchView(ListView):
+    model = Post
+    template_name = 'posts/search_results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('title','body')
+        object_list = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+        return object_list

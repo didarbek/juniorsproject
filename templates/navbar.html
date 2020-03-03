@@ -79,10 +79,10 @@
           </div>
         </li>
         <li>
-            <form class="input-group my-2 my-lg-0">
-                <input class="form-control" id="search-input" type="search" placeholder="Search" aria-label="Search" aria-describedby="button-addon4" id="search-input">
+            <form method="get" class="input-group my-2 my-lg-0" action="{% url 'posts:search_results' %}">
+                <input type="search" class="form-control" placeholder="Search" aria-label="Search" name="title">
                 <div class="input-group-append" id="button-addon4">
-                  <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                  <button class="btn btn-outline-secondary" type="sumbit"><i class="fas fa-search"></i></button>
                 </div>
             </form>
         </li>   

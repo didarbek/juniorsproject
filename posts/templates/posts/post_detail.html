@@ -7,6 +7,7 @@
 {% block title %}{{ post.title }}{% endblock title %}
 
 {% block content %}
+
 <!-- Page Content -->
 <div class="row">
       <div class="col-lg-8">
@@ -39,43 +40,49 @@
         <div class="card my-4">
           <h5 class="card-header">Leave a Comment:</h5>
           <div class="card-body">
-            <form method="POST">
-              {{ comment_form|crispy }}
+            <form method="POST" id="post-form">
               {% csrf_token %}
-              <button type="submit" class="btn btn-primary">Submit</button>
+              {{ comment_form.body|as_crispy_field }}
+              <button type="submit" class="btn btn-primary" id='comment'>Submit</button>
             </form>
           </div>
         </div>
         <!-- Single Comment -->
-  
+        
         {% if comments %}
-          {% for comment in comments %}
-            <div class="media mb-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                {% ifequal user comment.commenter %}
-                <a href="{% url 'comments:delete_comment' comment.pk %}" class="float-right" style="color:red;"><i class="fas fa-trash"></i></a>
-                {% else %}
-                <a href="" class="float-right">Reply</a>
-                {% endifequal %}
-                <h5 class="mt-0"><a href="">{{ comment.commenter }}</a></h5>
-                {{ comment.body }}
-                <h6>{{ comment.created|naturaltime }}</h6>
-              </div>
+        <div class="comment_ajax">
+       {% for comment in comments %}
+ 
+          <div class="media mb-4">
+            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+            <div class="media-body">
+              {% ifequal user comment.commenter %}
+              <a href="{% url 'comments:delete_comment' comment.pk %}" class="float-right" style="color:red;"><i class="fas fa-trash"></i></a>
+              {% else %}
+              <a href="" class="float-right">Reply</a>
+              {% endifequal %}
+              <h5 class="mt-0"><a href="">{{ comment.commenter.username }}</a></h5>
+              {{ comment.body }}
+              <h6>{{ comment.created|naturaltime }}</h6>
             </div>
-          {% endfor %}
-        {% else %}
-          <div class="card" style="margin:15px 0px;">
-            <div class="card-header">
-              {{ post.comments.count }} Comments
-            </div>
-            <ul class="list-group list-group-flush">
-              <div style="padding:15px;">
-                <h6 class="text-center">No comments to display</h6>
-              </div>
-            </ul>
           </div>
-        {% endif %}
+        {% endfor %}  
+    
+        </div>
+      {% else %}
+        <div class="card without_comment" style="margin:15px 0px;">
+          <div class="card-header">
+            {{ post.comments.count }} Comments
+          </div>
+          <ul class="list-group list-group-flush">
+            <div style="padding:15px;">
+              <h6 class="text-center">No comments to display</h6>
+            </div>
+          </ul>
+        </div>
+      {% endif %}
+        
+    
     </div>
       <!-- Sidebar Widgets Column -->
       <div class="col-md-4">
@@ -99,5 +106,6 @@
 
       </div>
 </div>
+
 
 {% endblock content %}

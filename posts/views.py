@@ -12,9 +12,10 @@ from django.template.loader import render_to_string
 from comments.forms import CommentForm
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy,reverse
-
+from django.http import JsonResponse
+from django.core import serializers
+from users.models import Profile
 # # Create your views here.
-
 User = settings.AUTH_USER_MODEL
 
 def home(request):
@@ -46,6 +47,8 @@ def _html_comments(comment_id,group,post):
     html = '{0}{1}'.format(html,render_to_string('comments/comments.html',{'comment': comment,'user': user,}))
     return html
 
+
+
 def post_detail(request,group,post):
     post = get_object_or_404(Post,group__slug=group,slug=post)
     comments = post.comments.filter(active=True)
@@ -53,8 +56,9 @@ def post_detail(request,group,post):
     user = request.user
     admins = group.admins.all()
     new_comment = None
+    response_data = {}
     if request.user.is_authenticated:
-        if request.method == 'POST':
+        if request.method == 'POST' and request.is_ajax :
             comment_form = CommentForm(data=request.POST or None)
             if comment_form.is_valid():
                 new_comment = comment_form.save(commit=False)
@@ -62,7 +66,12 @@ def post_detail(request,group,post):
                 new_comment.post = post
                 new_comment.save()
                 new_comment_id = new_comment.id
-                return HttpResponseRedirect(post.get_absolute_url())
+                serial_user = serializers.serialize('json',[new_comment])
+                serial_username  = serializers.serialize('json',[comments])
+                response_data['user'] = serial_user
+                response_data['username'] = serial_username
+                return JsonResponse(response_data)
+                # return HttpResponseRedirect(post.get_absolute_url())
         else:
             comment_form = CommentForm()
 

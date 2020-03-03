@@ -8,6 +8,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from posts.models import Post
+from django.http import JsonResponse
 # Create your views here.
 
 def _html_comments(comment_id,group,post):
@@ -47,5 +48,4 @@ def delete_comment(request,pk):
     comment = get_object_or_404(Comment,pk=pk)
 
     comment.delete()
-    return redirect("posts:home")
-   
+    return ''   

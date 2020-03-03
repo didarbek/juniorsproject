@@ -43,7 +43,6 @@ def deactivate_comment(request,pk):
 
 @login_required
 @user_is_comment_owner
-
 def delete_comment(request,pk):
     comment = get_object_or_404(Comment,pk=pk)
 

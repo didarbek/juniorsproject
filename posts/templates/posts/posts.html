@@ -15,7 +15,8 @@
         <!-- Blog Post -->
         <div class="card mb-4">
           <div class="card-body">
-            <a href="{% url 'groups:group' post.group %}" data-toggle="tooltip" data-placement="top" title="{{ post.group.slug }} group"><i class="fas fa-users"></i> {{ post.group.slug }}</a>
+          <a class="like-btn float-right" data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}">{{ post.points.count }} Like</a>
+            <a href="{{ group.get_absolute_url }}" data-toggle="tooltip" data-placement="top" title="{{ post.group.slug }} group"><i class="fas fa-users"></i> {{ post.group.slug }}</a>
             <h2 class="card-title">{{ post.title }}</h2>
             <p class="card-text">{{ post.body|truncatewords_html:50|urlize }}</p>
             {% if post.image %}
@@ -23,13 +24,12 @@
             {% endif %}
             <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
             {% if post in user.liked_posts.all %}
-              <a href="{% url 'posts:like' post.slug %}" class="btn btn-primary float-right ml-3"><i class="fas fa-thumbs-down fa-lg"></i></a>
-              <a href="{% url 'posts:like' post.slug %}" class="btn btn-primary float-right"><i class="fas fa-thumbs-up fa-lg"></i></a>
-            {% else %}
-            <a href="{% url 'posts:like' post.slug %}" class="btn btn-secondary float-right ml-3"><i class="fas fa-thumbs-down fa-lg"></i></a>
-            <a href="{% url 'posts:like' post.slug %}" class="btn btn-secondary float-right"><i class="fas fa-thumbs-up fa-lg"></i></a>
+              <a href="{% url 'posts:like-toggle' post.slug %}" class="btn btn-primary float-right"><i class="fas fa-thumbs-down"></i></a>
+              <a href="{% url 'posts:like-toggle' post.slug %}" class="btn btn-primary float-right"><i class="fas fa-thumbs-up"></i></a>
 
-          {% endif %}
+            {% else %}
+              <a href="{% url 'posts:like-toggle' post.slug %}" class="btn btn-primary float-right"><i class="fas fa-thumbs-up"></i></a>
+            {% endif %}
           </div>
           <div class="card-footer text-muted">
             Posted on {{ post.created|naturaltime }} by

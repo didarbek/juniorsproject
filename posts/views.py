@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from django.views.generic import ListView,DeleteView
+from django.views.generic import ListView,DeleteView,RedirectView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
@@ -12,9 +12,11 @@ from django.template.loader import render_to_string
 from comments.forms import CommentForm
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy,reverse
-from django.http import JsonResponse
-from django.core import serializers
-from users.models import Profile
+from django.db.models import Q
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import authentication,permissions
+
 # # Create your views here.
 User = settings.AUTH_USER_MODEL
 
@@ -56,24 +58,17 @@ def post_detail(request,group,post):
     user = request.user
     admins = group.admins.all()
     new_comment = None
-    response_data = {}
-    if request.user.is_authenticated:
-        if request.method == 'POST' and request.is_ajax :
-            comment_form = CommentForm(data=request.POST or None)
-            if comment_form.is_valid():
-                new_comment = comment_form.save(commit=False)
-                new_comment.commenter = request.user
-                new_comment.post = post
-                new_comment.save()
-                new_comment_id = new_comment.id
-                serial_user = serializers.serialize('json',[new_comment])
-                serial_username  = serializers.serialize('json',[comments])
-                response_data['user'] = serial_user
-                response_data['username'] = serial_username
-                return JsonResponse(response_data)
-                # return HttpResponseRedirect(post.get_absolute_url())
-        else:
-            comment_form = CommentForm()
+    if request.method == 'POST':
+        comment_form = CommentForm(data=request.POST or None)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.commenter = request.user
+            new_comment.post = post
+            new_comment.save()
+            new_comment_id = new_comment.id
+            return HttpResponseRedirect(post.get_absolute_url())
+    else:
+        comment_form = CommentForm()
 
     return render(request, 'posts/post_detail.html', {
         'new_comment':new_comment,
@@ -137,3 +132,48 @@ def edit_post(request,post):
     else:
         post_form = PostForm(instance=post)
     return render(request,'posts/edit_post.html',{'post_form':post_form})
+
+class PostLikeToggle(RedirectView):
+    def get_redirect_url(self,*args,**kwargs):
+        slug = self.kwargs.get("slug")
+        post = get_object_or_404(Post,slug=slug)
+        url_ = post.get_absolute_url()
+        user = self.request.user
+        if user.is_authenticated:
+            if user in post.points.all():
+                post.points.remove(user)
+            else:
+                post.points.add(user)
+        return url_
+
+class PostLikeAPIToggle(APIView):
+    authentication_classes = (authentication.SessionAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+    def get(self,request,slug=None,format=None):
+        post = get_object_or_404(Post,slug=slug)
+        url_ = post.get_absolute_url()
+        user = self.request.user
+        updated = False
+        liked = False
+        if user.is_authenticated:
+            if user in post.points.all():
+                liked = False
+                post.points.remove(user)
+            else:
+                liked = True
+                post.points.add(user)
+            updated = True
+        data = {
+            "updated":updated,
+            "liked":liked
+        }
+        return Response(data)
+
+class SearchView(ListView):
+    model = Post
+    template_name = 'posts/search_results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('title','body')
+        object_list = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+        return object_list

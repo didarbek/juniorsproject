@@ -38,6 +38,12 @@ class Post(models.Model):
                        args=[self.group.slug,
                              self.slug])
 
+    def get_like_url(self):
+        return reverse("posts:like-toggle",kwargs={"slug":self.slug})
+    
+    def get_api_like_url(self):
+        return reverse("posts:like-api-toggle",kwargs={"slug":self.slug})
+
     @staticmethod
     def get_posts(user=None):
         if user:

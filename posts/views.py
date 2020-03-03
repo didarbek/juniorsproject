@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from django.views.generic import ListView,DeleteView
+from django.views.generic import ListView,DeleteView,RedirectView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
@@ -13,6 +13,9 @@ from comments.forms import CommentForm
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy,reverse
 from django.db.models import Q
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import authentication,permissions
 
 # # Create your views here.
 
@@ -128,6 +131,42 @@ def edit_post(request,post):
     else:
         post_form = PostForm(instance=post)
     return render(request,'posts/edit_post.html',{'post_form':post_form})
+
+class PostLikeToggle(RedirectView):
+    def get_redirect_url(self,*args,**kwargs):
+        slug = self.kwargs.get("slug")
+        post = get_object_or_404(Post,slug=slug)
+        url_ = post.get_absolute_url()
+        user = self.request.user
+        if user.is_authenticated:
+            if user in post.points.all():
+                post.points.remove(user)
+            else:
+                post.points.add(user)
+        return url_
+
+class PostLikeAPIToggle(APIView):
+    authentication_classes = (authentication.SessionAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+    def get(self,request,slug=None,format=None):
+        post = get_object_or_404(Post,slug=slug)
+        url_ = post.get_absolute_url()
+        user = self.request.user
+        updated = False
+        liked = False
+        if user.is_authenticated:
+            if user in post.points.all():
+                liked = False
+                post.points.remove(user)
+            else:
+                liked = True
+                post.points.add(user)
+            updated = True
+        data = {
+            "updated":updated,
+            "liked":liked
+        }
+        return Response(data)
 
 class SearchView(ListView):
     model = Post

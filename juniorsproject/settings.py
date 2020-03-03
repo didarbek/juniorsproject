@@ -67,6 +67,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.facebook',
+
+    'rest_framework',
 ]
 
 SITE_ID = 2

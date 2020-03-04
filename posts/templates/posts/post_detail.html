@@ -250,7 +250,7 @@ $(document).ready(function(){
   {% else %}
   $("#comment_form textarea").on("focus", function() {
     $( this ).fadeOut( 500 );
-    $("#comment_form").html('<div style="margin:10px;" id="login-first"><h6 class="text-center">Login required to comment this subject.</h6><a href="/login/" class="btn btn-block btn-primary"><b>Login</b></a></div>').fadeIn( 1000 );
+    $("#comment_form").html('<div style="margin:10px;" id="login-first"><h6 class="text-center">Login required to comment this subject.</h6><a href="{% url 'users:login' %}" class="btn btn-block btn-primary"><b>Login</b></a></div>').fadeIn( 1000 );
     $('html, body').stop().animate( {
       'scrollTop': $("#login-first").offset().top-40
     }, 1000, 'swing');

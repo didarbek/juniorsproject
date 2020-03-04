@@ -1,0 +1,15 @@
+{% load humanize %}
+{% load emoticons_tags %}
+
+<li class="list-group-item" comment-id="{{comment.id}}">
+  <p>{{comment.body|emoticons}}
+  <br><a href="{% url 'users:profile' comment.commenter.username %}" id="commenter" class="card-link">{{comment.commenter}}</a> &#8212;
+  <span>{{comment.created|naturaltime}}</span>
+
+  {% ifequal user comment.commenter %}
+  <a href="{% url 'comments:delete_comment' comment.id %}" id="delete_comment"><i class="fa fa-trash-o"></i></a>
+  {% else %}
+  <a href="#" style="text-decoration:none;" id="reply_comment"><i class="fa fa-reply"></i> Reply</a> &bull;
+  {% endifequal %}
+
+</p></li>

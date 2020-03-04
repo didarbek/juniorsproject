@@ -23,27 +23,26 @@
         var this_ = $(this)
         var likeUrl = this_.attr("data-href")
         var likeCount = parseInt(this_.attr("data-likes")) 
-      
-        if (likeUrl){
            $.ajax({
             url: likeUrl,
             method: "GET",
             success: function(data){
-              if(data.liked){
+              if(data.liked == true){
                 console.log( data.liked );
                 document.getElementById('btn_like').innerHTML = '<i class="fas fa-thumbs-up"></i>';
               }else{
                 console.log( data.liked );
                 document.getElementById('btn_like').innerHTML = '<i class="far fa-thumbs-up"></i>';
+
               }
+
             }, error: function(error){
               console.log(error)
               console.log("error")
             }
-          })
-        }
+          });
        
-      })
+      
   })
    
    </script>

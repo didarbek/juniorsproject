@@ -13,27 +13,23 @@
       <div class="col-lg-8">
         <div class="card">
           <div class="card-body">
-<<<<<<< HEAD
-            <p class="float-right">{{ post.points.count }} Likes</p>
-              <a class="like-btn" id='btn_like' data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}" > 
-               </a>
-=======
 
             <div class="star-partition">
-              <a href="{% url 'posts:like' post.slug %}"
-                 style="text-decoration:none;"
-                 title="{{ post.points.count }} points"
-                 id="js-star-post">
-                 {% if post in user.liked_posts.all %}
-                   <i class="fas fa-thumbs-down fa-lg" aria-hidden="true" id="star_icon"></i>
-                 {% else %}
-                   <i class="fas fa-thumbs-up fa-lg" aria-hidden="true" id="star_icon"></i>
-                 {% endif %}
-                 <span id="js-star-count">{{ post.points.count }}</span>
+              <p class="float-right">{{ post.points.count }} Likes</p>
+              <a class="like-btn" id ='btn_like' data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}">
+               {% if post.points.count == 0  %}
+               <i class="far fa-thumbs-up"></i>
+               {% elif post.points.count == 1 %} 
+               <i class="fas fa-thumbs-up"></i>
+               {% else %}
+               error
+               {% endif %}
+                 
+               
               </a>
+
             </div>
 
->>>>>>> 5a3a2a4139dd80f209cb63db9e448b2ecf398e5e
             <div class="card-title">
               <h1 class="mt-4">{{ post.title }}</h1>
             </div>
@@ -55,11 +51,7 @@
         <div class="card my-4">
           <h5 class="card-header">Leave a Comment:</h5>
           <div class="card-body">
-            <!-- <form method="POST" id="post-form">
-              {% csrf_token %}
-              {{ comment_form|crispy }}
-              <button type="submit" class="btn btn-primary" id='btn-comment'>Submit</button>
-            </form> -->
+      
             <form role="form" method="post" onsubmit="return false" id="comment_form">
               {% csrf_token %}
               <textarea class="form-control" id="comment_text" rows="3" name="body" maxlength="2000" placeholder="Leave a comment"></textarea>

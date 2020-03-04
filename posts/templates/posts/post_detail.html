@@ -44,13 +44,40 @@
         </div>
         <!-- Single Comment -->
   
+        <script>
+           $(document).on("click", "a#delete_comment",function () {
+            {% if not request.user.is_authenticated %}
+            window.location.href = "{% url 'users:login' %}";
+            {% else %}
+            var $element = $(this);
+            var $delete_url = $(this).attr("href");
+            var $delete_trash = $(this).find('i.fas');
+            $.ajax({
+              url: $delete_url,
+              type: 'GET',
+              success: function (data) {
+                if ($delete_trash.hasClass('fa-trash')) {
+                  $delete_trash.removeClass('fa-trash').addClass('fa-trash');
+                  $element.closest("div#cdiv").fadeOut();
+                }
+                else {
+                  console.log('Unexpected error!');
+                }
+              }
+            });
+            {% endif %}
+            return false;
+          });
+        </script>
+
+
         {% if comments %}
           {% for comment in comments %}
-            <div class="media mb-4">
+            <div class="media mb-4" id="cdiv">
               <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
               <div class="media-body">
                 {% ifequal user comment.commenter %}
-                <a href="{% url 'comments:delete_comment' comment.pk %}" class="float-right" style="color:red;"><i class="fas fa-trash"></i></a>
+                <a href="{% url 'comments:delete_comment' comment.id %}" title="delete this comment" id="delete_comment" class="float-right" style="color:red;"><i class="fas fa-trash"></i></a>
                 {% else %}
                 <a href="" class="float-right">Reply</a>
                 {% endifequal %}

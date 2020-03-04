@@ -8,6 +8,10 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from posts.models import Post
+from django.views.generic import RedirectView
+from django.utils.decorators import method_decorator
+from juniorsproject.decorators import ajax_required
+
 # Create your views here.
 
 def _html_comments(comment_id,group,post):
@@ -35,16 +39,10 @@ def deactivate_comment(request,pk):
         return redirect('posts:home')
     return redirect('posts:home')
 
-
-# class DeleteComment(generic.DeleteView):
-#     model = Comment
-#     success_url = 'posts:'
-
 @login_required
+@ajax_required
 @user_is_comment_owner
-def delete_comment(request,pk):
+def delete_comment(request, pk):
     comment = get_object_or_404(Comment,pk=pk)
-
     comment.delete()
-    return redirect("posts:home")
-   
+    return HttpResponse('This comment has been deleted.')

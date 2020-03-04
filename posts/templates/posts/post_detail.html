@@ -7,6 +7,7 @@
 {% block title %}{{ post.title }}{% endblock title %}
 
 {% block content %}
+
 <!-- Page Content -->
 <div class="row">
       <div class="col-lg-8">
@@ -35,14 +36,15 @@
         <div class="card my-4">
           <h5 class="card-header">Leave a Comment:</h5>
           <div class="card-body">
-            <form method="POST">
-              {{ comment_form|crispy }}
+            <form method="POST" id="post-form">
               {% csrf_token %}
-              <button type="submit" class="btn btn-primary">Submit</button>
+              {{ comment_form.body|as_crispy_field }}
+              <button type="submit" class="btn btn-primary" id='btn-comment'>Submit</button>
             </form>
           </div>
         </div>
         <!-- Single Comment -->
+<<<<<<< HEAD
   
         <script>
            $(document).on("click", "a#delete_comment",function () {
@@ -91,14 +93,16 @@
           <div class="card" style="margin:15px 0px;">
             <div class="card-header">
               {{ post.comments.count }} Comments
-            </div>
-            <ul class="list-group list-group-flush">
-              <div style="padding:15px;">
-                <h6 class="text-center">No comments to display</h6>
-              </div>
-            </ul>
           </div>
-        {% endif %}
+          <ul class="list-group list-group-flush">
+            <div style="padding:15px;">
+              <h6 class="text-center">No comments to display</h6>
+            </div>
+          </ul>
+        </div>
+      {% endif %}
+        
+    
     </div>
       <!-- Sidebar Widgets Column -->
       <div class="col-md-4">
@@ -122,5 +126,54 @@
 
       </div>
 </div>
+
+<script>
+  var url = '{{post.get_absolute_url}}';
+  console.log("{% url 'comments:delete_comment' 2 %}");
+  $('#btn-comment').click(function(e){
+        e.preventDefault();
+        $.ajax({
+        method:'POST',
+        url:url,
+        data:{
+          body:$("#body").val(),
+          csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function(data){
+          // console.log(data);
+          $('.add_comment').append(
+           ' <div class="media mb-4 media_comment" id="delete_media">'+
+           '<img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">'+
+           '<div class="media-body">'+ 
+              `<a href=${data.delete} class="float-right delete" data-dismiss="alert" aria-label="close"  style="color:red;"><i class="fas fa-trash"></i></a>`+
+               `<h5 class="mt-0"><a href="">${data.username}</a></h5>`+
+               `${data.body}`+
+              `<h6>${data.date}</h6>`+
+            '</div>'+
+          '</div>'
+          )
+          $(".delete").click( function(event){
+             $("#delete_media").remove(); 
+           });
+
+        },
+        error:function(){
+          alert("Error");
+        }
+      }).done(function(data){
+        console.log(data)
+      }
+
+      )
+     
+    
+  });
+
+
+
+
+
+
+</script>
 
 {% endblock content %}

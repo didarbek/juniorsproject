@@ -8,10 +8,14 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from posts.models import Post
+<<<<<<< HEAD
 from django.views.generic import RedirectView
 from django.utils.decorators import method_decorator
 from juniorsproject.decorators import ajax_required
 
+=======
+from django.http import JsonResponse
+>>>>>>> 36d29b419a64122d14eda54bd9943163bf6bae1d
 # Create your views here.
 
 def _html_comments(comment_id,group,post):

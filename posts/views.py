@@ -16,8 +16,12 @@ from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication,permissions
-
+from .serializers import CommentSerializer
+from comments.models import Comment
+from django.http import JsonResponse
+from django.contrib.humanize.templatetags.humanize import naturaltime
 # # Create your views here.
+
 User = settings.AUTH_USER_MODEL
 
 def home(request):
@@ -57,6 +61,7 @@ def post_detail(request,group,post):
     group = post.group
     user = request.user
     admins = group.admins.all()
+    context = {}
     new_comment = None
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST or None)
@@ -66,7 +71,14 @@ def post_detail(request,group,post):
             new_comment.post = post
             new_comment.save()
             new_comment_id = new_comment.id
-            return HttpResponseRedirect(post.get_absolute_url())
+            body = request.POST.get('body')
+            context['body'] = body
+            context['id'] = new_comment_id
+            context['date'] = str(naturaltime(new_comment.created))
+            context['username'] = str(request.user.username)
+            context['delete'] = str(reverse('comments:delete_comment',args=[new_comment.id]))
+            return JsonResponse(context)
+            # return HttpResponseRedirect(post.get_absolute_url())
     else:
         comment_form = CommentForm()
 

@@ -47,4 +47,4 @@ def delete_comment(request,pk):
     comment = get_object_or_404(Comment,pk=pk)
 
     comment.delete()
-    return ''   
+    return JsonResponse({})

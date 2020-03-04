@@ -81,12 +81,14 @@
                 {% else %}
                 <a href="" class="float-right">Reply</a>
                 {% endifequal %}
-                <h5 class="mt-0"><a href="">{{ comment.commenter }}</a></h5>
+                <h5 class="mt-0"><a href="">{{ comment.commenter.username }}</a></h5>
                 {{ comment.body }}
                 <h6>{{ comment.created|naturaltime }}</h6>
               </div>
             </div>
           {% endfor %}
+          <div class="add_comment"></div>
+
         {% else %}
           <div class="card" style="margin:15px 0px;">
             <div class="card-header">
@@ -140,7 +142,7 @@
         success: function(data){
           // console.log(data);
           $('.add_comment').append(
-           ' <div class="media mb-4 media_comment" id="delete_media">'+
+           ' <div class="media mb-4" id="delete_media">'+
            '<img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">'+
            '<div class="media-body">'+ 
               `<a href=${data.delete} class="float-right delete" data-dismiss="alert" aria-label="close"  style="color:red;"><i class="fas fa-trash"></i></a>`+
@@ -150,19 +152,21 @@
             '</div>'+
           '</div>'
           )
-          $(".delete").click( function(event){
-             $("#delete_media").remove(); 
-           });
+          var $element = $("#delete_media");
+          var $delete_url = $("#delete_media").attr("href");
+          var $delete_trash = $("#delete_media").find('i.fas');
+          if ($delete_trash.hasClass('fa-trash')) {
+                  $delete_trash.removeClass('fa-trash').addClass('fa-trash');
+                  $element.closest("div#cdiv").fadeOut();
+                }else{
+                  console.log("error");
+                }
 
         },
         error:function(){
           alert("Error");
         }
-      }).done(function(data){
-        console.log(data)
-      }
-
-      )
+      })
      
     
   });

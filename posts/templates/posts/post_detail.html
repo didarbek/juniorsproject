@@ -15,7 +15,7 @@
           <div class="card-body">
 
             <div class="star-partition">
-              <p class="float-right">{{ post.points.count }} Likes</p>
+              <p class="float-right"   id ='btn_like_all' data-href='{{ post.get_api_like_url }}'>{{ post.points.count }} Likes</p>
               <a class="like-btn" id ='btn_like' data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}">
                {% if post.points.count == 0  %}
                <i class="far fa-thumbs-up"></i>

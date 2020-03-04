@@ -30,9 +30,17 @@
               if(data.liked == true){
                 console.log( data.liked );
                 document.getElementById('btn_like').innerHTML = '<i class="fas fa-thumbs-up"></i>';
+                likeCount = likeCount + 1
+                document.getElementById('btn_like_all').innerHTML = likeCount + "Likes";
+
               }else{
                 console.log( data.liked );
                 document.getElementById('btn_like').innerHTML = '<i class="far fa-thumbs-up"></i>';
+                likeCount = likeCount - 1
+                if(likeCount == -1){likeCount +=1}
+                console.log(0);
+                document.getElementById('btn_like_all').innerHTML = likeCount +  "Likes";
+
 
               }
 

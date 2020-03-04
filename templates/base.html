@@ -17,12 +17,7 @@
         {% block content %}
         {% endblock content %}
     </div>
-    <script>
-         $(document).ready(function(){
-          function updateText(btn, newCount, verb){
-          btn.text(newCount + " " + verb)
-      }
-
+  <script>
       $(".like-btn").click(function(e){
         e.preventDefault()
         var this_ = $(this)
@@ -50,11 +45,7 @@
        
       })
   })
-    </script>
-   <script>
-       $(document).ready(function(){
-           {% block jquery %}{% endblock %}
-       })
+   
    </script>
 </body>
 </html>

@@ -13,9 +13,27 @@
       <div class="col-lg-8">
         <div class="card">
           <div class="card-body">
+<<<<<<< HEAD
             <p class="float-right">{{ post.points.count }} Likes</p>
               <a class="like-btn" id='btn_like' data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}" > 
                </a>
+=======
+
+            <div class="star-partition">
+              <a href="{% url 'posts:like' post.slug %}"
+                 style="text-decoration:none;"
+                 title="{{ post.points.count }} points"
+                 id="js-star-post">
+                 {% if post in user.liked_posts.all %}
+                   <i class="fas fa-thumbs-down fa-lg" aria-hidden="true" id="star_icon"></i>
+                 {% else %}
+                   <i class="fas fa-thumbs-up fa-lg" aria-hidden="true" id="star_icon"></i>
+                 {% endif %}
+                 <span id="js-star-count">{{ post.points.count }}</span>
+              </a>
+            </div>
+
+>>>>>>> 5a3a2a4139dd80f209cb63db9e448b2ecf398e5e
             <div class="card-title">
               <h1 class="mt-4">{{ post.title }}</h1>
             </div>
@@ -33,15 +51,18 @@
             <p class="float-right">{{ post.comments.count }} Comments</p>
           </div>
         </div>
-        <!-- <a href="{{ group.get_absolute_url }}">{{ post.group.slug }}</a> -->
         <!-- Comments Form -->
         <div class="card my-4">
           <h5 class="card-header">Leave a Comment:</h5>
           <div class="card-body">
-            <form method="POST" id="post-form">
+            <!-- <form method="POST" id="post-form">
               {% csrf_token %}
-              {{ comment_form.body|as_crispy_field }}
+              {{ comment_form|crispy }}
               <button type="submit" class="btn btn-primary" id='btn-comment'>Submit</button>
+            </form> -->
+            <form role="form" method="post" onsubmit="return false" id="comment_form">
+              {% csrf_token %}
+              <textarea class="form-control" id="comment_text" rows="3" name="body" maxlength="2000" placeholder="Leave a comment"></textarea>
             </form>
           </div>
         </div>
@@ -60,7 +81,7 @@
               success: function (data) {
                 if ($delete_trash.hasClass('fa-trash')) {
                   $delete_trash.removeClass('fa-trash').addClass('fa-trash');
-                  $element.closest("div#cdiv").fadeOut();
+                  $element.closest("div#comments_container").fadeOut();
                 }
                 else {
                   console.log('Unexpected error!');
@@ -75,7 +96,7 @@
 
         {% if comments %}
           {% for comment in comments %}
-            <div class="media mb-4" id="cdiv">
+            <div class="media mb-4" id="comments_container">
               <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
               <div class="media-body">
                 {% ifequal user comment.commenter %}
@@ -92,16 +113,18 @@
           <div class="add_comment"></div>
 
         {% else %}
-          <div class="card" style="margin:15px 0px;">
-            <div class="card-header">
-              {{ post.comments.count }} Comments
+          <div id="comments_container">
+            <div id="no_comments">
+          <div class="card-header">
+            Comments
           </div>
           <ul class="list-group list-group-flush">
             <div style="padding:15px;">
               <h6 class="text-center">No comments to display</h6>
             </div>
           </ul>
-        </div>
+          </div>
+          </div>
       {% endif %}
         
     
@@ -129,7 +152,7 @@
       </div>
 </div>
 
-<script>
+<!-- <script>
   var url = '{{post.get_absolute_url}}';
   $('#btn-comment').click(function(e){
         e.preventDefault();
@@ -153,20 +176,93 @@
             '</div>'+
           '</div>'
           )
+          var $element = $("#delete_media");
+          var $delete_url = $("#delete_media").attr("href");
+          var $delete_trash = $("#delete_media").find('i.fas');
+          if ($delete_trash.hasClass('fa-trash')) {
+                  $delete_trash.removeClass('fa-trash').addClass('fa-trash');
+                  $element.closest("div#cdiv").fadeOut();
+                }else{
+                  console.log("error");
+                }
         },
         error:function(){
           alert("Error");
         }
       })
-     
-    
   });
+</script> -->
 
+<!-- <script type="text/javascript">
+  $(document).ready(function(){
+    // Star or unstar a post
+    $(document).on("click", "#js-star-post", function () {
+      {% if not request.user.is_authenticated %}
+      window.location.href = "{% url 'users:login' %}";
+      {% else %}
+      var $star_count = $(this).find('#js-star-count');
+      var $star_url = $(this).attr("href");
+      var $star_icon = $(this).find('i.fas');
+      $.ajax({
+        url: $star_url,
+        type: 'GET',
+        success: function (data) {
+          $star_count.text(data.total_points);
+  
+          if ($star_icon.hasClass('fa-thumbs-up')) {
+            $star_icon.removeClass('fa-thumbs-up').addClass('fa-thumbs-down');
+          }
+          else if ($star_icon.hasClass('fa-thumbs-down')) {
+            $star_icon.removeClass('fa-thumbs-down').addClass('fa-thumbs-up');
+          } else {
+            console.log('Unexpected error!');
+          }
+        }
+      });
+      {% endif %}
+      return false;
+    });
+  });
+</script> -->
 
-
-
-
-
+<script type="text/javascript">
+$(document).ready(function(){
+  {% if request.user.is_authenticated %}
+  $("#comment_form textarea").on("keydown", function (evt) {
+    var keyCode = evt.which?evt.which:evt.keyCode;
+    if (keyCode == 13) {
+      var form = $("#comment_form");
+      var comments_container = $("#comments_container");
+      var input = $(this);
+      $.ajax({
+        data: $(form).serialize(),
+        type: 'post',
+        cache: false,
+        beforeSend: function () {
+          $(input).val("");
+        },
+        success: function (data) {
+          $(comments_container).find("#no_comments").fadeOut();
+          $(comments_container).append(data);
+          $('html, body').stop().animate( {
+            'scrollTop': input.offset().top-40
+          }, 500, 'swing');
+          input.focus();
+        }
+      });
+      return false;
+    }
+  });
+  {% else %}
+  $("#comment_form textarea").on("focus", function() {
+    $( this ).fadeOut( 500 );
+    $("#comment_form").html('<div style="margin:10px;" id="login-first"><h6 class="text-center">Login required to comment this subject.</h6><a href="/login/" class="btn btn-block btn-primary"><b>Login</b></a></div>').fadeIn( 1000 );
+    $('html, body').stop().animate( {
+      'scrollTop': $("#login-first").offset().top-40
+    }, 1000, 'swing');
+  });
+  {% endif %}
+});
 </script>
 
 {% endblock content %}

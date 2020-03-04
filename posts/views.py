@@ -144,41 +144,57 @@ def edit_post(request,post):
         post_form = PostForm(instance=post)
     return render(request,'posts/edit_post.html',{'post_form':post_form})
 
-class PostLikeToggle(RedirectView):
-    def get_redirect_url(self,*args,**kwargs):
-        slug = self.kwargs.get("slug")
-        post = get_object_or_404(Post,slug=slug)
-        url_ = post.get_absolute_url()
-        user = self.request.user
-        if user.is_authenticated:
-            if user in post.points.all():
-                post.points.remove(user)
-            else:
-                post.points.add(user)
-        return url_
+# class PostLikeToggle(RedirectView):
+#     def get_redirect_url(self,*args,**kwargs):
+#         slug = self.kwargs.get("slug")
+#         post = get_object_or_404(Post,slug=slug)
+#         url_ = post.get_absolute_url()
+#         user = self.request.user
+#         if user.is_authenticated:
+#             if user in post.points.all():
+#                 post.points.remove(user)
+#             else:
+#                 post.points.add(user)
+#         return url_
 
-class PostLikeAPIToggle(APIView):
-    authentication_classes = (authentication.SessionAuthentication,)
-    permission_classes = (permissions.IsAuthenticated,)
-    def get(self,request,slug=None,format=None):
-        post = get_object_or_404(Post,slug=slug)
-        url_ = post.get_absolute_url()
-        user = self.request.user
-        updated = False
-        liked = False
-        if user.is_authenticated:
-            if user in post.points.all():
-                liked = False
-                post.points.remove(user)
-            else:
-                liked = True
-                post.points.add(user)
-            updated = True
-        data = {
-            "updated":updated,
-            "liked":liked
-        }
-        return Response(data)
+# class PostLikeAPIToggle(APIView):
+#     authentication_classes = (authentication.SessionAuthentication,)
+#     permission_classes = (permissions.IsAuthenticated,)
+#     def get(self,request,slug=None,format=None):
+#         post = get_object_or_404(Post,slug=slug)
+#         url_ = post.get_absolute_url()
+#         user = self.request.user
+#         updated = False
+#         liked = False
+#         if user.is_authenticated:
+#             if user in post.points.all():
+#                 liked = False
+#                 post.points.remove(user)
+#             else:
+#                 liked = True
+#                 post.points.add(user)
+#             updated = True
+#         data = {
+#             "updated":updated,
+#             "liked":liked
+#         }
+#         return Response(data)
+
+@login_required
+@ajax_required
+def like_subject(request,post):
+    data = dict()
+    post = get_object_or_404(Post,slug=post)
+    user = request.user
+    if post in user.liked_posts.all():
+        post.points.remove(user)
+        data['is_starred'] = False
+    else:
+        post.points.add(user)
+        data['is_starred'] = True
+
+    data['total_points'] = post.points.count()
+    return JsonResponse(data)
 
 class SearchView(ListView):
     model = Post

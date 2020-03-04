@@ -13,7 +13,21 @@
       <div class="col-lg-8">
         <div class="card">
           <div class="card-body">
-            <p class="float-right">{{ post.points.count }} Likes</p><a class="like-btn" data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}">{{ post.points.count }} Like</a>
+
+            <div class="star-partition">
+              <a href="{% url 'posts:like' post.slug %}"
+                 style="text-decoration:none;"
+                 title="{{ post.points.count }} points"
+                 id="js-star-post">
+                 {% if post in user.liked_posts.all %}
+                   <i class="fas fa-thumbs-down fa-lg" aria-hidden="true" id="star_icon"></i>
+                 {% else %}
+                   <i class="fas fa-thumbs-up fa-lg" aria-hidden="true" id="star_icon"></i>
+                 {% endif %}
+                 <span id="js-star-count">{{ post.points.count }}</span>
+              </a>
+            </div>
+
             <div class="card-title">
               <h1 class="mt-4">{{ post.title }}</h1>
             </div>
@@ -160,21 +174,44 @@
                 }else{
                   console.log("error");
                 }
-
         },
         error:function(){
           alert("Error");
         }
       })
-     
-    
   });
+</script>
 
-
-
-
-
-
+<script type="text/javascript">
+  $(document).ready(function(){
+    // Star or unstar a post
+    $(document).on("click", "#js-star-post", function () {
+      {% if not request.user.is_authenticated %}
+      window.location.href = "{% url 'users:login' %}";
+      {% else %}
+      var $star_count = $(this).find('#js-star-count');
+      var $star_url = $(this).attr("href");
+      var $star_icon = $(this).find('i.fas');
+      $.ajax({
+        url: $star_url,
+        type: 'GET',
+        success: function (data) {
+          $star_count.text(data.total_points);
+  
+          if ($star_icon.hasClass('fa-thumbs-up')) {
+            $star_icon.removeClass('fa-thumbs-up').addClass('fa-thumbs-down');
+          }
+          else if ($star_icon.hasClass('fa-thumbs-down')) {
+            $star_icon.removeClass('fa-thumbs-down').addClass('fa-thumbs-up');
+          } else {
+            console.log('Unexpected error!');
+          }
+        }
+      });
+      {% endif %}
+      return false;
+    });
+  });
 </script>
 
 {% endblock content %}

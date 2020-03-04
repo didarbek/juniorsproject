@@ -18,7 +18,7 @@
         <div class="card mb-4">
           <div class="card-body">
             
-            <a href="{% url 'posts:like-toggle' post.slug %}">Like</a>
+            <a href="{% url 'posts:like' post.slug %}">Like</a>
 
             <a href="{{ group.get_absolute_url }}" data-toggle="tooltip" data-placement="top" title="{{ post.group.slug }} group"><i class="fas fa-users"></i> {{ post.group.slug }}</a>
             <h2 class="card-title">{{ post.title }}</h2>

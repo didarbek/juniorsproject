@@ -31,14 +31,13 @@
             <p class="float-right">{{ post.comments.count }} Comments</p>
           </div>
         </div>
-        <!-- <a href="{{ group.get_absolute_url }}">{{ post.group.slug }}</a> -->
         <!-- Comments Form -->
         <div class="card my-4">
           <h5 class="card-header">Leave a Comment:</h5>
           <div class="card-body">
             <form method="POST" id="post-form">
               {% csrf_token %}
-              {{ comment_form.body|as_crispy_field }}
+              {{ comment_form|crispy }}
               <button type="submit" class="btn btn-primary" id='btn-comment'>Submit</button>
             </form>
           </div>
@@ -124,54 +123,5 @@
 
       </div>
 </div>
-
-<script>
-  var url = '{{post.get_absolute_url}}';
-  console.log("{% url 'comments:delete_comment' 2 %}");
-  $('#btn-comment').click(function(e){
-        e.preventDefault();
-        $.ajax({
-        method:'POST',
-        url:url,
-        data:{
-          body:$("#body").val(),
-          csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
-        },
-        success: function(data){
-          // console.log(data);
-          $('.add_comment').append(
-           ' <div class="media mb-4 media_comment" id="delete_media">'+
-           '<img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">'+
-           '<div class="media-body">'+ 
-              `<a href=${data.delete} class="float-right delete" data-dismiss="alert" aria-label="close"  style="color:red;"><i class="fas fa-trash"></i></a>`+
-               `<h5 class="mt-0"><a href="">${data.username}</a></h5>`+
-               `${data.body}`+
-              `<h6>${data.date}</h6>`+
-            '</div>'+
-          '</div>'
-          )
-          $(".delete").click( function(event){
-             $("#delete_media").remove(); 
-           });
-
-        },
-        error:function(){
-          alert("Error");
-        }
-      }).done(function(data){
-        console.log(data)
-      }
-
-      )
-     
-    
-  });
-
-
-
-
-
-
-</script>
 
 {% endblock content %}

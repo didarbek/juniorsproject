@@ -7,6 +7,8 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
+
+
 <!-- Page Content -->
     <div class="row">
       <!-- Blog Entries Column -->
@@ -15,7 +17,9 @@
         <!-- Blog Post -->
         <div class="card mb-4">
           <div class="card-body">
-          <a class="like-btn float-right" data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}">{{ post.points.count }} Like</a>
+            
+            <a href="{% url 'posts:like-toggle' post.slug %}">Like</a>
+
             <a href="{{ group.get_absolute_url }}" data-toggle="tooltip" data-placement="top" title="{{ post.group.slug }} group"><i class="fas fa-users"></i> {{ post.group.slug }}</a>
             <h2 class="card-title">{{ post.title }}</h2>
             <p class="card-text">{{ post.body|truncatewords_html:50|urlize }}</p>
@@ -24,11 +28,10 @@
             {% endif %}
             <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
             {% if post in user.liked_posts.all %}
-              <a href="{% url 'posts:like-toggle' post.slug %}" class="btn btn-primary float-right"><i class="fas fa-thumbs-down"></i></a>
-              <a href="{% url 'posts:like-toggle' post.slug %}" class="btn btn-primary float-right"><i class="fas fa-thumbs-up"></i></a>
+              <a href="{% url 'posts:like' post.slug %}" class="btn btn-primary float-right"><i class="fas fa-thumbs-down"></i></a>
 
             {% else %}
-              <a href="{% url 'posts:like-toggle' post.slug %}" class="btn btn-primary float-right"><i class="fas fa-thumbs-up"></i></a>
+              <a href="{% url 'posts:like' post.slug %}" class="btn btn-primary float-right"><i class="fas fa-thumbs-up"></i></a>
             {% endif %}
           </div>
           <div class="card-footer text-muted">
@@ -73,4 +76,5 @@
       </div>
     </div>
     <!-- /.row -->
+
 {% endblock content %}

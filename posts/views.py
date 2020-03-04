@@ -20,12 +20,11 @@ from .serializers import CommentSerializer
 from comments.models import Comment
 from django.http import JsonResponse
 from django.contrib.humanize.templatetags.humanize import naturaltime
+from juniorsproject.decorators import ajax_required
+
 # # Create your views here.
 
 User = settings.AUTH_USER_MODEL
-
-def home(request):
-    return render(request,'posts/posts.html')
 
 def get_home_posts():
     try:

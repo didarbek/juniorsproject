@@ -142,7 +142,6 @@
 
 <script>
   var url = '{{post.get_absolute_url}}';
-  console.log("{% url 'comments:delete_comment' 2 %}");
   $('#btn-comment').click(function(e){
         e.preventDefault();
         $.ajax({
@@ -153,7 +152,7 @@
           csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
         },
         success: function(data){
-          // console.log(data);
+          document.getElementById('post-form').reset();
           $('.add_comment').append(
            ' <div class="media mb-4" id="delete_media">'+
            '<img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">'+

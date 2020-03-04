@@ -13,7 +13,9 @@
       <div class="col-lg-8">
         <div class="card">
           <div class="card-body">
-            <p class="float-right">{{ post.points.count }} Likes</p><a class="like-btn" data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}">{{ post.points.count }} Like</a>
+            <p class="float-right">{{ post.points.count }} Likes</p>
+              <a class="like-btn" id='btn_like' data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}" > 
+               </a>
             <div class="card-title">
               <h1 class="mt-4">{{ post.title }}</h1>
             </div>

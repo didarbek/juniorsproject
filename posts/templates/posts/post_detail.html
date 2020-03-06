@@ -24,13 +24,11 @@
                {% else %}
                error
                {% endif %}
-                 
-               
               </a>
-
             </div>
 
             <div class="card-title">
+              <h5><a href="{% url 'posts:edit_post' post.slug %}" class="float-right">Edit</a></h5>
               <h1 class="mt-4">{{ post.title }}</h1>
             </div>
             <p class="lead">{{ post.body }}</p>    
@@ -129,14 +127,22 @@
             <h5 class="card-title text-center">About Community</h5>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Title:</li>
-            <li class="list-group-item">Description:</li>
-            <li class="list-group-item">Total Posts:</li>
-            <li class="list-group-item">Admins:</li>
-            <li class="list-group-item">Subscribers:</li>
+            <li class="list-group-item">Title: <b>{{ group.title }}</b></li>
+            <li class="list-group-item">Description: {{ group.description|truncatewords_html:50|urlize }} </li>
+            <li class="list-group-item">Total Posts: <span class="badge badge-primary">{{ group.submitted_posts.count }}</span></li>
+            <li class="list-group-item">Admins:
+              {% for admin in group.get_admins %}
+                      <a href="">{{ admin.profile.screen_name }}</a></p>
+              {% endfor %}
+            </li>
+            <li class="list-group-item">Subscribers: <span class="badge badge-primary">{{ group.subscribers.count }}</span></li>
           </ul>
           <div class="card-body">
-            <a href="" class="btn btn-primary float-right">Join</a>
+            {% if group in request.user.subscribed_groups.all %}
+            <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary float-right" id="subscribe_group">Unsubscribe</a>
+            {% else %}
+            <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-primary float-right" id="subscribe_group">Subscribe</a>
+            {% endif %}
             <p class="text-muted">Created Aug 9 2015</p>
           </div>
         </div>
@@ -185,38 +191,7 @@
   });
 </script> -->
 
-<!-- <script type="text/javascript">
-  $(document).ready(function(){
-    // Star or unstar a post
-    $(document).on("click", "#js-star-post", function () {
-      {% if not request.user.is_authenticated %}
-      window.location.href = "{% url 'users:login' %}";
-      {% else %}
-      var $star_count = $(this).find('#js-star-count');
-      var $star_url = $(this).attr("href");
-      var $star_icon = $(this).find('i.fas');
-      $.ajax({
-        url: $star_url,
-        type: 'GET',
-        success: function (data) {
-          $star_count.text(data.total_points);
-  
-          if ($star_icon.hasClass('fa-thumbs-up')) {
-            $star_icon.removeClass('fa-thumbs-up').addClass('fa-thumbs-down');
-          }
-          else if ($star_icon.hasClass('fa-thumbs-down')) {
-            $star_icon.removeClass('fa-thumbs-down').addClass('fa-thumbs-up');
-          } else {
-            console.log('Unexpected error!');
-          }
-        }
-      });
-      {% endif %}
-      return false;
-    });
-  });
-</script> -->
-
+<!-- comment form -->
 <script type="text/javascript">
 $(document).ready(function(){
   {% if request.user.is_authenticated %}
@@ -256,5 +231,38 @@ $(document).ready(function(){
   {% endif %}
 });
 </script>
+
+<!-- subscribe group -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("a#subscribe_group").on("click", function () {
+      {% if not request.user.is_authenticated %}
+      window.location.href = "{% url 'login' %}";
+      {% else %}
+      var $msg=$(this);
+      var $subscribe_url=$(this).attr("href");
+      var $group_subscribers=$('span#group_subscribers')
+      $.ajax({
+        url: $subscribe_url,
+        type: 'GET',
+        success: function (data) {
+          if ($msg.text() == 'Subscribe') {
+            $msg.removeClass('btn-primary');
+            $msg.addClass('btn-secondary');
+            $msg.text('Unsubscribe');
+            $board_subscribers.text(data);
+          } else if ($msg.text() == 'Unsubscribe') {
+            $msg.removeClass('btn-secondary');
+            $msg.addClass('btn-primary');
+            $msg.text('Subscribe');
+            $group_subscribers.text(data);
+          } else { console.log('Unexpected error!'); }
+        }
+      });
+      {% endif %}
+      return false;
+    });
+  });
+  </script>
 
 {% endblock content %}

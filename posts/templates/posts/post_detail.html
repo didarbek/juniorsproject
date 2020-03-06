@@ -13,23 +13,6 @@
       <div class="col-lg-8">
         <div class="card">
           <div class="card-body">
-
-            <div class="star-partition">
-              <p class="float-right"   id ='btn_like_all' data-href='{{ post.get_api_like_url }}'>{{ post.points.count }} Likes</p>
-              <a class="like-btn" id ='btn_like' data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}">
-               {% if post.points.count == 0  %}
-               <i class="far fa-thumbs-up"></i>
-               {% elif post.points.count == 1 %} 
-               <i class="fas fa-thumbs-up"></i>
-               {% else %}
-               error
-               {% endif %}
-                 
-               
-              </a>
-
-            </div>
-
             <div class="card-title">
               <h1 class="mt-4">{{ post.title }}</h1>
             </div>
@@ -37,12 +20,25 @@
             {% if post.image %}
             <img class="img-fluid rounded" src="{{ post.image.url }}" alt="">
             {% endif %}
+            <div class="star-partition">
+              <a class="like-btn float-right" id ='btn_like' data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}">
+               {% if post.points.count == 0  %}
+               <i class="far fa-thumbs-up fa-lg"></i>
+               {% elif post.points.count == 1 %} 
+               <i class="fas fa-thumbs-up fa-lg"></i>
+               {% else %}
+               error
+               {% endif %}
+              </a>
+              <!-- <p class="float-right"   id ='btn_like_all' data-href='{{ post.get_api_like_url }}'>{{ post.points.count }} Likes</p> -->
+
+            </div>
           </div>
           <div class="card-footer text-muted">
             Posted on {{ post.created|naturaltime }} by
             <a href="">{{ post.author.username }}</a>
             {% ifequal post.author request.user %}
-            <b class="pl-5 float-right"><a href="{% url 'posts:delete_post' post.slug %}" data-toggle="tooltip" data-placement="top" title="Delete post"><i class="fas fa-trash"></i></a></b>
+            <b class="pl-5 float-right"><a href="{% url 'posts:delete_post' post.slug %}" data-toggle="tooltip" data-placement="top" title="Delete post" style="color: red;"><i class="fas fa-trash"></i></a></b>
             {% endifequal %}
             <p class="float-right">{{ post.comments.count }} Comments</p>
           </div>

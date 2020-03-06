@@ -11,7 +11,7 @@ from .forms import GroupForm
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from users.models import CustomUser
 from django.contrib.auth import get_user_model
-
+from users.models import CustomUser
 # Create your views here.
 
 User = settings.AUTH_USER_MODEL
@@ -45,8 +45,8 @@ class UserSubscriptionList(LoginRequiredMixin,ListView):
     template_name = 'groups/user_subscription_list.html'
     context_object_name = 'subscriptions'
 
-    def get_queryset(self,**kwargs):
-        user = get_object_or_404(User,username=self.request.user)
+    def get_queryset(self, **kwargs ):
+        user = get_object_or_404(CustomUser,username=self.request.user.username)
         return user.subscribed_groups.all()
 
 @login_required

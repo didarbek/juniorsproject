@@ -14,7 +14,7 @@
             <h5 class="mb-1">List group item heading</h5>
             <small>{{ group.created|naturaltime }}</small>
           </div>
-          <p class="mb-1">{{ group.description|markdown|truncatewords_html:50 }}</p>
+          <p class="mb-1">{{ group.description|truncatewords_html:50 }}</p>
           <small>{{ group.subscribers.count }} subscribers</small>
         </a>
         {% endfor %}

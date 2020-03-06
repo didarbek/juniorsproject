@@ -49,7 +49,7 @@ def _html_comments(comment_id,group,post):
     comment = post.comments.get(id=comment_id)
     user = comment.commenter
     html = ''
-    html = '{0}{1}'.format(html,render_to_string('comments/comments.html',{'comment': comment,'user': user,}))
+    html = '{0}{1}'.format(html,render_to_string('comments/partial_post_comments.html',{'comment': comment,'user': user,}))
     return html
 
 
@@ -90,6 +90,65 @@ def post_detail(request,group,post):
         'admins':admins,
     })
 
+# def post_detail(request,group,post):
+#     post = get_object_or_404(Post,group__slug=group,slug=post)
+#     comments = post.comments.filter(active=True)
+#     group = post.group
+#     user = request.user
+#     admins = group.admins.all()
+#     if request.is_ajax():
+#         if request.user.is_authenticated:
+#             if request.method == 'POST':
+#                 comment_form = CommentForm(data=request.POST or None)
+#                 if comment_form.is_valid():
+#                     new_comment = comment_form.save(commit=False)
+#                     new_comment.commenter = request.user
+#                     new_comment.post = post
+#                     new_comment.save()
+
+#                     if request.user is not post.author:
+#                         Notification.objects.create(
+#                             Actor=new_comment.commenter,
+#                             Object=new_comment.post,
+#                             Target=post.author,
+#                             notif_type='comment'
+#                         )
+
+#                     # Checks if someone is mentioned in the comment
+#                     words = new_comment.body
+#                     words = words.split(" ")
+#                     names_list = []
+#                     for word in words:
+
+#                         # if first two letters of the word is "u/" then the rest of the word
+#                         # will be treated as a username
+
+#                         if word[:2] == "u/":
+#                             u = word[2:]
+#                             try:
+#                                 user = User.objects.get(username=u)
+#                                 if user not in names_list:
+#                                     if request.user is not user:
+#                                         Notification.objects.create(
+#                                             Actor=new_comment.commenter,
+#                                             Object=new_comment.post,
+#                                             Target=user,
+#                                             notif_type='comment_mentioned'
+#                                         )
+#                                     names_list.append(user)
+#                             except:
+#                                 pass
+
+#                     new_comment_id = new_comment.id
+#                     html = _html_comments(new_comment_id,group,post)
+#                     return HttpResponse(html)
+
+#     return render(request, 'posts/post_detail.html', {
+#         'post':post,
+#         'comments': comments,
+#         'group':group,
+#         'admins': admins
+#     })
 
 @login_required
 def new_post(request):

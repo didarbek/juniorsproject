@@ -1,34 +1,31 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
+
 {% block title %}Subscriptions List{% endblock title %}
 
 {% block content %}
+{% if subscriptions %}
 <div class="container">
     <div class="list-group">
+      {% for group in subscriptions %}
         <a href="#" class="list-group-item list-group-item-action">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">List group item heading</h5>
-            <small>3 days ago</small>
+            <small>{{ group.created|naturaltime }}</small>
           </div>
-          <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-          <small>Donec id elit non mi porta.</small>
+          <p class="mb-1">{{ group.description|markdown|truncatewords_html:50 }}</p>
+          <small>{{ group.subscribers.count }} subscribers</small>
         </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">List group item heading</h5>
-            <small class="text-muted">3 days ago</small>
-          </div>
-          <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-          <small class="text-muted">Donec id elit non mi porta.</small>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">List group item heading</h5>
-            <small class="text-muted">3 days ago</small>
-          </div>
-          <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-          <small class="text-muted">Donec id elit non mi porta.</small>
-        </a>
+        {% endfor %}
       </div>
       </div>
+    {% else %}
+    <div class="card p-4 my-4 mx-0">
+      <h6 class="text-center">No Subscriptions Found</h6>
+      <div style="margin:0 auto;">
+      <p class="text-muted">You have not subscribed any groups yet.</p>
+      </div>
+    </div>
+    {% endif %}
 {% endblock content %}

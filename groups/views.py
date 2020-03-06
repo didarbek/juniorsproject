@@ -9,6 +9,8 @@ from .decorators import user_is_group_admin,user_is_not_banned_from_group
 from django.http import HttpResponse
 from .forms import GroupForm
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from users.models import CustomUser
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 
@@ -44,7 +46,7 @@ class UserSubscriptionList(LoginRequiredMixin,ListView):
     context_object_name = 'subscriptions'
 
     def get_queryset(self,**kwargs):
-        user = get_object_or_404(User,username=self.request.user)
+        user = get_object_or_404(get_user_model(),username=self.request.user)
         return user.subscribed_groups.all()
 
 @login_required

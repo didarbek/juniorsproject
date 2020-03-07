@@ -5,13 +5,14 @@
 {% block title %}Subscriptions List{% endblock title %}
 
 {% block content %}
+<h2 class="text-center" style="color:cadetblue">Subscribed Groups</h2>
 {% if subscriptions %}
 <div class="container">
     <div class="list-group">
       {% for group in subscriptions %}
-        <a href="#" class="list-group-item list-group-item-action">
+        <a href="{{ group.get_absolute_url }}" class="list-group-item list-group-item-action">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">List group item heading</h5>
+            <h5 class="mb-1">{{ group.title }}</h5>
             <small>{{ group.created|naturaltime }}</small>
           </div>
           <p class="mb-1">{{ group.description|truncatewords_html:50 }}</p>
@@ -24,7 +25,7 @@
     <div class="card p-4 my-4 mx-0">
       <h6 class="text-center">No Subscriptions Found</h6>
       <div style="margin:0 auto;">
-      <p class="text-muted">You have not subscribed any groups yet.</p>
+      <p class="text-muted">You have not subscribed any groups yet</p>
       </div>
     </div>
     {% endif %}

@@ -67,7 +67,7 @@ class UserCreatedGroupsPage(LoginRequiredMixin,ListView):
     context_object_name = 'user_groups'
 
     def get_queryset(self,**kwargs):
-        user = get_object_or_404(User,username=self.request.user)
+        user = get_object_or_404(CustomUser,username=self.request.user.username)
         return user.inspected_groups.all()
 
 @login_required

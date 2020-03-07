@@ -21,6 +21,7 @@ class Post(models.Model):
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
+    rank_score = models.FloatField(default=0.0)
 
     class Meta:
         ordering = ('-created',)
@@ -52,6 +53,14 @@ class Post(models.Model):
             posts = Post.objects.filter(active=True)
         return posts
         
+    def set_rank(self):
+        GRAVITY = 1.2
+        time_delta = timezone.now() - self.created
+        post_hour_age = time_delta.total_seconds()
+        post_points = self.points.count() - 1
+        self.rank_score = post_points / pow((post_hour_age + 2), GRAVITY)
+        self.save()
+
 def post_unique_check(text, uids):
     if text in uids:
         return False

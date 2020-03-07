@@ -109,6 +109,7 @@
                   User Settings
               </button>
               <a class="dropdown-item" href="{% url 'groups:user_subscription_list' request.user.username %}" >Subscriptions</a>
+              <a class="dropdown-item" href="{% url 'groups:user_created_groups' request.user.username %}" >My Groups</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'users:logout' %}" >
                   <i class="fas fa-sign-out-alt fa-sm pr-2"></i>  

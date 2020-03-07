@@ -15,6 +15,7 @@ from django.urls import reverse_lazy,reverse
 from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.db import OperationalError
 from rest_framework import authentication,permissions
 from .serializers import CommentSerializer
 from comments.models import Comment
@@ -25,6 +26,16 @@ from juniorsproject.decorators import ajax_required
 # # Create your views here.
 
 User = settings.AUTH_USER_MODEL
+
+def get_trending_posts():
+    try:
+        posts = Post.get_posts()
+        for post in posts:
+            post.set_rank()
+        trending_posts = posts.order_by('-rank_score')
+    except OperationalError:
+        trending_posts = None
+    return trending_posts
 
 def get_home_posts():
     try:
@@ -44,6 +55,13 @@ class HomePage(ListView):
         context = super().get_context_data(**kwargs)
         return context
     
+class TrendingPage(ListView):
+    model = Post
+    queryset = get_trending_posts()
+    paginate_by = 15
+    template_name = 'posts/trending.html'
+    context_object_name = 'posts'
+
 def _html_comments(comment_id,group,post):
     post = get_object_or_404(Post,group__slug=group.slug,slug=post.slug)
     comment = post.comments.get(id=comment_id)
@@ -51,8 +69,6 @@ def _html_comments(comment_id,group,post):
     html = ''
     html = '{0}{1}'.format(html,render_to_string('comments/partial_post_comments.html',{'comment': comment,'user': user,}))
     return html
-
-
 
 def post_detail(request,group,post):
     post = get_object_or_404(Post,group__slug=group,slug=post)

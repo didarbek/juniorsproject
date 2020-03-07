@@ -14,4 +14,5 @@ urlpatterns = [
     path('new_post/',views.new_post,name='new_post'),
     path('search/',views.SearchView.as_view(),name='search_results'),
     path('<post>/like/',views.like_subject,name='like'),
+    path('trending/',views.TrendingPage.as_view(),name='trending'),
 ]

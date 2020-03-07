@@ -35,7 +35,7 @@
           </div>
           <div class="card-footer text-muted">
             Posted on {{ post.created|naturaltime }} by
-            <a href="">{{ post.author.username }}</a>
+            <a href="{% url 'users:profile_show_user' post.author.id  %}">{{ post.author.username }}</a>
             {% ifequal post.author request.user %}
             <b class="pl-5 float-right"><a href="{% url 'posts:delete_post' post.slug %}" data-toggle="tooltip" data-placement="top" title="Delete post" style="color: red;"><i class="fas fa-trash"></i></a></b>
             {% endifequal %}

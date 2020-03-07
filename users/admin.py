@@ -4,11 +4,20 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser, Profile
 
 
+
+class ProfileUser(admin.ModelAdmin):
+    prepopulated_fields = {'slug':(CustomUser.username,)}
+
+
+
+
+
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
     verbose_name_plural = 'Profile'
     fk_name = 'user'
+
 
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
@@ -20,6 +29,7 @@ class CustomUserAdmin(UserAdmin):
         (None, {'fields': ('email', 'password', 'username')}),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
     )
+    
     add_fieldsets = (
         (None, {
             'classes': ('wide',),

@@ -5,6 +5,7 @@
 {% block title %}Create Post{% endblock title %}
 
 {% block content %}
+<h2 class="text-center" style="color:cadetblue;">Create a post</h2>
 <form action="{% url 'posts:new_post' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ post_form|crispy }}

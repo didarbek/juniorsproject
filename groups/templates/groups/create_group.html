@@ -5,6 +5,7 @@
 {% block title %}Create Group{% endblock title %}
 
 {% block content %}
+<h2 class="text-center" style="color:cadetblue;">Create group</h2>
 <form action="{% url 'groups:create_group' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ group_form|crispy }}

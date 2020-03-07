@@ -14,6 +14,7 @@
         <div class="card">
           <div class="card-body">
             <div class="card-title">
+              <h5><a class="float-right" href="{% url 'posts:edit_post' post.slug %}">Edit</a></h5>
               <h1 class="mt-4">{{ post.title }}</h1>
             </div>
             <p class="lead">{{ post.body }}</p>    
@@ -31,15 +32,6 @@
                {% endif %}
               </a>
             </div>
-
-            <div class="card-title">
-              <h5><a href="{% url 'posts:edit_post' post.slug %}" class="float-right">Edit</a></h5>
-              <h1 class="mt-4">{{ post.title }}</h1>
-            </div>
-            <p class="lead">{{ post.body }}</p>    
-            {% if post.image %}
-            <img class="img-fluid rounded" src="{{ post.image.url }}" alt="">
-            {% endif %}
           </div>
           <div class="card-footer text-muted">
             Posted on {{ post.created|naturaltime }} by

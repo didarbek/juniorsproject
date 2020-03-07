@@ -6,9 +6,10 @@ class PostForm(forms.ModelForm):
     def get_subscribed_groups(self):
         return self.user.subscribed_groups
 
-    title = forms.CharField(help_text="You can mention other members in your post i.e <b>u/username</b>")
-    body = forms.CharField(widget=forms.Textarea(attrs={'rows': 5}), required=False)
-    group = forms.ModelChoiceField(queryset=Group.objects.all())
+    title = forms.CharField(label='',widget=forms.TextInput(attrs={'placeholder': 'Title'}),help_text="You can mention other members in your post i.e <b>u/username</b>")
+    body = forms.CharField(label='',widget=forms.Textarea(attrs={'rows': 5,'placeholder':'Text'}), required=False)
+    image = forms.ImageField(label='Add Image (optianal)',required=False)
+    group = forms.ModelChoiceField(label='Choose a group',queryset=Group.objects.all())
 
     def __init__(self,*args,**kwargs):
         user = kwargs.pop('user', None)

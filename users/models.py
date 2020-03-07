@@ -7,6 +7,7 @@ from django_countries.fields import CountryField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
+from django.utils.text import slugify
 
 User = settings.AUTH_USER_MODEL
 
@@ -44,10 +45,11 @@ def user_directory_path(instance, filename):
     return all_path
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User,  on_delete=models.CASCADE)
     img_profile  = models.ImageField(verbose_name='image profile', upload_to=user_directory_path)
     birth_date = models.DateField(verbose_name='Birth date', blank=True, null=True)
     gender = models.CharField(max_length=10,choices=GENDER_CHOICES)
+    slug = models.SlugField(max_length=255, unique=True, null=True, blank=True)
     countries = CountryField()
 
     def __str__(self):
@@ -78,3 +80,12 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+
+
+
+def save(self, *args, **kwargs):
+    slug = slugify(self.username)
+    self.slug = slug
+    print(slug)
+    super().save(*args, **kwargs)

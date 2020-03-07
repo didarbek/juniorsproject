@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %} 
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+<form action="" method="POST" enctype="multipart/form-data">
+    <div class="row justify-content-center" >
+        {% if messages %}
+        {% for message in messages  %}
+        <div class="alert {% if message.tags == 'success' %}  alert-success {% else %} alert-danger {% endif %}">
+            {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div class="card col-12 m-4 p-0 pb-4 " >
+            
+            <div class="card-header text-center"><h5>Profile</h5></div>
+            <div class="row">
+                <div class="col-5">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        {% for image in user_profile %}
+                        <img src="{{image.get_picture}}" width="300px" height="300px" class="rounded" alt="">
+
+                        {% endfor %}
+                        <div class="offset-2">{{profile.img_profile}}        </div>                 
+                   </div>
+                </div>
+                <div class="col-6">
+                    <div class="card-body">
+                        {% for user_obj in user_list  %}
+                        <div><label for=""><h5>Username: </h5></label> {{user_obj.username}}</div>
+                        <div><label for=""><h5>Email: </h5></label> {{user_obj.email}}</div>
+                        {% endfor %}
+                        {% for profile in user_profile  %}
+                        <div><label for=""><h5>Birth date: </h5></label> {{profile.birth_date}}</div>
+                        <div><label for=""><h5>Gender: </h5></label> {{profile.gender}}</div>
+                        <div><label for=""><h5>Countries: </h5></label> {{profile.countries}}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+    </div>
+</form>
+{% endblock content %}

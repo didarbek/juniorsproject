@@ -37,7 +37,7 @@
           </div>
           <div class="card-footer text-muted">
             Posted on {{ post.created|naturaltime }} by
-            <a href="">{{ post.author.profile.screen_name }}</a>
+            <a href="{% url 'users:profile_show_user' post.author.id  %}">{{ post.author.profile.screen_name }}</a>
             <p class="float-right">{{ post.comments.count }} Comments</p>
           </div>
         </div>

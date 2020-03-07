@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.shortcuts import render
 import os 
 
+from .models import  CustomUser, Profile
 User = settings.AUTH_USER_MODEL
 # Create your views here.
 
@@ -36,3 +37,12 @@ def profile(request):
         'user_form':user_form,
         'profile_form':profile_form
     })
+
+def user_show_profile(request, id):
+    user_base = CustomUser.objects.filter(id=id)
+    user_profile = Profile.objects.filter(user_id=id)
+
+    return render(request, 'show_user_profile.html', {'user_list':user_base, 'user_profile':user_profile})
+
+
+    

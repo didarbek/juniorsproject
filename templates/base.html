@@ -1,6 +1,6 @@
 {% load static %}
 
-{% load groups_tags %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,11 +20,7 @@
         {% block content %}
         {% endblock content %}
 
-        {% if bv %}
-          
-        {% else %}
-          {% top_five_groups %}
-        {% endif %}
+  
     </div>
   <script>
       $(".like-btn").click(function(e){

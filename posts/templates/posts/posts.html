@@ -3,6 +3,7 @@
 {% load static %}
 
 {% load humanize %}
+{% load groups_tags %}
 
 {% block title %}Home{% endblock title %}
 
@@ -17,8 +18,6 @@
         <!-- Blog Post -->
         <div class="card mb-4">
           <div class="card-body">
-            
-
             <a href="{{ post.group.get_absolute_url }}" data-toggle="tooltip" data-placement="top" title="{{ post.group.slug }} group"><i class="fas fa-users"></i> {{ post.group.slug }}</a>
             <h2 class="card-title">{{ post.title }}</h2>
             <p class="card-text">{{ post.body|truncatewords_html:50|urlize }}</p>
@@ -55,6 +54,11 @@
         </ul>
 
       </div>
+      {% if bv %}
+          
+      {% else %}
+        {% top_five_groups %}
+      {% endif %}
 
       <!-- Sidebar Widgets Column -->
       <div class="col-md-4">
@@ -63,5 +67,7 @@
       </div>
     </div>
     <!-- /.row -->
+ 
+
 
 {% endblock content %}

@@ -10,7 +10,11 @@
 <!-- Page Content -->
 
     <div class="row">
-
+      {% if group.cover %}
+      <img class="mb-3" style="width: 1200px;height: 250px;" src="{{ group.cover.url }}" alt="">
+      {% else %}
+      <img class="mb-3" src="https://via.placeholder.com/1200x250.png?%20%20C/O%20https://placeholder.com/" alt="">
+      {% endif %}
       <!-- Blog Entries Column -->
       <div class="col-md-8">
 
@@ -18,7 +22,9 @@
         <!-- Blog Post -->
         <div class="card mb-4">
           {% if post.image %}
-          <img class="card-img-top" src="{{ post.image.url }}" alt="Card image cap">
+          <div class="text-center">
+          <img class="card-img-top" src="{{ post.image.url }}">
+          </div>
           {% endif %}
           <div class="card-body">
             <h2 class="card-title">{{ post.title }}</h2>
@@ -57,20 +63,36 @@
       <div class="col-md-4">
 
         <!-- Side Widget -->
-        <div class="card" style="width: 18rem;margin-top:80px;">
+        <div class="ml-4">
+        <div class="card ml-5" style="width: 18rem;">
           <div class="card-body">
-            <h5 class="card-title text-center">Top Groups</h5>
+            <h5 class="card-title text-center">About Community</h5>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">1<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
-            <li class="list-group-item">2<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
-            <li class="list-group-item">3<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
-            <li class="list-group-item">4<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
-            <li class="list-group-item">5<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
+            <li class="list-group-item">Title: <b>{{ group.title }}</b></li>
+            <li class="list-group-item">Description: {{ group.description|truncatewords_html:50|urlize }} </li>
+            <li class="list-group-item">Total Posts: <span class="badge badge-primary">{{ group.submitted_posts.count }}</span></li>
+            <li class="list-group-item">Admins:
+              {% for admin in group.get_admins %}
+                      <a href="">{{ admin.profile.screen_name }}</a></p>
+              {% endfor %}
+            </li>
+            <li class="list-group-item">Subscribers: <span class="badge badge-primary">{{ group.subscribers.count }}</span></li>
           </ul>
           <div class="card-body">
-            <a href="#" class="card-link float-right">More Groups</a>
+            {% if group in request.user.subscribed_groups.all %}
+            <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary float-right" id="subscribe_group">Unsubscribe</a>
+            {% else %}
+            <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-primary float-right" id="subscribe_group">Subscribe</a>
+            {% endif %}
+            <p class="text-muted">Created Aug 9 2015</p>
+            {% if admins %}
+            {% if request.user in admins %}
+            <a href="{% url 'groups:edit_group_cover' group.slug %}" class="float-right">Edit group cover</a>
+            {% endif %}
+            {% endif %}
           </div>
+        </div>
         </div>
 
       </div>

@@ -7,7 +7,7 @@ from .models import Group
 from posts.models import Post
 from .decorators import user_is_group_admin,user_is_not_banned_from_group
 from django.http import HttpResponse
-from .forms import GroupForm
+from .forms import GroupForm,GroupCoverForm
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from users.models import CustomUser
 from django.contrib.auth import get_user_model
@@ -89,15 +89,15 @@ def create_group(request):
 def edit_group_cover(request,group):
     group = get_object_or_404(Group,slug=group)
     if request.method == 'POST':
-        group_cover = request.FILES.get('cover')
-        if check_image_extension(group_cover.name):
-            group.cover = group_cover
-            group.save()
-            return redirect('group',group=group.slug)
+        group_form = GroupCoverForm(instance=group,data=request.POST,files=request.FILES)
+        if group_form.is_valid():
+            group_form.save()
+            return redirect(group.get_absolute_url())
         else:
-            return HttpResponse('Filetype not supported. Supported filetypes are .jpg, .png etc.')
+            group_form = GroupCoverForm()
     else:
-        return render(request,'groups/edit_group_cover.html',{'group':group})
+        group_form = GroupCoverForm()
+    return render(request,'groups/edit_group_cover.html',{'group_form':group_form})
 
 @login_required
 @user_is_group_admin

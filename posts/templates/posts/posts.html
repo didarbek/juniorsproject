@@ -20,7 +20,7 @@
             
             <a href="{% url 'posts:like' post.slug %}">Like</a>
 
-            <a href="{{ group.get_absolute_url }}" data-toggle="tooltip" data-placement="top" title="{{ post.group.slug }} group"><i class="fas fa-users"></i> {{ post.group.slug }}</a>
+            <a href="{{ post.group.get_absolute_url }}" data-toggle="tooltip" data-placement="top" title="{{ post.group.slug }} group"><i class="fas fa-users"></i> {{ post.group.slug }}</a>
             <h2 class="card-title">{{ post.title }}</h2>
             <p class="card-text">{{ post.body|truncatewords_html:50|urlize }}</p>
             {% if post.image %}
@@ -57,21 +57,21 @@
       <!-- Sidebar Widgets Column -->
       <div class="col-md-4">
         <!-- Side Widget -->
+        {% if top_groups %}
         <div class="card" style="width: 18rem;">
           <div class="card-body">
-            <h5 class="card-title text-center">Top Groups</h5>
+            <h5 class="card-title text-center">Trending Groups</h5>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">1<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
-            <li class="list-group-item">2<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
-            <li class="list-group-item">3<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
-            <li class="list-group-item">4<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
-            <li class="list-group-item">5<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
+            {% for group in groups_list %}
+            <li class="list-group-item"><i class="fas fa-sort-up" style="color: green;"></i> {{ group.slug }}</li>
+            {% endfor %}
           </ul>
           <div class="card-body">
             <a href="#" class="card-link float-right">More Groups</a>
           </div>
         </div>
+        {% endif %}
 
       </div>
     </div>

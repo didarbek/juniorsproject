@@ -35,6 +35,7 @@ class GroupPage(ListView):
     
     def get_context_data(self,*args,**kwargs):
         context = super().get_context_data(*args,**kwargs)
+        context["bv"] = True
         context['admins'] = self.group.admins.all()
         context['group'] = self.group
         return context

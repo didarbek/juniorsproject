@@ -59,21 +59,6 @@
       <!-- Sidebar Widgets Column -->
       <div class="col-md-4">
         <!-- Side Widget -->
-        {% if top_groups %}
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <h5 class="card-title text-center">Trending Groups</h5>
-          </div>
-          <ul class="list-group list-group-flush">
-            {% for group in groups_list %}
-            <li class="list-group-item"><i class="fas fa-sort-up" style="color: green;"></i> {{ group.slug }}</li>
-            {% endfor %}
-          </ul>
-          <div class="card-body">
-            <a href="#" class="card-link float-right">More Groups</a>
-          </div>
-        </div>
-        {% endif %}
 
       </div>
     </div>

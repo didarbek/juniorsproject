@@ -167,19 +167,19 @@ def new_post(request):
         post_form = PostForm()
     return render(request,'posts/create_post.html',{'post_form':post_form})
 
-@login_required
-def like_post(request,post):
-    data = dict()
-    post = get_object_or_404(Post,slug=post)
-    user = request.user
-    if post in user.liked_posts.all():
-        post.points.remove(user)
-        data['is_starred'] = False
-    else:
-        post.points.add(user)
-        data['is_starred'] = True
-    data['total_points'] = post.points.count()
-    return JsonResponse(data)
+# @login_required
+# def like_post(request,post):
+#     data = dict()
+#     post = get_object_or_404(Post,slug=post)
+#     user = request.user
+#     if post in user.liked_posts.all():
+#         post.points.remove(user)
+#         data['is_starred'] = False
+#     else:
+#         post.points.add(user)
+#         data['is_starred'] = True
+#     data['total_points'] = post.points.count()
+#     return JsonResponse(data)
 
 @login_required
 @post_author

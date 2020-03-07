@@ -11,5 +11,5 @@ urlpatterns = [
     path('groups/<group>/subscription/',views.subscribe,name='subscribe'),
     path('<username>/groups/',views.UserCreatedGroupsPage.as_view(),name='user_created_groups'),
     path('create_group/',views.create_group, name='create_group'),
-    path('<username>/subscriptions/',views.UserSubscriptionList.as_view(),name='user_subscription_list'),
+    path('groups/<username>/subscriptions/',views.UserSubscriptionList.as_view(),name='user_subscription_list'),
 ]

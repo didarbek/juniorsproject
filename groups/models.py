@@ -15,7 +15,7 @@ class Group(models.Model):
     description = models.TextField(max_length=500)
     cover = models.ImageField(upload_to='group_covers/', blank=True, null=True)
     admins = models.ManyToManyField(User, related_name='inspected_groups')
-    subscribers = models.ManyToManyField(User, related_name='subscribed_groups')
+    subscribers = models.ManyToManyField(User, related_name='subscribed_groups' ,blank=True)
     banned_users = models.ManyToManyField(User, related_name='forbidden_groups',blank=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)

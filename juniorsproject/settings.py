@@ -178,6 +178,7 @@ MEDIA_URL = '/media/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+AUTH_PROFILE_MODULE = 'users.CustomUser'
 
 AUTH_USER_MODEL = 'users.CustomUser' 
 

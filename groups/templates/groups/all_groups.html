@@ -6,21 +6,21 @@
 
 {% block content %}
 <div class="container">
+<h2 class="text-center pb-3" style="color:cadetblue;">Discover new groups</h2>
 <div class="list-group">
   {% for group in groups %}
-    <a href="{{ group.get_absolute_url }}" class="list-group-item list-group-item-action">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">{{ group.title }}</h5>
-        <small>Created {{ group.created|naturaltime }}</small>
-      </div>
-      <p class="mb-1">{{ group.description }}</p>
-      <small>{{ group.subscribers.count }} subscribers</small>
-    </a>
-    {% if group in request.user.subscribed_groups.all %}
-        <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary btn-sm" id="subscribe_group">Unsubscribe</a>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <span class="name">Title: {{ group.title }}</span><br>
+      {% if group in request.user.subscribed_groups.all %}
+      <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary btn-xs float-right" id="subscribe_group">Unsubscribe</a>
       {% else %}
-        <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-primary btn-sm" id="subscribe_group">Subscribe</a>
+      <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-primary btn-xs float-right" id="subscribe_group">Subscribe</a>
       {% endif %}
+      <span class="name">Created: {{ group.created|naturaltime }}</span><br>
+      <span class="name">{{ group.subscribers.count }} subscribers</span>
+    </li>
+  </ul>
     {% empty %}
     <div class="card p-4 my-4 mx-0">
       <h6 class="text-center">No Groups Found</h6>

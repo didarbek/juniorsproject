@@ -81,7 +81,7 @@
           </ul>
           <div class="card-body">
             {% if group in request.user.subscribed_groups.all %}
-            <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary float-right" id="subscribe_group">Unsubscribe</a>
+            <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary float-right mr-2" id="subscribe_group">Unsubscribe</a>
             {% else %}
             <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-primary float-right" id="subscribe_group">Subscribe</a>
             {% endif %}

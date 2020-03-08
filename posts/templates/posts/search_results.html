@@ -3,6 +3,7 @@
 {% load humanize %}
 
 {% block title %}Search Results{% endblock title %}
+{% load groups_tags %}
 
 {% block content %}
 <!-- Page Content -->
@@ -49,25 +50,11 @@
     </div>
 
     <!-- Sidebar Widgets Column -->
-    <div class="col-md-4">
-      <!-- Side Widget -->
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title text-center">Top Groups</h5>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">1<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
-          <li class="list-group-item">2<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
-          <li class="list-group-item">3<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
-          <li class="list-group-item">4<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
-          <li class="list-group-item">5<i class="fas fa-sort-up" style="color: green;"></i> Cras justo odio</li>
-        </ul>
-        <div class="card-body">
-          <a href="#" class="card-link float-right">More Groups</a>
-        </div>
-      </div>
-
-    </div>
+    {% if bv %}
+          
+    {% else %}
+      {% top_five_groups %}
+    {% endif %}
   </div>
   <!-- /.row -->
 {% endblock content %}

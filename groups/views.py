@@ -12,6 +12,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from users.models import CustomUser
 from django.contrib.auth import get_user_model
 from users.models import CustomUser
+from django.db.models import Q
 # Create your views here.
 
 User = settings.AUTH_USER_MODEL
@@ -131,4 +132,12 @@ def ban_user(request,group,user_id):
     else:
         group.banned_users.remove(user)
         return redirect('banned_users',group=group.slug)
-        
+
+class GroupSearch(ListView):
+    model = Group 
+    template_name = 'groups/group_search_result.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('group_search')
+        object_list = Group.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+        return object_list

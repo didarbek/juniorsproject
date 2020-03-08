@@ -2,16 +2,14 @@
 
 <div class="col-md-4">
 <div class="card border-light">
-  <div class="card-header text-center font-weight-bold text-primary"  >
-    Trending Groups
+  <div class="card-header text-center font-weight-bold text-primary">
+    <span style="color: cadetblue;">Today's Trending Groups</span>
   </div>
   <ul class="list-group list-group-flush">
     {% for group in groups_list %}
-    <li class="list-group-item" style="font-size:14px;"><span class="badge badge-pill badge-light"></span> <a href="{{ group.get_absolute_url }}" class="card-link">{{ group.slug }}</a></li>
+    <li class="list-group-item" style="font-size:14px;"><a href="{{ group.get_absolute_url }}" class="card-link">{{ group.slug }}</a></li>
     {% endfor %}
     <a class="list-group-item list-group-item-action text-center" href="{% url 'groups:view_all_groups' %}">Discover new groups</a>
   </ul>
 </div>
-</div>
-
 {% endif %}

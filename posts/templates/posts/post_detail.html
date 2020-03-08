@@ -19,7 +19,7 @@
             </div>
             <p class="lead">{{ post.body }}</p>    
             {% if post.image %}
-            <img class="img-fluid rounded" src="{{ post.image.url }}" alt="">
+            <img class="img-fluid rounded mb-2" src="{{ post.image.url }}" alt="">
             {% endif %}
             <div class="star-partition">
               <a class="like-btn float-right" id ='btn_like' data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}">

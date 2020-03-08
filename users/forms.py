@@ -38,9 +38,10 @@ class UserEditForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
+    img_profile = forms.ImageField(required=False)
     class Meta:
         model = Profile
-        fields = ('img_profile', 'birth_date', 'gender', 'countries')
+        fields = ('img_profile', 'birth_date', 'gender', 'country')
         widgets = {
             'img_profile':CustomClearableFileInput(),
             'birth_date':DatePickerInput(format='%m/%d/%Y')

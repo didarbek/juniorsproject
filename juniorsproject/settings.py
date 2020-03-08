@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
 
     'rest_framework',
+    'django_cleanup',
 ]
 
 SITE_ID = 2

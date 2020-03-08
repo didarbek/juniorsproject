@@ -13,7 +13,7 @@
       {% if group.cover %}
       <img class="mb-3" style="width: 1200px;height: 250px;" src="{{ group.cover.url }}" alt="">
       {% else %}
-      <img class="mb-3" src="https://via.placeholder.com/1200x250.png?%20%20C/O%20https://placeholder.com/" alt="">
+      <img class="mb-3" src="{% static 'img/default_cover.jpeg' %}" style="width: 1200px;height: 250px;" alt="">
       {% endif %}
       <!-- Blog Entries Column -->
       <div class="col-md-8">
@@ -74,18 +74,18 @@
             <li class="list-group-item">Total Posts: <span class="badge badge-primary">{{ group.submitted_posts.count }}</span></li>
             <li class="list-group-item">Admins:
               {% for admin in group.get_admins %}
-                      <a href="">{{ admin.profile.screen_name }}</a></p>
+                      <a href="{% url 'users:profile_show_user' user.id %}">{{ admin.profile.screen_name }}</a></p>
               {% endfor %}
             </li>
             <li class="list-group-item">Subscribers: <span class="badge badge-primary">{{ group.subscribers.count }}</span></li>
           </ul>
           <div class="card-body">
             {% if group in request.user.subscribed_groups.all %}
-            <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary float-right" id="subscribe_group">Unsubscribe</a>
+            <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary float-right mr-2" id="subscribe_group">Unsubscribe</a>
             {% else %}
             <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-primary float-right" id="subscribe_group">Subscribe</a>
             {% endif %}
-            <p class="text-muted">Created Aug 9 2015</p>
+            <p class="text-muted">Created {{ group.created|date }}</p>
             {% if admins %}
             {% if request.user in admins %}
             <a href="{% url 'groups:edit_group_cover' group.slug %}" class="float-right">Edit group cover</a>

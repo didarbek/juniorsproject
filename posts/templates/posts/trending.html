@@ -2,6 +2,8 @@
 
 {% load humanize %}
 
+{% load groups_tags %}
+
 {% block title %}Trending Posts{% endblock title %}
 
 {% block content %}
@@ -17,13 +19,13 @@
       <div class="card mb-4">
         <div class="card-body">
           <a href="{{ post.group.get_absolute_url }}" data-toggle="tooltip" data-placement="top" title="{{ post.group.slug }} group"><i class="fas fa-users"></i> {{ post.group.slug }}</a>
-          <h2 class="card-title">{{ post.title }}</h2>
+          <h2 style="color:green;" class="card-title">{{ post.title }}</h2>
           <p class="card-text">{{ post.body|truncatewords_html:50|urlize }}</p>
           {% if post.image %}
           <img class="card-img pb-2" src="{{ post.image.url }}" alt="Card image cap">
           {% endif %}
-          <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
-          <a class="like-btn float-right" id ='btn_like' data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}">
+          <a href="{{ post.get_absolute_url }}" class="btn btn-success">Read More &rarr;</a>
+          <a style="color:green;" class="like-btn float-right" id ='btn_like' data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}">
            {% if post.points.count == 0  %}
            <i class="far fa-thumbs-up fa-lg "></i>
            {% elif post.points.count == 1 %} 
@@ -35,7 +37,7 @@
         </div>
         <div class="card-footer text-muted">
           Posted on {{ post.created|naturaltime }} by
-          <a href="">{{ post.author.profile.screen_name }}</a>
+          <a href="{% url 'users:profile_show_user' post.author.id %}">{{ post.author.profile.screen_name }}</a>
           <p class="float-right">{{ post.comments.count }} Comments</p>
         </div>
       </div>
@@ -50,6 +52,17 @@
         </li>
       </ul>
     </div>
+    {% if bv %}
+          
+    {% else %}
+      {% top_five_groups %}
+      <div class="card my-4">
+        <div class="card-body">
+          Copyright &copy; DNMK 2020
+        </div>
+      </div>
+      </div>
+    {% endif %}
     <!-- Sidebar Widgets Column -->
   </div>
   <!-- /.row -->

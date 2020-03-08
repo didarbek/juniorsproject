@@ -3,6 +3,7 @@
 {% load static %}
 
 {% load humanize %}
+
 {% load groups_tags %}
 
 {% block title %}Home{% endblock title %}
@@ -11,9 +12,15 @@
 
 
 <!-- Page Content -->
+
     <div class="row">
       <!-- Blog Entries Column -->
       <div class="col-md-8">
+        <form>
+          <div class="form-group">
+          <input onclick="location.href='/new_post/';" class="form-control form-control-lg" placeholder="Create post">
+          </div>
+        </form>
         {% for post in posts %}
         <!-- Blog Post -->
         <div class="card mb-4">
@@ -58,6 +65,12 @@
           
       {% else %}
         {% top_five_groups %}
+        <div class="card my-4">
+          <div class="card-body">
+            Copyright &copy; DNMK 2020
+          </div>
+        </div>
+        </div>
       {% endif %}
 
       <!-- Sidebar Widgets Column -->
@@ -67,7 +80,7 @@
       </div>
     </div>
     <!-- /.row -->
- 
+
 
 
 {% endblock content %}

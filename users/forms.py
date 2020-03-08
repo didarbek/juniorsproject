@@ -38,7 +38,7 @@ class UserEditForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
-    img_profile = forms.ImageField(required=False)
+    # img_profile = forms.ImageField(required=False)
     class Meta:
         model = Profile
         fields = ('img_profile', 'birth_date', 'gender', 'country')

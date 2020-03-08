@@ -74,7 +74,7 @@
             <li class="list-group-item">Total Posts: <span class="badge badge-primary">{{ group.submitted_posts.count }}</span></li>
             <li class="list-group-item">Admins:
               {% for admin in group.get_admins %}
-                      <a href="">{{ admin.profile.screen_name }}</a></p>
+                      <a href="{% url 'users:profile_show_user' user.id %}">{{ admin.profile.screen_name }}</a></p>
               {% endfor %}
             </li>
             <li class="list-group-item">Subscribers: <span class="badge badge-primary">{{ group.subscribers.count }}</span></li>
@@ -85,7 +85,7 @@
             {% else %}
             <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-primary float-right" id="subscribe_group">Subscribe</a>
             {% endif %}
-            <p class="text-muted">Created Aug 9 2015</p>
+            <p class="text-muted">Created {{ group.created|date }}</p>
             {% if admins %}
             {% if request.user in admins %}
             <a href="{% url 'groups:edit_group_cover' group.slug %}" class="float-right">Edit group cover</a>

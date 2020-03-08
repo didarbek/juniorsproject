@@ -50,7 +50,7 @@ class Profile(models.Model):
     birth_date = models.DateField(verbose_name='Birth date', blank=True, null=True)
     gender = models.CharField(max_length=10,choices=GENDER_CHOICES)
     slug = models.SlugField(max_length=255, unique=True, null=True, blank=True)
-    countries = CountryField()
+    country = CountryField()
 
     def __str__(self):
         return self.user.username

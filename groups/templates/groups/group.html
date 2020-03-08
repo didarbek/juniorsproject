@@ -13,7 +13,7 @@
       {% if group.cover %}
       <img class="mb-3" style="width: 1200px;height: 250px;" src="{{ group.cover.url }}" alt="">
       {% else %}
-      <img class="mb-3" src="https://via.placeholder.com/1200x250.png?%20%20C/O%20https://placeholder.com/" alt="">
+      <img class="mb-3" src="{% static 'img/default_cover.jpeg' %}" style="width: 1200px;height: 250px;" alt="">
       {% endif %}
       <!-- Blog Entries Column -->
       <div class="col-md-8">

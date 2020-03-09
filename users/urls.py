@@ -17,4 +17,6 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view() , name='password_reset_complete'),
     path('profile/', profile, name='profile'),
     path('profile/<int:id>', user_show_profile, name='profile_show_user'),
+    # path('myfriends/',my_friends, name='my_friends' )
+
     ]

@@ -1,7 +1,7 @@
-from django.urls import path, reverse_lazy
+from django.urls import path, reverse_lazy,include
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
-from .views import Signup, profile, user_show_profile
+from .views import Signup, profile, user_show_profile, my_view
 
 app_name = 'users'
 
@@ -17,6 +17,4 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view() , name='password_reset_complete'),
     path('profile/', profile, name='profile'),
     path('profile/<int:id>', user_show_profile, name='profile_show_user'),
-    # path('myfriends/',my_friends, name='my_friends' )
-
     ]

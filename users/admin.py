@@ -42,7 +42,7 @@ class CustomUserAdmin(UserAdmin):
 
 
     def get_country(self, instance):
-        return instance.profile.countries 
+        return instance.profile.country 
     get_country.short_description = 'Country'
 
     def get_inline_instances(self, request, obj=None):

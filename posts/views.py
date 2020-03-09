@@ -279,3 +279,20 @@ class SearchView(ListView):
         query = self.request.GET.get('title','body')
         object_list = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
         return object_list
+
+@login_required
+def deactivate_post(request,post):
+    post = get_object_or_404(Post,slug=post)
+    admins = post.group.admins.all()
+    if request.user in admins:
+        reports = post.post_reports.all()
+        group_reports = post.group.group_reports.all()
+        for report in reports:
+            if report in group_reports:
+                post.active = False
+            else:
+                return redirect('posts:home')
+    else:
+        return redirect('posts:home')
+    return redirect('posts:home')
+    

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     # our apps 
+    'reports',
     'groups',
     'posts',
     'notifications',
@@ -70,6 +71,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_cleanup',
+
 ]
 
 SITE_ID = 2

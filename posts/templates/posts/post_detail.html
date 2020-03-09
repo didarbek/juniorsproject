@@ -90,6 +90,7 @@
                 <a href="{% url 'comments:delete_comment' comment.id %}" title="delete this comment" id="delete_comment" class="float-right" style="color:red;"><i class="fas fa-trash"></i></a>
                 {% else %}
                 <a href="" class="float-right">Reply</a>
+                <a href="{% url 'reports:report_comment' comment.id %}" class="float-right">Report</a>
                 {% endifequal %}
                 <h5 class="mt-0"><a href="">{{ comment.commenter.username }}</a></h5>
                 {{ comment.body }}

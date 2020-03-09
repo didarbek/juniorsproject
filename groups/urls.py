@@ -12,5 +12,6 @@ urlpatterns = [
     path('<username>/groups/',views.UserCreatedGroupsPage.as_view(),name='user_created_groups'),
     path('create_group/',views.create_group, name='create_group'),
     path('groups/<username>/subscriptions/',views.UserSubscriptionList.as_view(),name='user_subscription_list'),
-    path('group/result/', views.GroupSearch.as_view(), name='group_search'),
+    path('group/result/',views.GroupSearch.as_view(), name='group_search'),
+    path('banned_users/<group>/',views.banned_users,name='banned_users'),
 ]

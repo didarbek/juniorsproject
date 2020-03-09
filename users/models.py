@@ -74,10 +74,6 @@ class Profile(models.Model):
 
 
 
-# class FriendShip(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     friend = models.ForeignKey(User, related_name='friends', on_delete=models.CASCADE)
-
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

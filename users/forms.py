@@ -48,9 +48,3 @@ class ProfileForm(forms.ModelForm):
         }
     
  
-
-class FriendShipForm(forms.Form):
-    """
-        Manages friends connections
-    """
-    friend = forms.CharField(max_length=100,required=False)

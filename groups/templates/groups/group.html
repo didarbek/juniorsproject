@@ -66,10 +66,38 @@
         <div class="ml-4">
         <div class="card ml-5" style="width: 18rem;">
           <div class="card-body">
-            <h5 class="card-title text-center">About Community</h5>
+            {% if group.logo %}
+            <img class="mb-3" src="{{ group.logo.url }}" style="width:75px;height:75px;display:block;margin-left:auto;margin-right:auto;border-radius:50%;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+            {% else %}
+              {% if group.category.name == 'Gaming' %}
+                <img class="mb-3" src="{% static 'img/gaming.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Health & Fitness' %}
+                <img class="mb-3" src="{% static 'img/fitness.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'News' %}
+                <img class="mb-3" src="{% static 'img/news.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Sports' %}
+                <img class="mb-3" src="{% static 'img/sports.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Tv' %}
+                <img class="mb-3" src="{% static 'img/tv.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Music' %}
+                <img class="mb-3" src="{% static 'img/music.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Movies' %}
+                <img class="mb-3" src="{% static 'img/movies.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Food' %}
+                <img class="mb-3" src="{% static 'img/food.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Shopping' %}
+                <img class="mb-3" src="{% static 'img/shopping.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Travelling' %}
+                <img class="mb-3" src="{% static 'img/travelling.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Tech' %}
+                <img class="mb-3" src="{% static 'img/tech.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Science' %}
+                <img class="mb-3" src="{% static 'img/science.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% endif %}
+            {% endif %}
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Title: <b>{{ group.title }}</b></li>
+            <li class="list-group-item">Title: <b>{{ group.title }}</b><span class="badge badge-primary float-right">{{ group.category.name }}</span></li>
             <li class="list-group-item">Description: {{ group.description|truncatewords_html:50|urlize }} </li>
             <li class="list-group-item">Total Posts: <span class="badge badge-primary">{{ group.submitted_posts.count }}</span></li>
             <li class="list-group-item">Admins:
@@ -89,6 +117,8 @@
             {% if admins %}
             {% if request.user in admins %}
             <a href="{% url 'groups:edit_group_cover' group.slug %}" class="float-right">Edit group cover</a>
+            <a href="{% url 'reports:show_reports' group.slug %}">View reports</a>
+            <a href="{% url 'groups:banned_users' group.slug %}">Banned users</a>
             {% endif %}
             {% endif %}
           </div>

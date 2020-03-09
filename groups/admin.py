@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Group
+from .models import Group,GroupCategory
 
 # Register your models here.
 
@@ -8,3 +8,4 @@ class GroupAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('title',)}
     date_hierarchy = 'created'
 admin.site.register(Group, GroupAdmin)
+admin.site.register(GroupCategory)

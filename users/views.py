@@ -2,7 +2,7 @@
 from .forms import CustomUserCreationForm
 from django.views import generic
 from django.urls import  reverse_lazy
-from .forms import UserEditForm, UserEditForm, ProfileForm,FriendShipForm
+from .forms import UserEditForm, UserEditForm, ProfileForm
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages 
@@ -45,20 +45,29 @@ def user_show_profile(request, id):
     return render(request, 'show_user_profile.html', {'user_list':user_base, 'user_profile':user_profile})
 
 
-# @login_required
-# def my_friends(request):
-#     if request.method == 'POST':
-#         form = FriendShipForm(request.POST)
-#         if form.is_valid():
-#             user = User.objects.get(id=3)
-#             friend_manage = FriendShip(user=request.user, friend=user)
-#             friend_manage.save()
-#             return HttpResponseRedirect('/myfriend/')
-#     else:
-#         form = FriendShipForm()
-#     user = request.user
-#     profile = Profile.objects.get(user=user)
-#     friends = FriendShip.objects.filter(user=request.user)
-#     return render(request,'friend.html', {'form':form, 'user':user, 'profile':profile})
+@login_required
+def my_friends(request):
+    if request.method == 'POST':
+        form = FriendShipForm(request.POST)
+        if form.is_valid():
+            user = User.objects.get(id=1)
+            print(user)
+            friend_manage = FriendShip(user=request.user, friend=user)
+            friend_manage.save()
+            return HttpResponseRedirect('/myfriend/')
+    else:
+        form = FriendShipForm()
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    friends = FriendShip.objects.filter(user=request.user)
+    return render(request,'friend.html', {'form':form, 'user':user, 'profile':profile})
 
-        
+
+def my_view(request):
+    # List of this user's friends
+    other_user = User.objects.get(pk=2)
+    request_user = Friend.objects.add_friend(
+        request.user,                               # The sender
+        other_user,                                 # The recipient
+        message='Hi! I would like to add you')       
+    return render(request, 'show_user.html', {'request_user':request_user})

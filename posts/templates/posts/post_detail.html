@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% load crispy_forms_tags %}
 
 {% load humanize %}
@@ -38,6 +40,8 @@
             <a href="{% url 'users:profile_show_user' post.author.id  %}">{{ post.author.username }}</a>
             {% ifequal post.author request.user %}
             <b class="pl-5 float-right"><a href="{% url 'posts:delete_post' post.slug %}" data-toggle="tooltip" data-placement="top" title="Delete post" style="color: red;"><i class="fas fa-trash"></i></a></b>
+            {% else %}
+            <a href="{% url 'reports:report_post' post.slug %}" id="report_link" title="report post"><i class="far fa-flag"></i></a>
             {% endifequal %}
             <p class="float-right">{{ post.comments.count }} Comments</p>
           </div>
@@ -89,8 +93,7 @@
                 {% ifequal user comment.commenter %}
                 <a href="{% url 'comments:delete_comment' comment.id %}" title="delete this comment" id="delete_comment" class="float-right" style="color:red;"><i class="fas fa-trash"></i></a>
                 {% else %}
-                <a href="" class="float-right">Reply</a>
-                <a href="{% url 'reports:report_comment' comment.id %}" class="float-right">Report</a>
+                <a href="{% url 'reports:report_comment' comment.id %}" class="float-right" id="report_link" title="report comment"><i class="far fa-flag"></i></a>
                 {% endifequal %}
                 <h5 class="mt-0"><a href="">{{ comment.commenter.username }}</a></h5>
                 {{ comment.body }}
@@ -120,28 +123,63 @@
       <!-- Sidebar Widgets Column -->
       <div class="col-md-4">
         <!-- Side Widget -->
-        <div class="card" style="width: 18rem;">
+        <div class="card ml-5" style="width: 18rem;">
           <div class="card-body">
-            <h5 class="card-title text-center">About Community</h5>
+            {% if group.logo %}
+            <img class="mb-3" src="{{ group.logo.url }}" style="width:75px;height:75px;display:block;margin-left:auto;margin-right:auto;border-radius:50%;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+            {% else %}
+              {% if group.category.name == 'Gaming' %}
+                <img class="mb-3" src="{% static 'img/gaming.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Health & Fitness' %}
+                <img class="mb-3" src="{% static 'img/fitness.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'News' %}
+                <img class="mb-3" src="{% static 'img/news.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Sports' %}
+                <img class="mb-3" src="{% static 'img/sports.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Tv' %}
+                <img class="mb-3" src="{% static 'img/tv.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Music' %}
+                <img class="mb-3" src="{% static 'img/music.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Movies' %}
+                <img class="mb-3" src="{% static 'img/movies.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Food' %}
+                <img class="mb-3" src="{% static 'img/food.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Shopping' %}
+                <img class="mb-3" src="{% static 'img/shopping.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Travelling' %}
+                <img class="mb-3" src="{% static 'img/travelling.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Tech' %}
+                <img class="mb-3" src="{% static 'img/tech.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif group.category.name == 'Science' %}
+                <img class="mb-3" src="{% static 'img/science.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% endif %}
+            {% endif %}
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Title: <b>{{ group.title }}</b></li>
+            <li class="list-group-item">Title: <b>{{ group.title }}</b><span class="badge badge-primary float-right">{{ group.category.name }}</span></li>
             <li class="list-group-item">Description: {{ group.description|truncatewords_html:50|urlize }} </li>
             <li class="list-group-item">Total Posts: <span class="badge badge-primary">{{ group.submitted_posts.count }}</span></li>
             <li class="list-group-item">Admins:
               {% for admin in group.get_admins %}
-                      <a href="">{{ admin.profile.screen_name }}</a></p>
+                      <a href="{% url 'users:profile_show_user' user.id %}">{{ admin.profile.screen_name }}</a></p>
               {% endfor %}
             </li>
             <li class="list-group-item">Subscribers: <span class="badge badge-primary">{{ group.subscribers.count }}</span></li>
           </ul>
           <div class="card-body">
             {% if group in request.user.subscribed_groups.all %}
-            <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary float-right" id="subscribe_group">Unsubscribe</a>
+            <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary float-right mr-2" id="subscribe_group">Unsubscribe</a>
             {% else %}
             <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-primary float-right" id="subscribe_group">Subscribe</a>
             {% endif %}
-            <p class="text-muted">Created Aug 9 2015</p>
+            <p class="text-muted">Created {{ group.created|date }}</p>
+            {% if admins %}
+            {% if request.user in admins %}
+            <a href="{% url 'groups:edit_group_cover' group.slug %}" class="float-right">Edit group cover</a>
+            <a href="{% url 'reports:show_reports' group.slug %}">View reports</a>
+            <a href="{% url 'groups:banned_users' group.slug %}">Banned users</a>
+            {% endif %}
+            {% endif %}
           </div>
         </div>
 
@@ -235,7 +273,7 @@ $(document).ready(function(){
   $(document).ready(function(){
     $("a#subscribe_group").on("click", function () {
       {% if not request.user.is_authenticated %}
-      window.location.href = "{% url 'login' %}";
+      window.location.href = "{% url 'users:login' %}";
       {% else %}
       var $msg=$(this);
       var $subscribe_url=$(this).attr("href");
@@ -262,5 +300,29 @@ $(document).ready(function(){
     });
   });
   </script>
+
+<script type="text/javascript">
+$(document).on("click", "a#report_link",function () {
+    {% if not request.user.is_authenticated %}
+    window.location.href = "{% url 'users:login' %}";
+    {% else %}
+    var $report_url = $(this).attr("href");
+    var $report_flag = $(this).find('i');
+    $.ajax({
+      url: $report_url,
+      type: 'GET',
+      success: function (data) {
+        if ($report_flag.hasClass('far fa-flag')) {
+          $report_flag.removeClass('far fa-flag').addClass('fas fa-flag');
+        }
+        else {
+          console.log('Unexpected error!');
+        }
+      }
+    });
+    {% endif %}
+    return false;
+  });
+</script>
 
 {% endblock content %}

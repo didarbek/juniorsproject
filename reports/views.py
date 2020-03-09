@@ -6,6 +6,7 @@ from comments.models import Comment
 from posts.models import Post
 from juniorsproject.decorators import ajax_required
 from .models import Report
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
@@ -38,6 +39,14 @@ def show_reports(request,group):
     if request.user in admins:
         reports = group.group_reports.filter(active=True)
         bv = True
+        page = request.GET.get('page', 1)
+        paginator = Paginator(reports,10)
+        try:
+            reports = paginator.page(page)
+        except PageNotAnInteger:
+            reports = paginator.page(1)
+        except EmptyPage:
+            reports = paginator.page(paginator.num_pages)
         return render(request,'reports/show_reports.html',{
             'reports':reports,
             'group':group,

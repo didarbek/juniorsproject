@@ -287,9 +287,11 @@ def deactivate_post(request,post):
     if request.user in admins:
         reports = post.post_reports.all()
         group_reports = post.group.group_reports.all()
+
         for report in reports:
             if report in group_reports:
                 post.active = False
+                post.save()
             else:
                 return redirect('posts:home')
     else:

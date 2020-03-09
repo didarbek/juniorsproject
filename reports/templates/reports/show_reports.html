@@ -31,10 +31,34 @@
     {% endif %}
     <div style="float:right;">
       <p class="text-muted">
-        Reported <span>{{report.created|naturaltime}}</span> by <a href="{% url 'users:profile_show_user' report.reporter.username %}">{{report.reporter.profile.screen_name}}</a>
+        Reported <span>{{report.created|naturaltime}}</span> by <a href="{% url 'users:profile_show_user' report.reporter.id %}">{{report.reporter.profile.screen_name}}</a>
       </p>
     </div>
   </div>
 </div>
 {% endfor %}
+
+<nav aria-label="Page navigation example">
+  {% if reports.has_other_pages %}
+  <ul class="pagination justify-content-center pt-5 pb-5">
+    {% if reports.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page={{ reports.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+    <li class="page-item disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in reports.paginator.page_range %}
+    {% if reports.number == i %}
+    <li class="page-item active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+    {% endif %}
+    {% endfor %}
+    {% if reports.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ reports.next_page_number }}">&raquo;</a></li>
+    {% else %}
+    <li class="page-item disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+  {% endif %}
+</nav>
 {% endblock content %}

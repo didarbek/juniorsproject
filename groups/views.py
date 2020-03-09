@@ -104,9 +104,9 @@ def edit_group_cover(request,group):
 @login_required
 @user_is_group_admin
 def banned_users(request,group):
-    group = get_object_or_404(Group,slug=group)
+    group = get_object_or_404(Group, slug=group)
     users = group.banned_users.all()
-    paginator = Paginator(users,20)
+    paginator = Paginator(users, 20)
     page = request.GET.get('page')
     if paginator.num_pages > 1:
         p = True
@@ -119,19 +119,27 @@ def banned_users(request,group):
     except EmptyPage:
         users = paginator.page(paginator.num_pages)
     p_obj = users
-    return render(request,'groups/banned_users.html',{'group':group,'page':page,'p_obj':p_obj,'p':p,'users':users})
+    bv = True
+    return render(request, 'groups/banned_users.html', {
+        'group':group,
+        'bv':bv,
+        'page':page,
+        'p_obj':p_obj,
+        'p':p,
+        'users':users
+    })
 
 @login_required
 @user_is_group_admin
 def ban_user(request,group,user_id):
     group = get_object_or_404(Group,slug=group)
-    user = get_object_or_404(User,id=user_id)
+    user = get_object_or_404(CustomUser,id=user_id)
     if group in user.subscribed_groups.all():
         group.subscribers.remove(user)
         group.banned_users.add(user)
     else:
         group.banned_users.remove(user)
-        return redirect('banned_users',group=group.slug)
+        return redirect('groups:banned_users',group=group.slug)
 
 class GroupSearch(ListView):
     model = Group 

@@ -9,13 +9,13 @@
 {% block content %}
 
 {% if users %}
-<h1>Unban users>Unban user if they were banned by mistake from group</h1>
+<h1 class="text-center" style="color:cadetblue;">Unban user if they were banned by mistake from group</h1>
 {% endif %}
 
 <div class="container">
 <div class="list-group">
     {% for user in users %}
-    <li class="list-group-item"><a href="{% url 'users:show_profile_user' user.username %}">{{ user.profile.screen_name }}</a><a href="{% url 'ban_user' group.slug user.id %}" class="float-right">Unban User</a></li>
+    <li class="list-group-item"><a href="{% url 'users:profile_show_user' user.id %}">{{ user.profile.screen_name }}</a><a href="{% url 'groups:ban_user' group.slug user.id %}" class="float-right">Unban User</a></li>
     {% empty %}
     <li class="list-group-item">No User Banned Yet!</li>
     {% endfor %}

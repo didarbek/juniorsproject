@@ -117,6 +117,8 @@
             {% if admins %}
             {% if request.user in admins %}
             <a href="{% url 'groups:edit_group_cover' group.slug %}" class="float-right">Edit group cover</a>
+            <a href="{% url 'reports:show_reports' group.slug %}">View reports</a>
+            <a href="{% url 'groups:banned_users' group.slug %}">Banned users</a>
             {% endif %}
             {% endif %}
           </div>

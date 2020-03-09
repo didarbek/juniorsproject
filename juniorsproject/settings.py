@@ -71,6 +71,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_cleanup',
+
 ]
 
 SITE_ID = 2

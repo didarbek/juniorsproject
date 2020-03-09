@@ -12,6 +12,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from users.models import CustomUser
 from django.contrib.auth import get_user_model
 from users.models import CustomUser
+from django.http import JsonResponse
 from django.db.models import Q
 # Create your views here.
 
@@ -50,6 +51,25 @@ class UserSubscriptionList(LoginRequiredMixin,ListView):
     def get_queryset(self, **kwargs ):
         user = get_object_or_404(CustomUser,username=self.request.user.username)
         return user.subscribed_groups.all()
+
+   
+
+
+
+class UserSubscriptionListAjax(LoginRequiredMixin,ListView):
+    model = Group
+    paginate_by = 10
+    template_name = 'sub_show_group.html'
+    context_object_name = 'subscriptions_ajax'
+
+    def get_context_data(self, **kwargs):          
+        context = super().get_context_data(**kwargs)                     
+        data =  get_object_or_404(CustomUser,username=self.request.user.username).subscribed_groups.all()
+        context["data"] = data
+
+        return  context
+
+
 
 @login_required
 @user_is_not_banned_from_group

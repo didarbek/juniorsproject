@@ -3,6 +3,8 @@
 {% load bootstrap4 %} 
 
 {% load static %}
+{% load friendshiptags %}
+
 
 {% load crispy_forms_tags %}
 
@@ -24,7 +26,6 @@
             <div class="row">
                 <div class="col-5">
                     <div class="card-body">
-                        {% csrf_token %}
                         <img class="ml-3" src="{{user.profile.get_picture}}" width="300px" height="300px" class="rounded" alt="">
                         <div class="offset-2 mt-2">{{profile_form.img_profile}}</div>                 
                    </div>

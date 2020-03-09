@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages 
 from django.shortcuts import render
 import os 
-
+from django.http import  HttpResponseRedirect
 from .models import  CustomUser, Profile
 User = settings.AUTH_USER_MODEL
 # Create your views here.
@@ -45,4 +45,29 @@ def user_show_profile(request, id):
     return render(request, 'show_user_profile.html', {'user_list':user_base, 'user_profile':user_profile})
 
 
-    
+@login_required
+def my_friends(request):
+    if request.method == 'POST':
+        form = FriendShipForm(request.POST)
+        if form.is_valid():
+            user = User.objects.get(id=1)
+            print(user)
+            friend_manage = FriendShip(user=request.user, friend=user)
+            friend_manage.save()
+            return HttpResponseRedirect('/myfriend/')
+    else:
+        form = FriendShipForm()
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    friends = FriendShip.objects.filter(user=request.user)
+    return render(request,'friend.html', {'form':form, 'user':user, 'profile':profile})
+
+
+def my_view(request):
+    # List of this user's friends
+    other_user = User.objects.get(pk=2)
+    request_user = Friend.objects.add_friend(
+        request.user,                               # The sender
+        other_user,                                 # The recipient
+        message='Hi! I would like to add you')       
+    return render(request, 'show_user.html', {'request_user':request_user})

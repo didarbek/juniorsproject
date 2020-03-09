@@ -9,6 +9,18 @@ from slugify import UniqueSlugify
 
 User = settings.AUTH_USER_MODEL
 
+class GroupCategory(models.Model):
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250,unique=True)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
+
+    def __str__(self):
+        return self.name
+
 class Group(models.Model):
     title = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, null=True, blank=True)
@@ -19,6 +31,8 @@ class Group(models.Model):
     banned_users = models.ManyToManyField(User, related_name='forbidden_groups',blank=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
+    category = models.ForeignKey(GroupCategory,on_delete=models.CASCADE)
+    logo = models.ImageField(upload_to='group_logos/',blank=True)
 
     class Meta:
         ordering = ('-created',)

@@ -7,11 +7,12 @@ class GroupForm(forms.ModelForm):
     cover = forms.ImageField(label='Add Group Cover (optional)',widget=forms.FileInput(),help_text="Image dimensions should be <b>900 &#10005; 300</b>",required=False)
     class Meta:
         model = Group
-        fields = ('title', 'description', 'cover')
+        fields = ('title','description','cover','category')
         
 class GroupCoverForm(forms.ModelForm):
-    cover = forms.ImageField(widget=forms.FileInput(),help_text="Image dimensions should be <b>1200x250</b>",required=False)
+    cover = forms.ImageField(label='Choose your group cover',widget=forms.FileInput(),help_text="Image dimensions should be <b>1200x250</b>",required=False)
+    logo = forms.ImageField(label='Choose you group logo (will be cutted to round)',widget=forms.FileInput(),help_text="Image dimensions should be <b>72x72</b>",required=False)
     class Meta:
         model = Group
-        fields = ('cover',)
+        fields = ('cover','logo')
         

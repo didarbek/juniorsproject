@@ -10,9 +10,12 @@ from django.shortcuts import render
 import os 
 from django.http import  HttpResponseRedirect
 from .models import  CustomUser, Profile
-User = settings.AUTH_USER_MODEL
+from posts.models import Post
+from comments.models import Comment
+
 # Create your views here.
 
+User = settings.AUTH_USER_MODEL
 
 class Signup(generic.CreateView):
     form_class = CustomUserCreationForm
@@ -41,8 +44,11 @@ def profile(request):
 def user_show_profile(request, id):
     user_base = CustomUser.objects.filter(id=id)
     user_profile = Profile.objects.filter(user_id=id)
+    user = request.user
+    user_posts = Post.objects.filter(author=request.user).order_by('-created')
+    user_comments = Comment.objects.filter(commenter=request.user).order_by('-created')
 
-    return render(request, 'show_user_profile.html', {'user_list':user_base, 'user_profile':user_profile})
+    return render(request, 'show_user_profile.html', {'user_list':user_base, 'user_profile':user_profile,'user_posts':user_posts,'user_comments':user_comments,'user':user})
 
 
 @login_required

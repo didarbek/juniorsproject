@@ -10,10 +10,17 @@ from django.shortcuts import render, get_object_or_404
 import os 
 from django.http import  HttpResponseRedirect, HttpResponse
 from .models import  CustomUser, Profile
+<<<<<<< HEAD
 from django.contrib.auth.mixins import LoginRequiredMixin
 User = settings.AUTH_USER_MODEL
+=======
+from posts.models import Post
+from comments.models import Comment
+
+>>>>>>> c08021b3c1c42806fe1f45fa6a62820b61eebd74
 # Create your views here.
 
+User = settings.AUTH_USER_MODEL
 
 class Signup(generic.CreateView):
     form_class = CustomUserCreationForm
@@ -42,8 +49,11 @@ def profile(request):
 def user_show_profile(request, id):
     user_base = CustomUser.objects.filter(id=id)
     user_profile = Profile.objects.filter(user_id=id)
+    user = request.user
+    user_posts = Post.objects.filter(author=id).order_by('-created')
+    user_comments = Comment.objects.filter(commenter=id).order_by('-created')
 
-    return render(request, 'show_user_profile.html', {'user_list':user_base, 'user_profile':user_profile})
+    return render(request, 'show_user_profile.html', {'user_list':user_base, 'user_profile':user_profile,'user_posts':user_posts,'user_comments':user_comments,'user':user})
 
 
 @login_required

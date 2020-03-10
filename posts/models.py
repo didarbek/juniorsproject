@@ -22,6 +22,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
     rank_score = models.FloatField(default=0.0)
+    views = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ('-created',)

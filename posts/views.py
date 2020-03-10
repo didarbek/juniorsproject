@@ -76,6 +76,8 @@ def post_detail(request,group,post):
     group = post.group
     user = request.user
     admins = group.admins.all()
+    post.views=post.views+1
+    post.save()
     context = {}
     new_comment = None
     if request.method == 'POST':

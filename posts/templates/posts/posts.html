@@ -25,6 +25,7 @@
         <!-- Blog Post -->
         <div class="card mb-4">
           <div class="card-body">
+            <h5 class="float-right">{{ post.views }} views</h5>
             <a href="{{ post.group.get_absolute_url }}" data-toggle="tooltip" data-placement="top" title="{{ post.group.slug }} group"><i class="fas fa-users"></i> {{ post.group.slug }}</a>
             <h2 class="card-title">{{ post.title }}</h2>
             <p class="card-text">{{ post.body|truncatewords_html:50|urlize }}</p>

@@ -14,10 +14,7 @@ User = settings.AUTH_USER_MODEL
 from posts.models import Post
 from comments.models import Comment
 from itertools import chain
-<<<<<<< HEAD
-
-=======
->>>>>>> d2912023db7f1be2b615d5fa46f55ca9590a72e8
+from groups.models import Group
 
 # Create your views here.
 
@@ -53,11 +50,10 @@ def user_show_profile(request, id):
     user = request.user
     user_posts = Post.objects.filter(author=id).order_by('-created')
     user_comments = Comment.objects.filter(commenter=id).order_by('-created')
+    user_groups_admin = Group.objects.filter(admin=id).order_by('-created')[:5]
     result_post =  sorted(chain(user_posts,user_comments), key=lambda instance: instance.created, reverse=True)
     print(result_post)
-    
-    return render(request, 'show_user_profile.html', {'user_list':user_base, 'user_profile':user_profile,'user_posts':user_posts,'user_comments':user_comments,'user':user,'result_post':result_post})
-
+    return render(request, 'show_user_profile.html', {'user_list':user_base, 'user_profile':user_profile,'user_posts':user_posts,'user_comments':user_comments,'user':user,'result_post':result_post,'user_groups_admin':user_groups_admin})
 
 def my_view(request):
     # List of this user's friends

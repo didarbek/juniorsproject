@@ -1,4 +1,3 @@
-
 from .forms import CustomUserCreationForm
 from django.views import generic
 from django.urls import  reverse_lazy
@@ -15,7 +14,10 @@ User = settings.AUTH_USER_MODEL
 from posts.models import Post
 from comments.models import Comment
 from itertools import chain
+<<<<<<< HEAD
 
+=======
+>>>>>>> d2912023db7f1be2b615d5fa46f55ca9590a72e8
 
 # Create your views here.
 

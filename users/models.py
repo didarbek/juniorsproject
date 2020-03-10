@@ -45,7 +45,7 @@ def user_directory_path(instance, filename):
     return all_path
 
 class Profile(models.Model):
-    user = models.OneToOneField(User,  on_delete=models.CASCADE)
+    user = models.OneToOneField(User,  related_name='profile',  on_delete=models.CASCADE)
     img_profile  = models.ImageField(verbose_name='image profile', upload_to=user_directory_path)
     birth_date = models.DateField(verbose_name='Birth date', blank=True, null=True)
     gender = models.CharField(max_length=10,choices=GENDER_CHOICES)

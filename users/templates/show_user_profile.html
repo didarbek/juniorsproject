@@ -37,12 +37,13 @@
                   
                         
                         {% for user_obj in user_list  %}
-                        {{request.user}}
+                       
                         {% ifequal request.user user_obj %}
 
                         {% else %}
+                     
 
-                            {% if request.user in user.profile.followers.all %}
+                            {% if user_obj in user.profile.followers.all %}
                                 <a href="{% url 'users:follow_user' user_obj.id %}" class="btn btn-primary btn-sm" id="follow_user">Unfollow</a>
                             {% else %}
                         
@@ -58,8 +59,13 @@
                 
                 </div>
                 <div class="col-5 ml-4">
+                   
                     <div class="card-body">
+                        {{user.profile.followers.all}}
+                        {{request.user}}
+                   
                         {% for user_obj in user_list  %}
+                        {{user_obj}}
                         <div><label for=""><h5>Username: </h5></label> {{user_obj.username}}</div>
                         <div><label for=""><h5>Email: </h5></label> {{user_obj.email}}</div>
                         {% endfor %}

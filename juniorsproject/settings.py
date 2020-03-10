@@ -1,3 +1,5 @@
+import django_heroku
+
 """
 Django settings for juniorsproject project.
 
@@ -192,4 +194,5 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 
 # SESSION_COOKIE_AGE = 400
 
+django_heroku.settings(locals())
 

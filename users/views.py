@@ -51,10 +51,8 @@ def user_show_profile(request, id):
     user_comments = Comment.objects.filter(commenter=id).order_by('-created')
     result_post =  sorted(chain(user_posts,user_comments), key=lambda instance: instance.created, reverse=True)
     print(result_post)
-
-
+    
     return render(request, 'show_user_profile.html', {'user_list':user_base, 'user_profile':user_profile,'user_posts':user_posts,'user_comments':user_comments,'user':user,'result_post':result_post})
-
 
 
 def my_view(request):

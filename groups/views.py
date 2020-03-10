@@ -157,6 +157,7 @@ def ban_user(request,group,user_id):
     if group in user.subscribed_groups.all():
         group.subscribers.remove(user)
         group.banned_users.add(user)
+        return redirect('groups:banned_users',group=group.slug)
     else:
         group.banned_users.remove(user)
         return redirect('groups:banned_users',group=group.slug)

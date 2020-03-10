@@ -21,8 +21,8 @@ class Report(models.Model):
     
     def __str__(self):
         if self.comment:
-            return '{} reported a comment.'.format(
-                self.reporter.profile.screen_name()
+            return '{} reported a comment {}.'.format(
+                self.reporter.profile.screen_name(),self.comment.body
             )
         else:
             return '{} reported a post entitled \"{}\" posted by \"{}\".'.format(

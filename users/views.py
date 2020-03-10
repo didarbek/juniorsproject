@@ -45,8 +45,8 @@ def user_show_profile(request, id):
     user_base = CustomUser.objects.filter(id=id)
     user_profile = Profile.objects.filter(user_id=id)
     user = request.user
-    user_posts = Post.objects.filter(author=request.user).order_by('-created')
-    user_comments = Comment.objects.filter(commenter=request.user).order_by('-created')
+    user_posts = Post.objects.filter(author=id).order_by('-created')
+    user_comments = Comment.objects.filter(commenter=id).order_by('-created')
 
     return render(request, 'show_user_profile.html', {'user_list':user_base, 'user_profile':user_profile,'user_posts':user_posts,'user_comments':user_comments,'user':user})
 

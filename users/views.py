@@ -10,14 +10,11 @@ from django.shortcuts import render, get_object_or_404
 import os 
 from django.http import  HttpResponseRedirect, HttpResponse
 from .models import  CustomUser, Profile
-<<<<<<< HEAD
 from django.contrib.auth.mixins import LoginRequiredMixin
 User = settings.AUTH_USER_MODEL
-=======
 from posts.models import Post
 from comments.models import Comment
 
->>>>>>> c08021b3c1c42806fe1f45fa6a62820b61eebd74
 # Create your views here.
 
 User = settings.AUTH_USER_MODEL
@@ -55,23 +52,6 @@ def user_show_profile(request, id):
 
     return render(request, 'show_user_profile.html', {'user_list':user_base, 'user_profile':user_profile,'user_posts':user_posts,'user_comments':user_comments,'user':user})
 
-
-@login_required
-def my_friends(request):
-    if request.method == 'POST':
-        form = FriendShipForm(request.POST)
-        if form.is_valid():
-            user = User.objects.get(id=1)
-            print(user)
-            friend_manage = FriendShip(user=request.user, friend=user)
-            friend_manage.save()
-            return HttpResponseRedirect('/myfriend/')
-    else:
-        form = FriendShipForm()
-    user = request.user
-    profile = Profile.objects.get(user=user)
-    friends = FriendShip.objects.filter(user=request.user)
-    return render(request,'friend.html', {'form':form, 'user':user, 'profile':profile})
 
 
 def my_view(request):

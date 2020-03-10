@@ -37,6 +37,7 @@
                   
                         
                         {% for user_obj in user_list  %}
+                        {{request.user}}
                         {% ifequal request.user user_obj %}
 
                         {% else %}

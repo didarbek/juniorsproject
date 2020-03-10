@@ -33,9 +33,6 @@
                    
                 </div>
                 <div class="col-1 p-3 ">
-                    
-                  
-                        
                         {% for user_obj in user_list  %}
                        
                         {% ifequal request.user user_obj %}
@@ -49,21 +46,13 @@
                             {% endif %}
                                  
                     {% endifequal %}
-
-                        {% endfor %}
-
-               
-                    
+                        {% endfor %}     
                 
                 </div>
                 <div class="col-5 ml-4">
                    
                     <div class="card-body">
-                        {{user.profile.followers.all}}
-                        {{request.user}}
-                   
                         {% for user_obj in user_list  %}
-                        {{user_obj}}
                         <div><label for=""><h5>Username: </h5></label> {{user_obj.username}}</div>
                         <div><label for=""><h5>Email: </h5></label> {{user_obj.email}}</div>
                         {% endfor %}
@@ -167,4 +156,30 @@
 		</div>
 	</div>
 </section>
+<script>
+    $(document).ready(function(){
+        $('a#follow_user').on("click", function(){
+        var $add_btn = $(this);
+        var $add_url = $(this).attr("href");
+        $.ajax({
+            url: $add_url,
+            method:'GET',
+            success: function(data){
+                $add_btn.text(data);
+                if ($add_btn.hasClass('btn-outline-primary')) {
+                    $add_btn.removeClass('btn-outline-primary').addClass('btn-primary');
+                }
+                else if ($add_btn.hasClass('btn-primary')) {
+                    $add_btn.removeClass('btn-primary').addClass('btn-outline-primary');
+                }
+                else {
+                    console.log('Unexpected error!');
+                }
+            }
+        });
+        return false;
+    })
+    })
+
+</script>
 {% endblock content %}

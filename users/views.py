@@ -49,9 +49,8 @@ def user_show_profile(request, id):
     user = request.user
     user_posts = Post.objects.filter(author=id).order_by('-created')
     user_comments = Comment.objects.filter(commenter=id).order_by('-created')
-    overview = list(chain(user_posts,user_comments))
 
-    return render(request, 'show_user_profile.html', {'user_list':user_base, 'user_profile':user_profile,'user_posts':user_posts,'user_comments':user_comments,'overview':overview,'user':user})
+    return render(request, 'show_user_profile.html', {'user_list':user_base,'user_profile':user_profile,'user_posts':user_posts,'user_comments':user_comments,'user':user})
 
 
 def my_view(request):

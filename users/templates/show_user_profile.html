@@ -43,10 +43,9 @@
                         {% else %}
                      
 
-                            {% if user_obj in user.profile.followers.all %}
+                            {% if request.user in user_obj.profile.followers.all %}
                                 <a href="{% url 'users:follow_user' user_obj.id %}" class="btn btn-primary btn-sm" id="follow_user">Unfollow</a>
                             {% else %}
-                        
                                 <a href="{% url 'users:follow_user' user_obj.id %}" class="btn btn-outline-primary btn-sm" id="follow_user">Follow</a>
                             {% endif %}
                                  

@@ -51,6 +51,9 @@ class Profile(models.Model):
     gender = models.CharField(max_length=10,choices=GENDER_CHOICES)
     slug = models.SlugField(max_length=255, unique=True, null=True, blank=True)
     country = CountryField()
+    followers = models.ManyToManyField(User, related_name='following')
+    pending_list = models.ManyToManyField(User, related_name='my_pending_list')
+
 
     def __str__(self):
         return self.user.username

@@ -5,10 +5,12 @@ from .forms import UserEditForm, UserEditForm, ProfileForm
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 import os 
-from django.http import  HttpResponseRedirect
+from django.http import  HttpResponseRedirect, HttpResponse
 from .models import  CustomUser, Profile
+from django.contrib.auth.mixins import LoginRequiredMixin
+User = settings.AUTH_USER_MODEL
 from posts.models import Post
 from comments.models import Comment
 from itertools import chain
@@ -51,23 +53,6 @@ def user_show_profile(request, id):
 
     return render(request, 'show_user_profile.html', {'user_list':user_base, 'user_profile':user_profile,'user_posts':user_posts,'user_comments':user_comments,'overview':overview,'user':user})
 
-@login_required
-def my_friends(request):
-    if request.method == 'POST':
-        form = FriendShipForm(request.POST)
-        if form.is_valid():
-            user = User.objects.get(id=1)
-            print(user)
-            friend_manage = FriendShip(user=request.user, friend=user)
-            friend_manage.save()
-            return HttpResponseRedirect('/myfriend/')
-    else:
-        form = FriendShipForm()
-    user = request.user
-    profile = Profile.objects.get(user=user)
-    friends = FriendShip.objects.filter(user=request.user)
-    return render(request,'friend.html', {'form':form, 'user':user, 'profile':profile})
-
 
 def my_view(request):
     # List of this user's friends
@@ -77,3 +62,35 @@ def my_view(request):
         other_user,                                 # The recipient
         message='Hi! I would like to add you')       
     return render(request, 'show_user.html', {'request_user':request_user})
+
+
+
+class FollowersPageView(LoginRequiredMixin, generic.ListView):
+    model = User
+    template_name = 'profile/followers.html'
+    object_context_name = 'users'
+    def get_queryset(self, **kwargs):
+        return self.request.user.profile.followers.all()
+
+class FollowingPageView(LoginRequiredMixin, generic.ListView):
+    model = User
+    template_name = 'profile/following.html'
+    context_object_name = 'profiles'
+
+    def get_queryset(self, **kwargs):
+        return self.request.user.following.all()
+    
+
+def follow_user(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    if request.user in user.profile.followers.all():
+        user.profile.followers.remove(request.user)
+        text = 'Follow'
+        print("user is {0} and his target {1} and  you can {2} ".format(request.user, user, text))
+
+    else:
+        user.profile.followers.add(request.user)
+        text = 'unfollow'
+        print("user is {0} and his target {1} and you can {2}".format(request.user, user, text))
+
+    return HttpResponse(text)

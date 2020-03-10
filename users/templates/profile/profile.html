@@ -3,6 +3,10 @@
 {% load bootstrap4 %} 
 
 {% load static %}
+<<<<<<< HEAD
+
+=======
+>>>>>>> c08021b3c1c42806fe1f45fa6a62820b61eebd74
 
 {% load crispy_forms_tags %}
 
@@ -25,14 +29,24 @@
                 <div class="col-5">
                     <div class="card-body">
                         <img class="ml-3" src="{{user.profile.get_picture}}" width="300px" height="300px" class="rounded" alt="">
-                        <div class="offset-2 mt-2">{{profile_form.img_profile}}</div>                 
+                        <div class="offset-2 mt-2">{{profile_form.img_profile}}</div>   
+
                    </div>
+                <div class="p-3 m-4">
+                    <button type="button" class="btn btn-primary">
+                        Followers <span class="badge badge-light">9</span>
+                        <span class="sr-only">unread messages</span>
+                      </button>
+                      <button type="button" class="btn btn-primary">
+                        Following <span class="badge badge-light">9</span>
+                        <span class="sr-only">unread messages</span>
+                      </button>
+                </div>
                 </div>
                 <div class="col-6">
                     <div class="card-body">
                         {% csrf_token %}
                         {{user_form|crispy}}
-                        <!-- {{profile_form|crispy}} -->
                         {{profile_form.birth_date|as_crispy_field}}
                         {{ profile_form.media }}  
                         {{profile_form.gender|as_crispy_field}}

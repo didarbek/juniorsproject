@@ -6,10 +6,11 @@ from .forms import UserEditForm, UserEditForm, ProfileForm
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 import os 
-from django.http import  HttpResponseRedirect
+from django.http import  HttpResponseRedirect, HttpResponse
 from .models import  CustomUser, Profile
+from django.contrib.auth.mixins import LoginRequiredMixin
 User = settings.AUTH_USER_MODEL
 # Create your views here.
 
@@ -71,3 +72,35 @@ def my_view(request):
         other_user,                                 # The recipient
         message='Hi! I would like to add you')       
     return render(request, 'show_user.html', {'request_user':request_user})
+
+
+
+class FollowersPageView(LoginRequiredMixin, generic.ListView):
+    model = User
+    template_name = 'profile/followers.html'
+    object_context_name = 'users'
+    def get_queryset(self, **kwargs):
+        return self.request.user.profile.followers.all()
+
+class FollowingPageView(LoginRequiredMixin, generic.ListView):
+    model = User
+    template_name = 'profile/following.html'
+    context_object_name = 'profiles'
+
+    def get_queryset(self, **kwargs):
+        return self.request.user.following.all()
+    
+
+def follow_user(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    if request.user in user.profile.followers.all():
+        user.profile.followers.remove(request.user)
+        text = 'Follow'
+        print("user is {0} and his target {1} and  you can {2} ".format(request.user, user, text))
+
+    else:
+        user.profile.followers.add(request.user)
+        text = 'unfollow'
+        print("user is {0} and his target {1} and you can {2}".format(request.user, user, text))
+
+    return HttpResponse(text)

@@ -18,17 +18,41 @@
             
             <div class="card-header text-center"><h5>Profile</h5></div>
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                     <div class="card-body">
                         {% csrf_token %}
                         {% for image in user_profile %}
                         <img src="{{image.get_picture}}" width="300px" height="300px" class="rounded" alt="">
-
                         {% endfor %}
                         <div class="offset-2">{{profile.img_profile}}        </div>                 
                    </div>
+                   
                 </div>
-                <div class="col-6">
+                <div class="col-1 p-3 ">
+                    
+                  
+                        
+                        {% for user_obj in user_list  %}
+                        {% ifequal request.user user_obj %}
+
+                        {% else %}
+
+                            {% if request.user in user.profile.followers.all %}
+                                <a href="{% url 'users:follow_user' user_obj.id %}" class="btn btn-primary btn-sm" id="follow_user">Unfollow</a>
+                            {% else %}
+                        
+                                <a href="{% url 'users:follow_user' user_obj.id %}" class="btn btn-outline-primary btn-sm" id="follow_user">Follow</a>
+                            {% endif %}
+                                 
+                    {% endifequal %}
+
+                        {% endfor %}
+
+               
+                    
+                
+                </div>
+                <div class="col-5 ml-4">
                     <div class="card-body">
                         {% for user_obj in user_list  %}
                         <div><label for=""><h5>Username: </h5></label> {{user_obj.username}}</div>

@@ -71,12 +71,11 @@ class Profile(models.Model):
             return self.user.username
 
     def get_picture(self):
-        # default_picture = settings.STATIC_URL + 'img/default_picture.png'
-        default_picture = os.listdir(path=settings.RANDOM_IMAGES)
+        default_picture = settings.STATIC_URL + 'img/default_picture.png'
         if self.img_profile:
             return self.img_profile.url
         else:
-            return random.choice(default_picture)
+            return default_picture
 
 
 

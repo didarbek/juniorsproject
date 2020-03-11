@@ -1,0 +1,57 @@
+#search-input.active.focus, search-input.active:focus, search-input.focus, search-input.focus:active, #search-input:active:focus, #search-input:focus {
+  outline:none;
+  box-shadow: none;
+  outline-offset: -2px;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+#hint_id_new_password1{
+  display: none;
+}
+
+
+.dropdown-toggle::after { 
+  margin-left: 60px;
+} 
+
+
+
+
+/* GLOBAL STYLES */
+
+  
+.typewriter b {
+
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: .10em solid #007BFF; /* The typwriter cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .10em; /* Adjust as needed */
+    animation: 
+      typing 3.5s steps(40, end),
+      blink-caret .75s step-end infinite;
+  }
+  
+  /* The typing effect */
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  /* The typewriter cursor effect */
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #007BFF; }
+  }
+
+.custom-menu{
+  text-align: center;
+  margin-left: -20px;
+}
+
+.asteriskField{
+  display: none;
+}

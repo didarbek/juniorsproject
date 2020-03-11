@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+from django.conf import settings
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +27,7 @@ SECRET_KEY = '#p-lw@xy(im8)96s_j-tj&1gy)_7&n$b6^2@kt1m%u0#6158i%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['juniors-app.herokuapp.com','127.0.0.1']
 
 
 # Application definition
@@ -191,5 +193,3 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 SOCIALACCOUNT_QUERY_EMAIL = True
 
 # SESSION_COOKIE_AGE = 400
-
-RANDOM_IMAGES = '%s/random_images/' % MEDIA_ROOT

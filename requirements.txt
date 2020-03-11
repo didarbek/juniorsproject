@@ -5,7 +5,7 @@ awesome-slugify==1.6.5
 Babel==2.6.0
 backcall==0.1.0
 beautifulsoup4==4.6.3
-bleach==3.1.0
+bleach==3.1.1
 blinker==1.4
 bokeh==1.0.4
 cachetools==2.1.0

@@ -1,1 +1,1 @@
-gunicorn  juniors-app:application 
+web: gunicorn juniors-app:app

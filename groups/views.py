@@ -14,16 +14,23 @@ from django.contrib.auth import get_user_model
 from users.models import CustomUser
 from django.http import JsonResponse
 from django.db.models import Q
+from groups.models import GroupCategory
+
 # Create your views here.
 
 User = settings.AUTH_USER_MODEL
- 
+
 class GroupsPage(ListView):
     model = Group
     queryset = Group.objects.all()
     paginate_by = 15
     template_name = 'groups/all_groups.html'
     context_object_name = 'groups'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = GroupCategory.objects.all()
+        return context
 
 class GroupPage(ListView):
     model = Post
@@ -170,3 +177,14 @@ class GroupSearch(ListView):
         query = self.request.GET.get('group_search')
         object_list = Group.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
         return object_list
+
+def list_of_group_by_category(request,category_slug):
+    categories = GroupCategory.objects.all()
+    group = Group.objects.all()
+    if category_slug:
+        category = get_object_or_404(GroupCategory,slug=category_slug)
+        group = group.filter(category=category)
+    template = 'groups/list_of_group_by_category.html'
+    context = {'categories':categories,'group':group,'category':category}
+    return render(request,template,context)
+    

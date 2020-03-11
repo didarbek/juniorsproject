@@ -21,6 +21,9 @@ class GroupCategory(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('groups:list_of_group_by_category',args=[self.slug])
+
 class Group(models.Model):
     title = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, null=True, blank=True)

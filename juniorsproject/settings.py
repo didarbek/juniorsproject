@@ -193,3 +193,10 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 SOCIALACCOUNT_QUERY_EMAIL = True
 
 # SESSION_COOKIE_AGE = 400
+
+handler404 = 'juniorsproject.views.error_404'
+handler500 = 'juniorsproject.views.error_500'
+handler403 = 'juniorsproject.views.error_403'
+handler400 = 'juniorsproject.views.error_400'
+
+# DEBUG = False

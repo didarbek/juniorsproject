@@ -1,1 +1,1 @@
-web: gunicorn juniors-app:app
+gunicorn --log-file=- juniors-app.wsgi:application

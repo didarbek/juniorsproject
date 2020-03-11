@@ -14,4 +14,5 @@ urlpatterns = [
     path('groups/<username>/subscriptions/',views.UserSubscriptionList.as_view(),name='user_subscription_list'),
     path('group/result/',views.GroupSearch.as_view(), name='group_search'),
     path('banned_users/<group>/',views.banned_users,name='banned_users'),
+    path('groups/category/<category_slug>/',views.list_of_group_by_category,name='list_of_group_by_category'),
 ]

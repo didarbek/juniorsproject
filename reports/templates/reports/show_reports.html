@@ -11,32 +11,32 @@
     Keep your group safe and fun.<br/>
     Delete / Ban unwanted Posts & Comments / Authors & Commenters from the group.
   </p>
-{% for report in reports %}
-<div class="card mb-2" style="border:none; border-bottom:1px solid #dcd7d7;">
-  <div class="card-body p-4">
-    {% if report.post %}
-      <h6>
-        <a href="{{ report.post.get_absolute_url }}">{{report}}</a>
-      </h6>
-      <br>
-      <a href="{% url 'posts:deactivate_post' report.post.slug %}" class="btn btn-outline-primary btn-sm">Delete</a>
-      <a href="{% url 'groups:ban_user' report.post.group.slug report.post.author.id %}" class="btn btn-outline-danger btn-sm">Ban Author</a>
-    {% else %}
-      <h6>
-        <a href="{{ report.comment.post.get_absolute_url }}">{{report}}</a>
-      </h6>
-      <br>
-      <a href="{% url 'comments:deactivate_comment' report.comment.id %}" class="btn btn-outline-primary btn-sm">Delete</a>
-      <a href="{% url 'groups:ban_user' report.comment.post.group.slug report.comment.commenter.id %}" class="btn btn-outline-danger btn-sm">Ban Commenter</a>
-    {% endif %}
-    <div style="float:right;">
-      <p class="text-muted">
-        Reported <span>{{report.created|naturaltime}}</span> by <a href="{% url 'users:profile_show_user' report.reporter.id %}">{{report.reporter.profile.screen_name}}</a>
-      </p>
+  {% for report in reports %}
+  <div class="card mb-2" style="border:none; border-bottom:1px solid #dcd7d7;">
+    <div class="card-body p-4">
+      {% if report.post %}
+        <h6>
+          <a href="{{ report.post.get_absolute_url }}">{{report}}</a>
+        </h6>
+        <br>
+        <a href="{% url 'posts:deactivate_post' report.post.slug %}" class="btn btn-outline-primary btn-sm">Delete</a>
+        <a href="{% url 'groups:ban_user' report.post.group.slug report.post.author.id %}" class="btn btn-outline-danger btn-sm">Ban Author</a>
+      {% else %}
+        <h6>
+          <a href="{{ report.comment.post.get_absolute_url }}">{{report}}</a>
+        </h6>
+        <br>
+        <a href="{% url 'comments:deactivate_comment' report.comment.id %}" class="btn btn-outline-primary btn-sm">Delete</a>
+        <a href="{% url 'groups:ban_user' report.comment.post.group.slug report.comment.commenter.id %}" class="btn btn-outline-danger btn-sm">Ban Commenter</a>
+      {% endif %}
+      <div style="float:right;">
+        <p class="text-muted">
+          Reported <span>{{report.created|naturaltime}}</span> by <a href="{% url 'users:profile_show_user' report.reporter.id %}">{{report.reporter.profile.screen_name}}</a>
+        </p>
+      </div>
     </div>
   </div>
-</div>
-{% endfor %}
+  {% endfor %}
 
 <nav aria-label="Page navigation example">
   {% if reports.has_other_pages %}

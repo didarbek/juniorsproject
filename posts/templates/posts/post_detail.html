@@ -96,7 +96,7 @@
                 {% else %}
                 <a href="{% url 'reports:report_comment' comment.id %}" class="float-right" id="report_link" title="report comment"><i class="far fa-flag"></i></a>
                 {% endifequal %}
-                <h5 class="mt-0"><a href="">{{ comment.commenter.username }}</a></h5>
+                <h5 class="mt-0"><a href="{% url 'users:profile_show_user' comment.commenter.id %}">{{ comment.commenter.username }}</a></h5>
                 {{ comment.body }}
                 <h6>{{ comment.created|naturaltime }}</h6>
               </div>

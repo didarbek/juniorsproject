@@ -1,1 +1,1 @@
-web: gunicorn juniors-app:app
+web: gunicorn juniors-app:app --preload

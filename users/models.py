@@ -8,6 +8,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
 from django.utils.text import slugify
+import random
+import os
+from django.conf import settings
 
 User = settings.AUTH_USER_MODEL
 
@@ -68,11 +71,12 @@ class Profile(models.Model):
             return self.user.username
 
     def get_picture(self):
-        default_picture = settings.STATIC_URL + 'img/default_picture.png'
+        # default_picture = settings.STATIC_URL + 'img/default_picture.png'
+        default_picture = os.listdir(path=settings.RANDOM_IMAGES)
         if self.img_profile:
             return self.img_profile.url
         else:
-            return default_picture
+            return random.choice(default_picture)
 
 
 

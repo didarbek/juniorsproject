@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+from django.conf import settings
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -191,3 +193,10 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 SOCIALACCOUNT_QUERY_EMAIL = True
 
 # SESSION_COOKIE_AGE = 400
+
+handler404 = 'juniorsproject.views.error_404'
+handler500 = 'juniorsproject.views.error_500'
+handler403 = 'juniorsproject.views.error_403'
+handler400 = 'juniorsproject.views.error_400'
+
+# DEBUG = False

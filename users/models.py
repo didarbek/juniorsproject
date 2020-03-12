@@ -8,6 +8,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
 from django.utils.text import slugify
+import random
+import os
+from django.conf import settings
 
 User = settings.AUTH_USER_MODEL
 

@@ -17,14 +17,14 @@
             <h5 class="card-title">{{ event.created|naturaltime }}</h5>
             <a href="{{ event.Object.get_absolute_url }}" class="card-text">{{ event }}</a>
             {% endif %}
-</div>
-</div>
-</div>
+      </div>
+    </div>
+  </div>
 </div>
             {% empty %}
-            <div class="card">
+            <div class="card mx-auto">
                 <div class="card-body text-center">
-                  <h4 class="card-title">No Notifications Yet!</h4>
+                  <h4 class="card-title" style="color:cadetblue;">No Notifications Yet!</h4>
                 </div>
               </div>
             {% endfor %}

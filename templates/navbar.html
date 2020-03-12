@@ -63,7 +63,7 @@
             </button>
             <form action="{% url 'groups:group_search' %}" method="GET">
               <div class="dropdown-menu custom-menu p-3 dropdown-group drop-group-custom" aria-labelledby="dropdownMenu2">
-                <input type="text" class="form-control" name="group_search" >
+                <input type="text" class="form-control" name="group_search" placeholder="Search for groups">
                 
               </div>
             </form>
@@ -71,7 +71,7 @@
         </li>
         <li>
             <form method="get" class="input-group my-2 my-lg-0" action="{% url 'posts:search_results' %}">
-                <input type="search" class="form-control" placeholder="Search" aria-label="Search" name="title">
+                <input type="search" class="form-control" placeholder="Search for posts" aria-label="Search" name="title">
                 <div class="input-group-append" id="button-addon4">
                   <button class="btn btn-outline-secondary" type="sumbit"><i class="fas fa-search"></i></button>
                 </div>
@@ -82,7 +82,7 @@
       <a href="{% url 'posts:trending' %}" class="nav-link link" style="color:#e25822" title="Trending"><i class="fas fa-fire fa-lg"></i></a>
       <a href="{% url 'groups:create_group' %}" class="nav-link link" title="Create Group"><small><i class="fas fa-plus"></i></small> <i class="fas fa-users"></i></a>
       <a href="{% url 'posts:new_post' %}" class="nav-link link" title="Create Post"><i  class="fas fa-pen"></i></a> 
-      <a href="#" class="nav-link link"><i class="fas fa-envelope"></i></a>
+      <a href="{% url 'notifications:activities' %}" class="nav-link link" title="Notifications"><i class="fas fa-bell"></i></a>
       <a href="#" class="nav-link link"><i class="fas fa-comment"></i></a>
       <ul class="navbar-nav">
         <li>

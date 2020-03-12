@@ -168,11 +168,29 @@ def post_detail(request,group,post):
 #         'admins': admins
 #     })
 
+# @login_required
+# def new_post(request):
+#     post_form = PostForm(**{'user':request.user})
+#     if request.method == 'POST':
+#         post_form = PostForm(request.POST,request.FILES)
+#         if post_form.is_valid():
+#             new_post = post_form.save(commit=False)
+#             author = request.user
+#             new_post.author = author
+#             new_post.save()
+#             new_post.points.add(author)
+#             new_post.save()
+#             return redirect(new_post.get_absolute_url())
+#     else:
+#         post_form = PostForm()
+#     return render(request,'posts/create_post.html',{'post_form':post_form})
+
 @login_required
 def new_post(request):
-    post_form = PostForm(**{'user':request.user})
+    post_form = PostForm(**{'user': request.user})
+
     if request.method == 'POST':
-        post_form = PostForm(request.POST,request.FILES)
+        post_form = PostForm(request.POST, request.FILES)
         if post_form.is_valid():
             new_post = post_form.save(commit=False)
             author = request.user
@@ -180,10 +198,29 @@ def new_post(request):
             new_post.save()
             new_post.points.add(author)
             new_post.save()
+            words = new_post.title + ' ' + new_post.body
+            words = words.split(" ")
+            names_list = []
+            for word in words:
+
+                if word[:2] == "u/":
+                    u = word[2:]
+                    try:
+                        user = User.objects.get(username=u)
+                        if user not in names_list:
+                            new_post.mentioned.add(user)
+                            if request.user is not user:
+                                Notification.objects.create(
+                                    Actor=new_post.author,
+                                    Object=new_post,
+                                    Target=user,
+                                    notif_type='post_mentioned'
+                                )
+                            names_list.append(user)
+                    except:
+                        pass
             return redirect(new_post.get_absolute_url())
-    else:
-        post_form = PostForm()
-    return render(request,'posts/create_post.html',{'post_form':post_form})
+    return render(request, 'posts/create_post.html', {'post_form':post_form,})
 
 # @login_required
 # def like_post(request,post):

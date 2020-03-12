@@ -13,10 +13,10 @@
 <!-- Page Content -->
 <div class="row">
       <div class="col-lg-8">
-        <div class="card">
+        <div class="card mb-5">
           <div class="card-body">
             <div class="card-title">
-              <h5><a class="float-right" href="{% url 'posts:edit_post' post.slug %}">Edit</a></h5>
+              <h5><a class="float-right" href="{% url 'posts:edit_post' post.slug %}" style="color:cadetblue;">Edit</a></h5>
               <h5>{{ post.views }} views</h5>
               <h1 class="mt-4">{{ post.title }}</h1>
             </div>
@@ -37,17 +37,20 @@
             </div>
           </div>
           <div class="card-footer text-muted">
-            Posted on {{ post.created|naturaltime }} by
-            <a href="{% url 'users:profile_show_user' post.author.id  %}">{{ post.author.username }}</a>
-            {% ifequal post.author request.user %}
-            <b class="pl-5 float-right"><a href="{% url 'posts:delete_post' post.slug %}" data-toggle="tooltip" data-placement="top" title="Delete post" style="color: red;"><i class="fas fa-trash"></i></a></b>
-            {% else %}
-            <a href="{% url 'reports:report_post' post.slug %}" id="report_link" title="report post"><i class="far fa-flag"></i></a>
-            {% endifequal %}
             <p class="float-right">{{ post.comments.count }} Comments</p>
+            Posted on {{ post.created|naturaltime }} by
+            <a href="{% url 'users:profile_show_user' post.author.id  %}">{{ post.author.username }}</a><br>
+            {% ifequal post.author request.user %}
+            <b class=""><a href="{% url 'posts:delete_post' post.slug %}" data-toggle="tooltip" data-placement="top" title="Delete post" style="color: red;"><i class="fas fa-trash"></i></a></b>
+            {% else %}
+            {% if user in post.group.subscribers.all %}
+              <a href="{% url 'reports:report_post' post.slug %}" id="report_link" title="report post"><i class="far fa-flag fa-lg"></i></a>
+            {% endif %}
+            {% endifequal %}
           </div>
         </div>
         <!-- Comments Form -->
+        {% if request.user in post.group.subscribers.all %}
         <div class="card my-4">
           <h5 class="card-header">Leave a Comment:</h5>
           <div class="card-body">
@@ -58,6 +61,7 @@
             </form>
           </div>
         </div>
+        {% endif %}
         <!-- Single Comment -->
         <script>
            $(document).on("click", "a#delete_comment",function () {
@@ -89,16 +93,18 @@
         {% if comments %}
           {% for comment in comments %}
             <div class="media mb-4" id="comments_container">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+              <img class="d-flex mr-3 rounded-circle" style="width:50px;height:50px;" src="{{ user.profile.get_picture }}" alt="">
               <div class="media-body">
                 {% ifequal user comment.commenter %}
                 <a href="{% url 'comments:delete_comment' comment.id %}" title="delete this comment" id="delete_comment" class="float-right" style="color:red;"><i class="fas fa-trash"></i></a>
                 {% else %}
-                <a href="{% url 'reports:report_comment' comment.id %}" class="float-right" id="report_link" title="report comment"><i class="far fa-flag"></i></a>
+                {% if user in comment.post.group.subscribers.all %}
+                  <a href="{% url 'reports:report_comment' comment.id %}" class="float-right" id="report_link" title="report comment"><i class="far fa-flag"></i></a>
+                {% endif %}
                 {% endifequal %}
-                <h5 class="mt-0"><a href="{% url 'users:profile_show_user' comment.commenter.id %}">{{ comment.commenter.username }}</a></h5>
-                {{ comment.body }}
-                <h6>{{ comment.created|naturaltime }}</h6>
+                <h5 class="mt-0"><a href="{% url 'users:profile_show_user' comment.commenter.id %}" style="color:cadetblue;">{{ comment.commenter.username }}</a></h5>
+                {{ comment.body }}<br>
+                <small>{{ comment.created|naturaltime }}</small>
               </div>
             </div>
           {% endfor %}
@@ -168,10 +174,14 @@
             <li class="list-group-item">Subscribers: <span class="badge badge-primary">{{ group.subscribers.count }}</span></li>
           </ul>
           <div class="card-body">
-            {% if group in request.user.subscribed_groups.all %}
-            <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary float-right mr-2" id="subscribe_group">Unsubscribe</a>
+            {% if request.user in post.group.banned_users.all %}
+              <a class="btn btn-secondary float-right mr-2">Banned</a>
             {% else %}
-            <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-primary float-right" id="subscribe_group">Subscribe</a>
+              {% if group in request.user.subscribed_groups.all %}
+              <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary float-right mr-2" id="subscribe_group">Unsubscribe</a>
+              {% else %}
+              <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-primary float-right" id="subscribe_group">Subscribe</a>
+              {% endif %}
             {% endif %}
             <p class="text-muted">Created {{ group.created|date }}</p>
             {% if admins %}

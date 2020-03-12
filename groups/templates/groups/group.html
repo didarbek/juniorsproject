@@ -108,10 +108,14 @@
             <li class="list-group-item">Subscribers: <span class="badge badge-primary">{{ group.subscribers.count }}</span></li>
           </ul>
           <div class="card-body">
-            {% if group in request.user.subscribed_groups.all %}
-            <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary float-right mr-2" id="subscribe_group">Unsubscribe</a>
+            {% if user in group.banned_users.all %}
+              <a class="btn btn-secondary float-right mr-2">Banned</a>
             {% else %}
-            <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-primary float-right" id="subscribe_group">Subscribe</a>
+              {% if group in request.user.subscribed_groups.all %}
+              <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary float-right mr-2" id="subscribe_group">Unsubscribe</a>
+              {% else %}
+              <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-primary float-right" id="subscribe_group">Subscribe</a>
+              {% endif %}
             {% endif %}
             <p class="text-muted">Created {{ group.created|date }}</p>
             {% if admins %}

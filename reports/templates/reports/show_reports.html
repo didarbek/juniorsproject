@@ -28,6 +28,7 @@
         <br>
         <a href="{% url 'comments:deactivate_comment' report.comment.id %}" class="btn btn-outline-primary btn-sm">Delete</a>
         <a href="{% url 'groups:ban_user' report.comment.post.group.slug report.comment.commenter.id %}" class="btn btn-outline-danger btn-sm">Ban Commenter</a>
+        {% url 'groups:ban_user' report.comment.post.group.slug report.comment.commenter.id %}
       {% endif %}
       <div style="float:right;">
         <p class="text-muted">

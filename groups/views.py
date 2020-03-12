@@ -161,6 +161,8 @@ def banned_users(request,group):
 def ban_user(request,group,user_id):
     group = get_object_or_404(Group,slug=group)
     user = get_object_or_404(CustomUser,id=user_id)
+    print(" first group {0}, user{1}  ".format(group, user))
+
     if group in user.subscribed_groups.all():
         group.subscribers.remove(user)
         group.banned_users.add(user)

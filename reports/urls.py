@@ -7,4 +7,5 @@ urlpatterns = [
     path('show_reports/<group>/',views.show_reports,name='show_reports'),
     path('report_post/<post>/',views.report_post,name='report_post'),
     path('report_comment/<pk>/',views.report_comment,name='report_comment'),
+    path('delete/<pk>/', views.delete_comment_report, name='delete_comment_report')
 ]

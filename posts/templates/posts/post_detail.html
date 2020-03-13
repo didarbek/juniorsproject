@@ -54,12 +54,10 @@
         <div class="card my-4">
           <h5 class="card-header">Leave a Comment:</h5>
           <div class="card-body">
-      
             <form role="form" method="post" onsubmit="return false" id="comment_form">
               {% csrf_token %}
               <textarea class="form-control" id="comment_text" rows="3" name="body" maxlength="2000" placeholder="Leave a comment"></textarea>
             </form>
-          
           </div>
         </div>
         {% endif %}
@@ -89,8 +87,6 @@
             return false;
           });
         </script>
-
-
         {% if comments %}
           {% for comment in comments %}
             <div class="media mb-4" id="comments_container">
@@ -108,8 +104,10 @@
                 <small>{{ comment.created|naturaltime }}</small>
               </div>
             </div>
+            <div id="add_comment"></div>
           {% endfor %}
-          <div class="add_comment"></div>
+          
+          
 
         {% else %}
           <div id="comments_container">
@@ -258,7 +256,8 @@ $(document).ready(function(){
         },
         success: function (data) {
           $(comments_container).find("#no_comments").fadeOut();
-          $(comments_container).append(data);
+          $('#add_comment').append(data);
+          console.log(data)
           $('html, body').stop().animate( {
             'scrollTop': input.offset().top-40
           }, 500, 'swing');

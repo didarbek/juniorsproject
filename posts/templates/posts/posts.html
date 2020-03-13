@@ -77,7 +77,8 @@
           <div class="card-footer text-muted">
             Posted on {{ post.created|naturaltime }} by
             <a href="{% url 'users:profile_show_user' post.author.id  %}">{{ post.author.profile.screen_name }}</a>
-            <p class="float-right">{{ post.comments.count }} Comments</p>
+            <p class="float-right">{{ post.comments.count }} Comments</p><br>
+            <a href="#" class="share_link" data-clipboard-text="{{ request.get_host }}{{ post.get_absolute_url }}"><i class="fas fa-share"></i> Share</a>
           </div>
         </div>
         {% endfor %}
@@ -134,4 +135,26 @@
       </div>
     </div>
     <!-- /.row -->
+
+<script type="text/javascript">
+  $(document).ready(function(){
+     $('.share_link').on('click', function(e) {
+    e.preventDefault();
+    var elm = $(this);
+    elm.tooltip({
+      trigger: 'click',
+      placement: 'bottom',
+      title: 'Copied!'
+    });
+    setTimeout(function(){
+        elm.tooltip('hide');
+    }, 1000);
+  });
+
+});
+</script>
+<script src="{% static 'js/clipboard.min.js' %}"></script>
+<script type="text/javascript">
+new ClipboardJS('.share_link');
+</script>
 {% endblock content %}

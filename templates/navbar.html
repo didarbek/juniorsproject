@@ -64,7 +64,14 @@
             <form action="{% url 'groups:group_search' %}" method="GET">
               <div class="dropdown-menu custom-menu p-3 dropdown-group drop-group-custom" aria-labelledby="dropdownMenu2">
                 <input type="text" class="form-control" name="group_search" placeholder="Search for groups">
-                
+                {% if groups %}
+                <li class="mt-2 mb-2" style="color:cadetblue;"><small>MY GROUPS</small></li>
+                  {% for group in groups %}
+                    {% if user in group.subscribers.all %}
+                      <a href="{{ group.get_absolute_url }}" class="list-group-item">{{ group.title }}</a>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
               </div>
             </form>
           </div>

@@ -19,24 +19,24 @@
         {% endfor %}
         {% endif %}
         <div class="card col-12 m-4 p-0 pb-4 " >
-            
             <div class="card-header text-center"><h5>Profile</h5></div>
             <div class="row">
                 <div class="col-5">
                     <div class="card-body">
                         <img class="ml-3" src="{{user.profile.get_picture}}" width="300px" height="300px" class="rounded" alt="">
                         <div class="offset-2 mt-2">{{profile_form.img_profile}}</div>   
-
                    </div>
+                   {{request.user.profile.followers}}
+
                 <div class="p-3 m-4">
-                    <button type="button" class="btn btn-primary">
+                    <a  class="btn btn-primary" href="{% url 'users:view_all_followers' %}">
                         Followers <span class="badge badge-light">9</span>
                         <span class="sr-only">unread messages</span>
-                      </button>
-                      <button type="button" class="btn btn-primary">
+                    </a>
+                      <a  class="btn btn-primary" href="{% url 'users:view_all_following' %}">
                         Following <span class="badge badge-light">9</span>
                         <span class="sr-only">unread messages</span>
-                      </button>
+                      </a>
                 </div>
                 </div>
                 <div class="col-6">
@@ -48,17 +48,13 @@
                         {{profile_form.gender|as_crispy_field}}
                         {{profile_form.country|as_crispy_field}}
                         <a href="{% url 'users:password_change' %}" class="card-link"><h5>Change password</h5></a>
-
                     </div>
                     <button type="submit" class="btn btn-primary float-right mb-4" id="btn">Update</button>
-                    
                     <div class="text-danger p-2 m-2">
                         {{ profile_form.non_field_errors }}
                         {{ user_form.non_field_errors }}
                         {{profile_form.img_profile.errors}}
-
                     </div>
-
                 </div>
             </div>
           

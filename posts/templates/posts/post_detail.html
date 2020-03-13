@@ -87,31 +87,30 @@
             return false;
           });
         </script>
+        <div id="add_comment">
         {% if comments %}
           {% for comment in comments %}
-            <div class="media mb-4" id="comments_container">
-              <img class="d-flex mr-3 rounded-circle" style="width:50px;height:50px;" src="{{ user.profile.get_picture }}" alt="">
-              <div class="media-body">
-                {% ifequal user comment.commenter %}
-                <a href="{% url 'comments:delete_comment' comment.id %}" title="delete this comment" id="delete_comment" class="float-right" style="color:red;"><i class="fas fa-trash"></i></a>
-                {% else %}
-                {% if user in comment.post.group.subscribers.all %}
-                  <a href="{% url 'reports:report_comment' comment.id %}" class="float-right" id="report_link" title="report comment"><i class="far fa-flag"></i></a>
-                {% endif %}
-                {% endifequal %}
-                <h5 class="mt-0"><a href="{% url 'users:profile_show_user' comment.commenter.id %}" style="color:cadetblue;">{{ comment.commenter.username }}</a></h5>
-                {{ comment.body }}<br>
-                <small>{{ comment.created|naturaltime }}</small>
+         
+              <div class="media mb-4" id="comments_container">
+                <img class="d-flex mr-3 rounded-circle" style="width:50px;height:50px;" src="{{ user.profile.get_picture }}" alt="">
+                <div class="media-body">
+                  {% ifequal user comment.commenter %}
+                  <a href="{% url 'comments:delete_comment' comment.id %}" title="delete this comment" id="delete_comment" class="float-right" style="color:red;"><i class="fas fa-trash"></i></a>
+                  {% else %}
+                  {% if user in comment.post.group.subscribers.all %}
+                    <a href="{% url 'reports:report_comment' comment.id %}" class="float-right" id="report_link" title="report comment"><i class="far fa-flag"></i></a>
+                  {% endif %}
+                  {% endifequal %}
+                  <h5 class="mt-0"><a href="{% url 'users:profile_show_user' comment.commenter.id %}" style="color:cadetblue;">{{ comment.commenter.username }}</a></h5>
+                  {{ comment.body }}<br>
+                  <small>{{ comment.created|naturaltime }}</small>
+                </div>
               </div>
-            </div>
-            <div id="add_comment"></div>
+         
           {% endfor %}
           
-          
-
         {% else %}
-          <div id="comments_container">
-            <div id="no_comments">
+          <div id="no_comments">
           <div class="card-header">
             Comments
           </div>
@@ -121,8 +120,10 @@
             </div>
           </ul>
           </div>
-          </div>
+        
+      
       {% endif %}
+    </div> 
         
     
     </div>
@@ -255,8 +256,8 @@ $(document).ready(function(){
           $(input).val("");
         },
         success: function (data) {
-          $(comments_container).find("#no_comments").fadeOut();
-          $('#add_comment').append(data);
+          $('#add_comment').find("#no_comments").fadeOut(1000);
+          $('#add_comment').append(data).fadeIn(1000);
           console.log(data)
           $('html, body').stop().animate( {
             'scrollTop': input.offset().top-40

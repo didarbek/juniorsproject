@@ -27,7 +27,7 @@ SECRET_KEY = '#p-lw@xy(im8)96s_j-tj&1gy)_7&n$b6^2@kt1m%u0#6158i%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['juniors-app.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

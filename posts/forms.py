@@ -17,8 +17,11 @@ class PostForm(forms.ModelForm):
         if user is not None:
             subscribed_groups = user.subscribed_groups.all()
             self.fields['group'].queryset = subscribed_groups
+
             if not subscribed_groups:
                 self.fields['group'].help_text = "You need to <b>subscribe</b> a group to post in it."
+        else:
+            print("Helllo world ")
 
     class Meta:
         model = Post

@@ -32,6 +32,17 @@ def report_comment(request,pk):
                           group=group)
     return redirect('posts:post_detail',group=group.slug,post=comment.post.slug)
 
+
+@login_required
+@ajax_required
+def delete_comment_report(request, pk):
+    comment = get_object_or_404(Comment,pk=pk)
+    report_comment =  get_object_or_404(Report, comment=comment)
+    comment.delete()
+    report_comment.delete()
+    return HttpResponse("Hello world")
+
+
 @login_required
 def show_reports(request,group):
     group = get_object_or_404(Group,slug=group)

@@ -27,6 +27,7 @@ from juniorsproject.decorators import ajax_required
 
 User = settings.AUTH_USER_MODEL
 
+
 def get_trending_posts():
     try:
         posts = Post.get_posts()
@@ -62,12 +63,12 @@ class TrendingPage(ListView):
     template_name = 'posts/trending.html'
     context_object_name = 'posts'
 
-def _html_comments(comment_id,group,post):
+def _html_comments(comment_id, group, post):
     post = get_object_or_404(Post,group__slug=group.slug,slug=post.slug)
     comment = post.comments.get(id=comment_id)
     user = comment.commenter
     html = ''
-    html = '{0}{1}'.format(html,render_to_string('comments/partial_post_comments.html',{'comment': comment,'user': user,}))
+    html = '{0}{1}'.format(html,render_to_string('comments/partial_post_comments.html',{'comment': comment,'user': user}))
     return html
 
 def post_detail(request,group,post):
@@ -88,13 +89,16 @@ def post_detail(request,group,post):
             new_comment.post = post
             new_comment.save()
             new_comment_id = new_comment.id
-            body = request.POST.get('body')
-            context['body'] = body
-            context['id'] = new_comment_id
-            context['date'] = str(naturaltime(new_comment.created))
-            context['username'] = str(request.user.username)
-            context['delete'] = str(reverse('comments:delete_comment',args=[new_comment.id]))
-            return JsonResponse(context)
+        html = _html_comments(new_comment_id, group, post)
+        return HttpResponse(html)
+
+            # body = request.POST.get('body')
+            # context['body'] = body
+            # context['id'] = new_comment_id
+            # context['date'] = str(naturaltime(new_comment.created))
+            # context['username'] = str(request.user.username)
+            # context['delete'] = str(reverse('comments:delete_comment',args=[new_comment.id]))
+            # return JsonResponse(context)
             # return HttpResponseRedirect(post.get_absolute_url())
     else:
         comment_form = CommentForm()

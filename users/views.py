@@ -71,6 +71,7 @@ class FollowersPageView(LoginRequiredMixin, generic.ListView):
     template_name = 'profile/followers.html'
     object_context_name = 'users'
     def get_queryset(self, **kwargs):
+        print("this for followers user : {0} ".format(self.request.user.profile.followers.all()))
         return self.request.user.profile.followers.all()
 
 class FollowingPageView(LoginRequiredMixin, generic.ListView):
@@ -79,6 +80,8 @@ class FollowingPageView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'profiles'
 
     def get_queryset(self, **kwargs):
+        print("this for following user :{0} ".format(self.request.user.following.all()))
+
         return self.request.user.following.all()
     
 
@@ -87,11 +90,7 @@ def follow_user(request, user_id):
     if request.user in user.profile.followers.all():
         user.profile.followers.remove(request.user)
         text = 'Follow'
-        print("user is {0} and his target {1} and  you can {2} ".format(request.user, user, text))
-
     else:
         user.profile.followers.add(request.user)
-        text = 'unfollow'
-        print("user is {0} and his target {1} and you can {2}".format(request.user, user, text))
-
+        text = 'Unfollow'
     return HttpResponse(text)

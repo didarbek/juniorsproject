@@ -9,10 +9,10 @@ from posts.models import Post
 User = settings.AUTH_USER_MODEL
 
 class Report(models.Model):
-    reporter = models.ForeignKey(User,related_name='reported',null=True,on_delete=models.SET_NULL)
-    comment = models.ForeignKey(Comment,related_name='comment_reports',blank=True,null=True,on_delete=models.SET_NULL)
-    post = models.ForeignKey(Post,related_name='post_reports',blank=True,null=True,on_delete=models.SET_NULL)
-    group = models.ForeignKey(Group,related_name='group_reports',blank=True,null=True,on_delete=models.SET_NULL)
+    reporter = models.ForeignKey(User,related_name='reported',null=True,on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment,related_name='comment_reports',blank=True,null=True,on_delete=models.CASCADE)
+    post = models.ForeignKey(Post,related_name='post_reports',blank=True,null=True,on_delete=models.CASCADE)
+    group = models.ForeignKey(Group,related_name='group_reports',blank=True,null=True,on_delete=models.CASCADE)
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
 

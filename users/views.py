@@ -69,16 +69,16 @@ def my_view(request):
 class FollowersPageView(LoginRequiredMixin, generic.ListView):
     model = User
     template_name = 'profile/followers.html'
-    object_context_name = 'users'
+    object_context_name = 'user_followers'
     def get_queryset(self, **kwargs):
-        print("this for followers user : {0} ".format(self.request.user.profile.followers.count()))
+        print("this for followers user : {0} ".format(self.request.user.profile.followers.all()))
         return self.request.user.profile.followers.all()
 
-    def get_context_data(self, **kwargs):          
-        context = super().get_context_data(**kwargs)                     
-        new_context_entry = "here it goes"
-        context["new_context_entry"] = new_context_entry
-        return context
+    # def get_context_data(self, **kwargs):          
+    #     context = super().get_context_data(**kwargs)                     
+    #     new_context_entry = "here it goes"
+    #     context["new_context_entry"] = new_context_entry
+    #     return context
 
 class FollowingPageView(LoginRequiredMixin, generic.ListView):
     model = User
@@ -88,8 +88,6 @@ class FollowingPageView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self, **kwargs):
         # print("this for following user :{0} ".format(self.request.user.following.count))
         # print("this for followers user : {0} ".format(self.request.user.profile.following.count()))
-
-
         return self.request.user.following.all()
     
 

@@ -68,7 +68,7 @@
                 <li class="mt-2 mb-2" style="color:cadetblue;"><small>MY GROUPS</small></li>
                   {% for group in groups %}
                     {% if user in group.subscribers.all %}
-                      <a href="{{ group.get_absolute_url }}" class="list-group-item">{{ group.title }}</a>
+                      <a href="{{ group.get_absolute_url }}" class="list-group-item text-muted">{{ group.title }}</a>
                     {% endif %}
                   {% endfor %}
                 {% endif %}

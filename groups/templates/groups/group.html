@@ -109,6 +109,8 @@
                 <img class="mb-3" src="{% static 'img/sports.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
               {% elif group.category.name == 'Tv' %}
                 <img class="mb-3" src="{% static 'img/tv.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
+              {% elif post.group.category.name == 'Tech' %}
+                <img class="mb-3" src="{% static 'img/tech.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
               {% elif group.category.name == 'Music' %}
                 <img class="mb-3" src="{% static 'img/music.png' %}" style="width:75px;height:75px;display: block;margin-left: auto;margin-right: auto;" alt=""><h5 class="card-title text-center" style="color:cadetblue;">About Community</h5>
               {% elif group.category.name == 'Movies' %}

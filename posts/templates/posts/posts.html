@@ -26,7 +26,38 @@
         <div class="card mb-4">
           <div class="card-body">
             <h5 class="float-right">{{ post.views }} views</h5>
-            <a href="{{ post.group.get_absolute_url }}" data-toggle="tooltip" data-placement="top" title="{{ post.group.slug }} group"><i class="fas fa-users"></i> {{ post.group.slug }}</a>
+            {% if post.group.logo %}
+            <img class="mb-3" src="{{ post.group.logo.url }}" style="width:50px;height:50px;" alt="">
+            {% else %}
+              {% if post.group.category.name == 'Gaming' %}
+                <img class="mb-3" src="{% static 'img/gaming.png' %}" style="width:50px;height:50px;" alt="">
+              {% elif post.group.category.name == 'Health & Fitness' %}
+                <img class="mb-3" src="{% static 'img/fitness.png' %}" style="width:50px;height:50px;" alt="">
+              {% elif post.group.category.name == 'News' %}
+                <img class="mb-3" src="{% static 'img/news.png' %}" style="width:50px;height:50px;" alt="">
+              {% elif post.group.category.name == 'Sports' %}
+                <img class="mb-3" src="{% static 'img/sports.png' %}" style="width:50px;height:50px;" alt="">
+              {% elif post.group.category.name == 'Tv' %}
+                <img class="mb-3" src="{% static 'img/tv.png' %}" style="width:50px;height:50px;" alt="">
+              {% elif post.group.category.name == 'Tech' %}
+                <img class="mb-3" src="{% static 'img/tech.png' %}" style="width:50px;height:50px;" alt="">
+              {% elif post.group.category.name == 'Music' %}
+                <img class="mb-3" src="{% static 'img/music.png' %}" style="width:50px;height:50px;" alt="">
+              {% elif post.group.category.name == 'Movies' %}
+                <img class="mb-3" src="{% static 'img/movies.png' %}" style="width:50px;height:50px;" alt="">
+              {% elif post.group.category.name == 'Food' %}
+                <img class="mb-3" src="{% static 'img/food.png' %}" style="width:50px;height:50px;" alt="">
+              {% elif post.group.category.name == 'Shopping' %}
+                <img class="mb-3" src="{% static 'img/shopping.png' %}" style="width:50px;height:50px;" alt="">
+              {% elif post.group.category.name == 'Travelling' %}
+                <img class="mb-3" src="{% static 'img/travelling.png' %}" style="width:50px;height:50px;" alt="">
+              {% elif post.group.category.name == 'Tech' %}
+                <img class="mb-3" src="{% static 'img/tech.png' %}" style="width:50px;height:50px;" alt="">
+              {% elif post.group.category.name == 'Science' %}
+                <img class="mb-3" src="{% static 'img/science.png' %}" style="width:50px;height:50px;" alt="">
+              {% endif %}
+            {% endif %}
+            <a href="{{ post.group.get_absolute_url }}" data-toggle="tooltip" data-placement="top" title="{{ post.group.slug }} group">{{ post.group.slug }}</a>
             <h2 class="card-title">{{ post.title }}</h2>
             <p class="card-text">{{ post.body|truncatewords_html:50|urlize }}</p>
             {% if post.image %}
@@ -46,7 +77,8 @@
           <div class="card-footer text-muted">
             Posted on {{ post.created|naturaltime }} by
             <a href="{% url 'users:profile_show_user' post.author.id  %}">{{ post.author.profile.screen_name }}</a>
-            <p class="float-right">{{ post.comments.count }} Comments</p>
+            <p class="float-right">{{ post.comments.count }} Comments</p><br>
+            <a href="#" class="share_link" data-clipboard-text="{{ request.get_host }}{{ post.get_absolute_url }}"><i class="fas fa-share"></i> Share</a>
           </div>
         </div>
         {% endfor %}
@@ -103,4 +135,26 @@
       </div>
     </div>
     <!-- /.row -->
+
+<script type="text/javascript">
+  $(document).ready(function(){
+     $('.share_link').on('click', function(e) {
+    e.preventDefault();
+    var elm = $(this);
+    elm.tooltip({
+      trigger: 'click',
+      placement: 'bottom',
+      title: 'Copied!'
+    });
+    setTimeout(function(){
+        elm.tooltip('hide');
+    }, 1000);
+  });
+
+});
+</script>
+<script src="{% static 'js/clipboard.min.js' %}"></script>
+<script type="text/javascript">
+new ClipboardJS('.share_link');
+</script>
 {% endblock content %}

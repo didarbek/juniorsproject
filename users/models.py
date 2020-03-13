@@ -11,7 +11,7 @@ from django.utils.text import slugify
 import random
 import os
 from django.conf import settings
-
+from django.utils import timezone
 User = settings.AUTH_USER_MODEL
 
 
@@ -20,7 +20,7 @@ User = settings.AUTH_USER_MODEL
 class CustomUser(AbstractUser): 
     email =  models.EmailField(_('email_address'), unique=True, name='email')
     username =  models.CharField(_('username'), unique=True, max_length=128)
-
+    
 
 
 
@@ -50,6 +50,7 @@ def user_directory_path(instance, filename):
 class Profile(models.Model):
     user = models.OneToOneField(User,  related_name='profile',  on_delete=models.CASCADE)
     img_profile  = models.ImageField(verbose_name='image profile', upload_to=user_directory_path)
+    member_since = models.DateTimeField(default=timezone.now)
     birth_date = models.DateField(verbose_name='Birth date', blank=True, null=True)
     gender = models.CharField(max_length=10,choices=GENDER_CHOICES)
     slug = models.SlugField(max_length=255, unique=True, null=True, blank=True)

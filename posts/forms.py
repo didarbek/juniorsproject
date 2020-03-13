@@ -11,7 +11,7 @@ class PostForm(forms.ModelForm):
     image = forms.ImageField(label='Add Image (optianal)',required=False)
     group = forms.ModelChoiceField(label='Choose a group',queryset=Group.objects.all())
 
-    def __init__(self,*args,**kwargs):
+    def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super(PostForm, self).__init__(*args, **kwargs)
         if user is not None:

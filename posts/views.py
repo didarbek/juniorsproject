@@ -64,7 +64,7 @@ class TrendingPage(ListView):
     context_object_name = 'posts'
 
 def _html_comments(comment_id, group, post):
-    post = get_object_or_404(Post,group__slug=group.slug,slug=post.slug)
+    post = get_object_or_404(Post, group__slug=group.slug, slug=post.slug)
     comment = post.comments.get(id=comment_id)
     user = comment.commenter
     html = ''

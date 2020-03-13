@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from users.models import CustomUser
+from groups.models import Group
 
 def error_400(request,exception):
         data = {}

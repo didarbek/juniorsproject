@@ -1,7 +1,12 @@
 from django.urls import path, reverse_lazy,include
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
-from .views import Signup, profile, user_show_profile, my_view, FollowersPageView, FollowingPageView, follow_user
+from .views import (Signup, profile,
+                   user_show_profile, FollowersPageView, FollowingPageView,
+                   follow_user, all_message_requests, send_message_request,
+                   accept_message_request, all_friends
+                   )
+                   
 
 app_name = 'users'
 
@@ -19,7 +24,9 @@ urlpatterns = [
     path('profile/<int:id>', user_show_profile, name='profile_show_user'),
     path('following/', FollowingPageView.as_view(), name='view_all_following'),
     path('followers/', FollowersPageView.as_view(), name='view_all_followers'),
-    path('follow_user/<user_id>', follow_user, name='follow_user' )
-
-
+    path('follow_user/<user_id>', follow_user, name='follow_user' ),
+    path('send_message_request/<user_id>',send_message_request, name='send_message_request'),
+    path('accept_message_request/<user_id>', accept_message_request, name='accept_message_request'),
+    path('friends/all/',all_friends, name='all_friends'),
+    path('friends/requests/',all_message_requests, name='all_message_requests'),
     ]

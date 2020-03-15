@@ -26,8 +26,6 @@
                         <img class="ml-3" src="{{user.profile.get_picture}}" width="300px" height="300px" class="rounded" alt="">
                         <div class="offset-2 mt-2">{{profile_form.img_profile}}</div>   
                    </div>
-                   {{request.user.profile.followers}}
-
                 <div class="p-3 m-4">
                     <a  class="btn btn-primary" href="{% url 'users:view_all_followers' %}">
                         Followers <span class="badge badge-light"></span>

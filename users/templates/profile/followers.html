@@ -1,10 +1,13 @@
-{% if users %}
-Hello 
-{% else %}
-  <div class="card p-4 my-4 mx-0">
-    <h6 class="text-center">No Followers Found</h6>
-    <div style="margin:0 auto;">
-    <p class="text-muted">You don't have any followers right now.</p>
+{% extends 'base.html' %}
+{% block content %}
+  {% for user_follow in user_followers %}
+  <div>{{user_follow}}</div>
+  {% empty %}
+    <div class="card p-4 my-4 mx-0">
+      <h6 class="text-center">No Followers Found</h6>
+      <div style="margin:0 auto;">
+      <p class="text-muted">You don't have any followers right now.</p>
+      </div>
     </div>
-  </div>
-{% endif %}
+  {% endfor %}
+{% endblock content %}

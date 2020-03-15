@@ -1,13 +1,35 @@
 {% extends 'base.html' %}
+
+{% load humanize %}
+
 {% block content %}
-  {% for user_follow in user_followers %}
-  <div>{{user_follow}}</div>
-  {% empty %}
-    <div class="card p-4 my-4 mx-0">
-      <h6 class="text-center">No Followers Found</h6>
-      <div style="margin:0 auto;">
-      <p class="text-muted">You don't have any followers right now.</p>
+{% for user_follower in user_followers %}
+  <div class="card mb-2" style="border:none; border-bottom:1px solid #dcd7d7;">
+    <div class="card-body p-4">
+
+      <div class="text-center" style="float:left; width:10%;">
+        {% if user_follower.profile.get_picture %}
+        <img src="{{ user_follower.profile.user.profile.get_picture }}" class="rounded" width="50px" height="50px">
+        {% endif %}
       </div>
+
+      <div style="float:right; width:90%;">
+        <h5 style="font-size:16px;">
+          <a href="#"
+            class="card-link"
+            title="{{ user_follower.profile.user.username }}">{{ user_follower.profile.screen_name }}</a>
+          </h5>
+        <p class="text-muted">Member since <span title="{{ user_follower.member_since|date:"D d M Y" }} | {{ user_follower.member_since|time:"H:i:s" }}">{{ user_follower.profile.member_since|naturaltime }}</span></p>
+      </div>
+      
     </div>
+  </div>
+  {% empty %}
+  <div class="card p-4 my-4 mx-0">
+    <h6 class="text-center">No Following Found</h6>
+    <div style="margin:0 auto;">
+    <p class="text-muted">You don't have any following right now.</p>
+    </div>
+  </div>
   {% endfor %}
 {% endblock content %}

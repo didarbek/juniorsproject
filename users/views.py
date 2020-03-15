@@ -69,7 +69,8 @@ def my_view(request):
 class FollowersPageView(LoginRequiredMixin, generic.ListView):
     model = User
     template_name = 'profile/followers.html'
-    object_context_name = 'user_followers'
+    context_object_name = 'user_followers'
+    
     def get_queryset(self, **kwargs):
         print("this for followers user : {0} ".format(self.request.user.profile.followers.all()))
         return self.request.user.profile.followers.all()

@@ -74,11 +74,7 @@ class FollowersPageView(LoginRequiredMixin, generic.ListView):
         print("this for followers user : {0} ".format(self.request.user.profile.followers.all()))
         return self.request.user.profile.followers.all()
 
-    # def get_context_data(self, **kwargs):          
-    #     context = super().get_context_data(**kwargs)                     
-    #     new_context_entry = "here it goes"
-    #     context["new_context_entry"] = new_context_entry
-    #     return context
+
 
 class FollowingPageView(LoginRequiredMixin, generic.ListView):
     model = User

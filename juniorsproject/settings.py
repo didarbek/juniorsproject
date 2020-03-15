@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'posts',
     'notifications',
     'comments',
+    'messenger',
 
     # allauth apps
     'allauth',

@@ -61,7 +61,7 @@
             <h2 class="card-title">{{ post.title }}</h2>
             <p class="card-text">{{ post.body|truncatewords_html:50|urlize }}</p>
             {% if post.image %}
-            <img class="card-img pb-2" src="{{ post.image.url }}" alt="Card image cap">
+            <a href="{{ post.get_absolute_url }}"><img class="card-img pb-2" src="{{ post.image.url }}" alt="Card image cap"></a>
             {% endif %}
             <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
             <a class="like-btn float-right" id ='btn_like' data-href='{{ post.get_api_like_url }}' data-likes='{{ post.points.count }}' href="{{ post.get_like_url }}">

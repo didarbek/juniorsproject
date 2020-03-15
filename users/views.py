@@ -102,3 +102,4 @@ def follow_user(request, user_id):
         user.profile.followers.add(request.user)
         text = 'Unfollow'
     return HttpResponse(text)
+    

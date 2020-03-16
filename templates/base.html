@@ -7,11 +7,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     {% include "css.html" %}
     {% include "js.html" %}
-
     <title>{% block title %}{% endblock title %}</title>    
+    {% block head %}
+    {% endblock head %}
 </head>
 <body style="background-color: #f1f1f1;">
     {% include "navbar.html" %}
@@ -20,7 +20,6 @@
         {% endblock content %}
     </div>
     <button onclick="topFunction()" id="myBtn" title="Go to top">BACK TO TOP</button>
-
     <style>
       #myBtn {
   display: none; /* Hidden by default */

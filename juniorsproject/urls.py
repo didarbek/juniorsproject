@@ -26,8 +26,8 @@ urlpatterns = [
     path('', include('posts.urls')),
     path('', include('notifications.urls')),
     path('comment/', include('comments.urls')),
-    
-
+    path('messages/', include('messenger.urls')),
 ]
+
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

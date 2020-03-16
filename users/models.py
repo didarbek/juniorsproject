@@ -12,30 +12,20 @@ import random
 import os
 from django.conf import settings
 from django.utils import timezone
-User = settings.AUTH_USER_MODEL
-
-
 
 # Create your models here.
+
+User = settings.AUTH_USER_MODEL
+
 class CustomUser(AbstractUser): 
     email =  models.EmailField(_('email_address'), unique=True, name='email')
     username =  models.CharField(_('username'), unique=True, max_length=128)
-    
-
-
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
-
     objects = CustomUserManager()
-
 
     def __str__(self):
         return self.email
-
-
-
-
 
 GENDER_CHOICES = [
     ('male', 'Male'),
@@ -57,8 +47,8 @@ class Profile(models.Model):
     country = CountryField()
     followers = models.ManyToManyField(User, related_name='following')
     pending_list = models.ManyToManyField(User, related_name='my_pending_list')
-
-
+    contact_list = models.ManyToManyField(User, related_name='contacters', blank=True)
+    
     def __str__(self):
         return self.user.username
     
@@ -78,25 +68,18 @@ class Profile(models.Model):
         else:
             return default_picture
 
-
-
-
-
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
-
-
-
 
 def save(self, *args, **kwargs):
     slug = slugify(self.username)
     self.slug = slug
     print(slug)
     super().save(*args, **kwargs)
+    

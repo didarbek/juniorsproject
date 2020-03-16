@@ -73,7 +73,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
 
     'rest_framework',
-    'django_cleanup',
+    'emoticons',
 
 ]
 
@@ -184,7 +184,7 @@ AUTH_PROFILE_MODULE = 'users.CustomUser'
 
 AUTH_USER_MODEL = 'users.CustomUser' 
 
-LOGIN_URL = 'home'
+LOGIN_URL = 'posts:home'
 LOGOUT_REDIRECT_URL = 'posts:home'
 LOGIN_REDIRECT_URL = 'posts:home'
 

@@ -2,7 +2,7 @@
 
 {% load humanize %}
 
-{% laod emoticons_tags %}
+{% load emoticons_tags %}
 
 {% block title %}Messages{% endblock title %}
 
@@ -32,7 +32,7 @@
         var $last_message_id=$("#msg-container li:last-child").attr('message-id');
         var msg_container = $("#msg-container");
         $.ajax({
-          url: '{% url "load_new_messages" %}',
+          url: '{% url "messenger:load_new_messages" %}',
           data: {
             'username': '{{ active }}',
             'last_message_id': $last_message_id,
@@ -58,7 +58,7 @@
       <hr class="my-4">
       <p>If you don't have any contacts, click the button below to send message requests to network users.</p>
       <p class="lead">
-        <a class="btn btn-primary btn-sm" href="{% url 'view_all_users' %}" role="button">Send Requests <i class="fa fa-send-o"></i></a>
+        <a class="btn btn-primary btn-sm" href="" role="button">Send Requests <i class="fa fa-send-o"></i></a>
       </p>
     </div>
     <ul id="msg-container" style="padding:0px;"></ul>
@@ -68,7 +68,7 @@
   </div>
   <div class="chat-box">
     <img src="{{ user.profile.get_picture }}" class="picture">
-    <form role="form" method="post" action="{% url 'send_message' %}" id="send">
+    <form role="form" method="post" action="{% url 'messenger:send_message' %}" id="send">
       {% csrf_token %}
       <input type="hidden" name="to" value="{{ active }}">
       <input class="form-control" type="text" name="message" placeholder="Type a message here" maxlength="1000" autocomplete="off" {% if never_send_msg %}disabled{% endif %}>

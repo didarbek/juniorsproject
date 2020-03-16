@@ -15,25 +15,30 @@ def inbox(request):
     conversations = Message.get_conversations(user=request.user)
     users_list = request.user.profile.contact_list.all().filter(is_active=True)
     never_send_msg = True
-    return render(request,'messenger/inbox.html',{
-        'conversations':conversations,
-        'users_list':users_list,
-        'never_send_msg':never_send_msg
+    return render(request, 'messenger/inbox.html', {
+        'conversations': conversations,
+        'users_list': users_list,
+        'never_send_msg': never_send_msg
     })
 
+
 @login_required
-def messages(request,username):
+def messages(request, username):
     user = User.objects.get(username=username)
+
     if request.user in user.profile.contact_list.all():
         conversations = Message.get_conversations(user=request.user)
         users_list = request.user.profile.contact_list.all().filter(is_active=True)
         active_conversation = username
-        chat_msgs = Message.objects.filter(user=request.user,conversation__username=username)
+        chat_msgs = Message.objects.filter(user=request.user,
+                                          conversation__username=username)
         chat_msgs.update(is_read=True)
+
         for conversation in conversations:
             if conversation['user'].username == username:
                 conversation['unread'] = 0
-        return render(request,'messenger/inbox.html',{
+
+        return render(request, 'messenger/inbox.html', {
             'chat_msgs': chat_msgs,
             'conversations': conversations,
             'users_list': users_list,

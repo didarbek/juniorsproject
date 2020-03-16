@@ -90,7 +90,7 @@
       <a href="{% url 'groups:create_group' %}" class="nav-link link" title="Create Group"><small><i class="fas fa-plus"></i></small> <i class="fas fa-users"></i></a>
       <a href="{% url 'posts:new_post' %}" class="nav-link link" title="Create Post"><i  class="fas fa-pen"></i></a> 
       <a href="{% url 'notifications:activities' %}" class="nav-link link" title="Notifications"><i class="fas fa-bell"></i></a>
-      <a href="#" class="nav-link link"><i class="fas fa-comment"></i></a>
+      <a href="{% url 'messenger:inbox' %}" class="nav-link link"><i class="fas fa-inbox"></i></a>
       <ul class="navbar-nav">
         <li>
           <div class="dropdown mr-3 ml-3 ">
@@ -109,6 +109,8 @@
               </button>
               <a class="dropdown-item" href="{% url 'groups:user_subscription_list' request.user.username %}" >Subscriptions</a>
               <a class="dropdown-item" href="{% url 'groups:user_created_groups' request.user.username %}" >My Groups</a>
+              <a class="dropdown-item" href="{% url 'users:all_friends'%}" >All Friends</a>              
+              <a class="dropdown-item" href="{% url 'users:all_message_requests'%}" >Requests</a>              
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'users:logout' %}" >
                   <i class="fas fa-sign-out-alt fa-sm pr-2"></i>  

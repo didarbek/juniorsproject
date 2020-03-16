@@ -38,15 +38,18 @@ class Message(models.Model):
 
     @staticmethod
     def get_conversations(user):
-        conversations = Message.objects.filter(user=user).values('conversations').annotate(last=Max('date')).order_by('-last')
+        conversations = Message.objects.filter(
+            user=user).values('conversation').annotate(
+                last=Max('date')).order_by('-last')
         users = []
         for conversation in conversations:
             users.append({
-                'user':User.objects.get(pk=conversation['conversation']),
-                'last':conversation['last'],
-                'unread':Message.objects.filter(user=user,
-                                                conversation_pk=conversation[
+                'user': User.objects.get(pk=conversation['conversation']),
+                'last': conversation['last'],
+                'unread': Message.objects.filter(user=user,
+                                                 conversation__pk=conversation[
                                                     'conversation'],
-                                                    is_read=False).count()
-            })
+                                                 is_read=False).count(),
+                })
+
         return users

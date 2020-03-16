@@ -14,7 +14,7 @@
             <h5>Contacts ({{users_list.count}})</h5>
             {% if users_list %}
               {% for user in users_list %}
-                <a href="{% url 'messages' user.username %}" class="card-link" style="margin-left:0px; position:relative;" title="{{ user.profile.screen_name }}">
+                <a href="{% url 'messenger:messages' user.username %}" class="card-link" style="margin-left:0px; position:relative;" title="{{ user.profile.screen_name }}">
                   <img src="{{ user.profile.get_picture }}" class="conversation-portrait">
                   {% for conversation in conversations %}
                     {% if conversation.user.username == user.username %}

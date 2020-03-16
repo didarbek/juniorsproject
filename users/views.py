@@ -91,7 +91,7 @@ def follow_user(request, user_id):
 
 @login_required
 def send_message_request(request, user_id):
-    receiver = get_object_or_404(User, id=user_id)
+    receiver = get_object_or_404(CustomUser, id=user_id)
     contacter = request.user 
 
     if contacter in receiver.profile.pending_list.all():
@@ -106,7 +106,7 @@ def send_message_request(request, user_id):
 
 @login_required
 def accept_message_request(request, user_id):
-    sender = get_object_or_404(User, id=user_id)
+    sender = get_object_or_404(CustomUser, id=user_id)
     acceptor = request.user 
 
     if sender in acceptor.profile.pending_list.all():
@@ -130,7 +130,7 @@ def all_message_requests(request):
     else:
         p = False 
     try:
-        users = Paginator.page(page)
+        users = paginator.page(page)
     except PageNotAnInteger:
         users = paginator.page(1)
     

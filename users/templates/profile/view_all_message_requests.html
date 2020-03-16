@@ -1,5 +1,9 @@
 {% extends "base.html" %}
+
 {% load humanize %}
+
+{% load groups_tags %}
+
 {% block content %}
 {% for user in users %}
 <div class="card" style="border:none; border-bottom:1px solid #dcd7d7; margin-bottom:5px;">
@@ -13,16 +17,16 @@
 
     <div style="float:right; width:90%;">
       <h5 style="font-size:16px;">
-        <a href="{% url 'user_profile' user.username %}"
+        <a href="{% url 'users:profile_show_user' user.id %}"
            class="card-link"
            title="{{ user.username }}">{{ user.profile.screen_name }}</a>
-        <a href="{% url 'accept_message_request' user.id %}"
+        <a href="{% url 'users:accept_message_request' user.id %}"
            class="btn btn-outline-primary btn-sm"
            id="accept_message_request"
            style="float:right;"
            title="Confirm to start a conversation with this user">Confirm</a>
       </h5>
-      <p>{{board.description|markdown|truncatewords_html:50}}</p>
+      <p>{{ group.description|markdown|truncatewords_html:50 }}</p>
       <p class="text-muted">Member since <span title="{{user.profile.member_since|date:"D d M Y"}} | {{user.profile.member_since|time:"H:i:s"}}">{{user.profile.member_since|naturaltime}}</span></p>
     </div>
   </div>

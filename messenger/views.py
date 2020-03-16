@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from juniorsproject.decorators import ajax_required
 from .models import Message
+from users.models import CustomUser
 
 # Create your views here.
 
@@ -24,7 +25,7 @@ def inbox(request):
 
 @login_required
 def messages(request, username):
-    user = User.objects.get(username=username)
+    user = CustomUser.objects.get(username=username)
 
     if request.user in user.profile.contact_list.all():
         conversations = Message.get_conversations(user=request.user)

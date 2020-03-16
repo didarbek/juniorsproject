@@ -7,13 +7,12 @@
 {% block title %}Messages{% endblock title %}
 
 {% block container %}
-<div class="conversation">
-
+  <div class="conversation">
     {% if chat_msgs %}
     <ul id="msg-container" style="padding:0px;">
       {% for chat_msg in chat_msgs %}
       <li message-id="{{ chat_msg.id }}">
-        <a href="{% url 'users:show_profile_user' chat_msg.from_user.username %}" title="{{ chat_msg.from_user.profile.screen_name }}">
+        <a href="{% url 'users:profile_show_user' chat_msg.from_user.id %}" title="{{ chat_msg.from_user.profile.screen_name }}">
         <img src="{{ chat_msg.from_user.profile.get_picture }}" class="picture">
         </a>
         <div style="margin:10px;">
@@ -27,12 +26,13 @@
     </ul>
 
     <script type="text/javascript">
+    // Load new messages
     $(document).ready(function(){
       function load_new_messages() {
         var $last_message_id=$("#msg-container li:last-child").attr('message-id');
         var msg_container = $("#msg-container");
         $.ajax({
-          url: '{% url "messenger:load_new_messages" %}',
+          url: '{% url "load_new_messages" %}',
           data: {
             'username': '{{ active }}',
             'last_message_id': $last_message_id,

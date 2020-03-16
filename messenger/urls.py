@@ -4,8 +4,8 @@ from . import views
 app_name = 'messenger'
 
 urlpatterns = [
+    path('u/<username>/',views.messages,name='messages'),
     path('',views.inbox,name='inbox'),
-    path('<username>/',views.messages,name='messages'),
     path('send/',views.send,name='send_message'),
     path('delete/',views.delete,name='delete_message'),
     path('check/',views.check,name='check_message'),

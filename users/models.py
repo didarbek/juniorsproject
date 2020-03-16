@@ -48,7 +48,7 @@ class Profile(models.Model):
     followers = models.ManyToManyField(User, related_name='following')
     pending_list = models.ManyToManyField(User, related_name='my_pending_list')
     contact_list = models.ManyToManyField(User, related_name='contacters', blank=True)
-    
+
     def __str__(self):
         return self.user.username
     

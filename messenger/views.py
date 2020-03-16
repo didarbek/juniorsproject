@@ -34,11 +34,9 @@ def messages(request, username):
         chat_msgs = Message.objects.filter(user=request.user,
                                           conversation__username=username)
         chat_msgs.update(is_read=True)
-
         for conversation in conversations:
             if conversation['user'].username == username:
                 conversation['unread'] = 0
-
         return render(request, 'messenger/inbox.html', {
             'chat_msgs': chat_msgs,
             'conversations': conversations,
@@ -53,14 +51,14 @@ def messages(request, username):
 def load_new_messages(request):
     last_message_id = request.GET.get('last_message_id')
     username = request.GET.get('username')
-    user = User.objects.get(username=username)
+    user = CustomUser.objects.get(username=username)
     if request.user in user.profile.contact_list.all():
         chat_msgs = Message.objects.filter(user=request.user,
                                            conversation__username=username,
                                            id__gt=last_message_id).exclude(from_user=request.user)
         if chat_msgs:
             chat_msgs.update(is_read=True)
-            return render(request,'messenger/new_messages.html',{'chat_msgs':chat_msgs})
+            return render(request, 'messenger/new_messages.html', {'chat_msgs': chat_msgs})
         else:
             return HttpResponse('')
 
@@ -69,7 +67,7 @@ def load_new_messages(request):
 def load_last_twenty_messages(request):
     load_from_msg_id = request.GET.get('load_from_msg_id')
     username = request.GET.get('username')
-    user = User.objects.get(username=username)
+    user = CustomUser.objects.get(username=username)
     if request.user in user.profile.contact_list.all():
         chat_msgs = Message.objects.filter(user=request.user,
                                           conversation__username=username,
@@ -91,11 +89,10 @@ def send(request):
     if request.method == 'POST':
         from_user = request.user
         to_user_username = request.POST.get('to')
-        to_user = User.objects.get(username=to_user_username)
+        to_user = CustomUser.objects.get(username=to_user_username)
         message = request.POST.get('message')
         if len(message.strip()) == 0:
             return HttpResponse()
-
         if from_user != to_user:
             chat_msg = Message.send_message(from_user, to_user, message)
             return render(request, 'messenger/includes/partial_message.html', {'chat_msg': chat_msg})

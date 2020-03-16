@@ -59,13 +59,13 @@
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
-                            <a href="{% url 'block_spammer' user.id %}" class="btn btn-primary btn-sm" id="block_spammer" style="margin-right: 10px;" title="Block this user">Block</a>
+                            <a href="" class="btn btn-primary btn-sm" id="block_spammer" style="margin-right: 10px;" title="Block this user">Block</a>
                           </div>
                         </div>
                       </div>
                     </div>
     
-                    <a href="{% url 'messages' user.username %}"
+                    <a href="{% url 'messenger:messages' user.username %}"
                        class="btn btn-outline-primary btn-sm"
                        title="Send message to this user"
                        style="float:right; margin-right:10px;">Message</a>

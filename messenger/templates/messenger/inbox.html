@@ -1,27 +1,14 @@
 {% extends 'messenger/base_messages.html' %}
 
-{% load humanize %}
-
-{% load emoticons_tags %}
-
 {% block title %}Messages{% endblock title %}
 
 {% block container %}
   <div class="conversation">
+
     {% if chat_msgs %}
     <ul id="msg-container" style="padding:0px;">
       {% for chat_msg in chat_msgs %}
-      <li message-id="{{ chat_msg.id }}">
-        <a href="{% url 'users:profile_show_user' chat_msg.from_user.id %}" title="{{ chat_msg.from_user.profile.screen_name }}">
-        <img src="{{ chat_msg.from_user.profile.get_picture }}" class="picture">
-        </a>
-        <div style="margin:10px;">
-          <div class="speech-bubble">
-            <p>{{ chat_msg.message|emoticons }}</p>
-          </div>
-          <small class="pull-right text-muted">{{ chat_msg.date }}</small>
-        </div>
-      </li>
+        {% include 'messenger/includes/partial_message.html' %}
       {% endfor %}
     </ul>
 
@@ -32,7 +19,7 @@
         var $last_message_id=$("#msg-container li:last-child").attr('message-id');
         var msg_container = $("#msg-container");
         $.ajax({
-          url: '{% url "load_new_messages" %}',
+          url: '{% url "messenger:load_new_messages" %}',
           data: {
             'username': '{{ active }}',
             'last_message_id': $last_message_id,

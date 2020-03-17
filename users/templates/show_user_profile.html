@@ -9,6 +9,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<div class="container">
+<div class="row">
 <form action="" method="POST" enctype="multipart/form-data">
     <div class="row justify-content-center" >
         {% if messages %}
@@ -68,10 +70,11 @@
         </div>
     </div>
 </form>
-<h1>Admin of these groups</h1>
+<div class="col-md-4 ml-3">
+<h6 class="text-center">Admin of these groups</h6>
 <div class="list-group mb-5">
     {% for Group in user_groups_admin %}
-    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+    <a href="{{ Group.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start">
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">{{ Group.title }}</h5>
         <small>{{ Group.created|naturaltime }}</small>
@@ -80,6 +83,7 @@
       <small>{{ Group.subscribers.count }} subscribers</small>
     </a>
     {% endfor %}
+  </div>
   </div>
 <!-- Tabs -->
 <section id="tabs">
@@ -169,6 +173,8 @@
 		</div>
 	</div>
 </section>
+</div>
+</div>
 <script>
     $(document).ready(function(){
         $('a#follow_user').on("click", function(){

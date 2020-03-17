@@ -1,1 +1,1 @@
-web: gunicorn juniors-app:app --preload
+web: gunicorn juniors-app:.wsgi --log-file -

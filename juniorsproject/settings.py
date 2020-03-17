@@ -37,7 +37,7 @@ ALLOWED_HOSTS = ['juniors-app.herokuapp.com','127.0.0.1']
 INSTALLED_APPS = [
 
     #channel
-    'channels',
+    # 'channels',
 
     #chat app 
     'chat',
@@ -137,16 +137,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'juniorsproject.wsgi.application'
 
-ASGI_APPLICATION = "juniorsproject.routing.application"
+# ASGI_APPLICATION = "juniorsproject.routing.application"
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 8000)],
-        },
-    },
-}
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 8000)],
+#         },
+#     },
+# }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Database

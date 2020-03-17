@@ -22,10 +22,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '#p-lw@xy(im8)96s_j-tj&1gy)_7&n$b6^2@kt1m%u0#6158i%'
-
+# SECRET_KEY = '#p-lw@xy(im8)96s_j-tj&1gy)_7&n$b6^2@kt1m%u0#6158i%'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '#p-lw@xy(im8)96s_j-tj&1gy)_7&n$b6^2@kt1m%u0#6158i%')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 ALLOWED_HOSTS = ['*']
 
@@ -94,6 +98,7 @@ AUTHENTICATION_BACKENDS = (
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -202,3 +207,4 @@ handler403 = 'juniorsproject.views.error_403'
 handler400 = 'juniorsproject.views.error_400'
 
 # DEBUG = False
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

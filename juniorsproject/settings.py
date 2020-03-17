@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+import dj_database_url
 from django.conf import settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -27,16 +27,22 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '#p-lw@xy(im8)96s_j-tj&1gy)_7&n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
 
-ALLOWED_HOSTS = ['*']
+
+ALLOWED_HOSTS = ['juniors-app.herokuapp.com','127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+
+    #channel
+    'channels',
+
+    #chat app 
+    'chat',
+
+
     # users app 
     'users',
     'django.contrib.sites',
@@ -78,6 +84,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'emoticons',
+
 
 ]
 
@@ -130,6 +137,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'juniorsproject.wsgi.application'
 
+ASGI_APPLICATION = "juniorsproject.routing.application"
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 8000)],
+        },
+    },
+}
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -140,6 +158,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -207,4 +227,8 @@ handler403 = 'juniorsproject.views.error_403'
 handler400 = 'juniorsproject.views.error_400'
 
 # DEBUG = False
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

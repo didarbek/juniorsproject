@@ -173,3 +173,4 @@ def all_friends(request):
         'p':p,
         'p_obj':p_obj
     })
+

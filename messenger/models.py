@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.db.models import Max
+from users.models import CustomUser
 
 # Create your models here.
 
@@ -44,7 +45,7 @@ class Message(models.Model):
         users = []
         for conversation in conversations:
             users.append({
-                'user': User.objects.get(pk=conversation['conversation']),
+                'user': CustomUser.objects.get(pk=conversation['conversation']),
                 'last': conversation['last'],
                 'unread': Message.objects.filter(user=user,
                                                  conversation__pk=conversation[

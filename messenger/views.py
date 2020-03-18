@@ -85,6 +85,7 @@ def delete(request):
 @login_required
 @ajax_required
 def send(request):
+    print("Hello world")
     if request.method == 'POST':
         from_user = request.user
         to_user_username = request.POST.get('to')

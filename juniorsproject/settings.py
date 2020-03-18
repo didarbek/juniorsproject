@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+import dj_database_url
 from django.conf import settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -22,10 +22,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '#p-lw@xy(im8)96s_j-tj&1gy)_7&n$b6^2@kt1m%u0#6158i%'
-
+# SECRET_KEY = '#p-lw@xy(im8)96s_j-tj&1gy)_7&n$b6^2@kt1m%u0#6158i%'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '#p-lw@xy(im8)96s_j-tj&1gy)_7&n$b6^2@kt1m%u0#6158i%')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -33,6 +35,14 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+
+    #channel
+    'channels',
+
+    #chat app 
+    'chat',
+
+
     # users app 
     'users',
     'django.contrib.sites',
@@ -75,6 +85,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'emoticons',
 
+    # Django toolbar 
+    'debug_toolbar',
+
+
 ]
 
 SITE_ID = 2
@@ -89,11 +103,18 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
 
 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -125,6 +146,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'juniorsproject.wsgi.application'
 
+ASGI_APPLICATION = "juniorsproject.routing.application"
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -135,6 +167,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -202,3 +236,8 @@ handler403 = 'juniorsproject.views.error_403'
 handler400 = 'juniorsproject.views.error_400'
 
 # DEBUG = False
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

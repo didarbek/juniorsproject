@@ -8,7 +8,6 @@ from .models import Message
 from users.models import CustomUser
 
 # Create your views here.
-
 User = settings.AUTH_USER_MODEL
 
 @login_required

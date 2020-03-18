@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import path,include,re_path
 from django.conf import settings
 from django.conf.urls.static import static
+import debug_toolbar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('chat/', include('chat.urls')),
     path('account/', include('users.urls')),
     path('', include('reports.urls')),
     path('', include('groups.urls')),
@@ -27,6 +29,9 @@ urlpatterns = [
     path('', include('notifications.urls')),
     path('comment/', include('comments.urls')),
     path('messages/', include('messenger.urls')),
+    path('__debug__/', include(debug_toolbar.urls)),
+
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

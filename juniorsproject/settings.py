@@ -36,13 +36,6 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
 
-    #channel
-    'channels',
-
-    #chat app 
-    'chat',
-
-
     # users app 
     'users',
     'django.contrib.sites',
@@ -146,16 +139,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'juniorsproject.wsgi.application'
 
-ASGI_APPLICATION = "juniorsproject.routing.application"
+# ASGI_APPLICATION = "juniorsproject.routing.application"
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#         "ROUTING": "chat.routing.channel_routing",
+#     },
+# }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Database

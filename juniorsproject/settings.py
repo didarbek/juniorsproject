@@ -29,7 +29,7 @@ DEBUG = True
 
 
 
-ALLOWED_HOSTS = ['juniors-app.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,7 +37,7 @@ ALLOWED_HOSTS = ['juniors-app.herokuapp.com','127.0.0.1']
 INSTALLED_APPS = [
 
     #channel
-    # 'channels',
+    'channels',
 
     #chat app 
     'chat',
@@ -85,6 +85,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'emoticons',
 
+    # Django toolbar 
+    'debug_toolbar',
+
 
 ]
 
@@ -100,12 +103,18 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
 
 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -137,16 +146,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'juniorsproject.wsgi.application'
 
-# ASGI_APPLICATION = "juniorsproject.routing.application"
+ASGI_APPLICATION = "juniorsproject.routing.application"
 
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [('127.0.0.1', 8000)],
-#         },
-#     },
-# }
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 8000)],
+        },
+    },
+}
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Database

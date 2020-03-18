@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from .models import Notification
+from juniorsproject.decorators import ajax_required
 
 # Create your views here.
 
@@ -23,6 +24,7 @@ class ActivitiesPage(LoginRequiredMixin,ListView):
         return post_events
 
 @login_required
+@ajax_required
 def check_activities(request):
     post_events = Notification.objects.filter(Target=request.user,is_read=False).exclude(Actor=request.user)
     return HttpResponse(len(post_events))

@@ -68,6 +68,12 @@ class Profile(models.Model):
         else:
             return default_picture
 
+    def get_number_of_followers(self):
+        if self.followers.count():
+            return self.followers.count()
+        else:
+            return 0
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

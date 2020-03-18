@@ -22,6 +22,7 @@ from comments.models import Comment
 from django.http import JsonResponse
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from juniorsproject.decorators import ajax_required
+from users.models import CustomUser
 
 # # Create your views here.
 
@@ -88,9 +89,28 @@ def post_detail(request,group,post):
             new_comment.commenter = request.user
             new_comment.post = post
             new_comment.save()
+            words = new_comment.body
+            words = words.split(" ")
+            names_list = []
+            for word in words:
+                if word[:2] == "u/":
+                    u = word[2:]
+                    try:
+                        user = CustomUser.objects.get(username=u)
+                        if user not in names_list:
+                            if request.user is not user:
+                                Notification.objects.create(
+                                    Actor=new_comment.commenter,
+                                    Object=new_comment.post,
+                                    Target=user,
+                                    notif_type='comment_mentioned'
+                                )
+                            names_list.append(user)
+                    except:
+                        pass
             new_comment_id = new_comment.id
-        html = _html_comments(new_comment_id, group, post)
-        return HttpResponse(html)
+            html = _html_comments(new_comment_id, group, post)
+            return HttpResponse(html)
 
             # body = request.POST.get('body')
             # context['body'] = body
@@ -206,11 +226,10 @@ def new_post(request):
             words = words.split(" ")
             names_list = []
             for word in words:
-
                 if word[:2] == "u/":
                     u = word[2:]
                     try:
-                        user = User.objects.get(username=u)
+                        user = CustomUser.objects.get(username=u)
                         if user not in names_list:
                             new_post.mentioned.add(user)
                             if request.user is not user:

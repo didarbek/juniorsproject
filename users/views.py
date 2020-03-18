@@ -85,6 +85,11 @@ def follow_user(request, user_id):
         text = 'Follow'
     else:
         user.profile.followers.add(request.user)
+        Notification.objects.create(
+            Actor=request.user,
+            Target=user,
+            notif_type='follow'
+        )
         text = 'Unfollow'
     return HttpResponse(text)
     

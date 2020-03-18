@@ -89,7 +89,7 @@
       <a href="{% url 'posts:trending' %}" class="nav-link link" style="color:#e25822" title="Trending"><i class="fas fa-fire fa-lg"></i></a>
       <a href="{% url 'groups:create_group' %}" class="nav-link link" title="Create Group"><small><i class="fas fa-plus"></i></small> <i class="fas fa-users"></i></a>
       <a href="{% url 'posts:new_post' %}" class="nav-link link" title="Create Post"><i  class="fas fa-pen"></i></a> 
-      <a href="{% url 'notifications:activities' %}" class="nav-link link" title="Notifications"><i class="fas fa-bell"></i></a>
+      <a href="{% url 'notifications:activities' %}" id="check_activities" class="nav-link link" title="Notifications"><i class="fas fa-bell"></i><span id="activities_count"></span></a>
       <a href="{% url 'messenger:inbox' %}" class="nav-link link"><i class="fas fa-inbox"></i></a>
       <ul class="navbar-nav">
         <li>
@@ -124,3 +124,25 @@
       {% endif %}
     </div>
   </nav>
+  
+<script type="text/javascript">
+  $(document).ready(function() {
+    function check_activities() {
+      $.ajax({
+        url: "/activities/check/",
+        cache: false,
+        success: function(data) {
+          if (data != 0) {
+            $("#check_activities span#activities_count").text(data);
+          } else {
+            $("span#activities_count").remove();
+          }
+        },
+        complete: function() {
+          window.setTimeout(check_activities, 60000);
+        }
+      });
+    }
+    check_activities();
+  });
+</script>

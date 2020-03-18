@@ -98,10 +98,11 @@
                   <a href="{% url 'comments:delete_comment' comment.id %}" title="delete this comment" id="delete_comment" class="float-right" style="color:red;"><i class="fas fa-trash"></i></a>
                   {% else %}
                   {% if user in comment.post.group.subscribers.all %}
-                    <a href="{% url 'reports:report_comment' comment.id %}" class="float-right" id="report_link" title="report comment"><i class="far fa-flag"></i></a>
+                  <a href="" class="" id="reply_comment" title="report comment"><i class="fas fa-reply"></i></a>
+                  <a href="{% url 'reports:report_comment' comment.id %}" class="float-right" id="report_link" title="report comment"><i class="far fa-flag"></i></a>
                   {% endif %}
                   {% endifequal %}
-                  <h5 class="mt-0"><a href="{% url 'users:profile_show_user' comment.commenter.id %}" style="color:cadetblue;">{{ comment.commenter.username }}</a></h5>
+                  <h6 class="mt-0"><a href="{% url 'users:profile_show_user' comment.commenter.id %}" id="commenter" style="color:cadetblue;">{{ comment.commenter.username }}</a></h6>
                   {{ comment.body }}<br>
                   <small>{{ comment.created|naturaltime }}</small>
                 </div>
@@ -332,6 +333,25 @@ $(document).on("click", "a#report_link",function () {
         }
       }
     });
+    {% endif %}
+    return false;
+  });
+</script>
+
+<script type="text/javascript">
+   $(document).on("click", "#comments_container #reply_comment",function (e) {
+    {% if not request.user.is_authenticated %}
+    window.location.href = "{% url 'users:login' %}";
+    {% else %}
+    e.preventDefault();
+    var $target = $(this).parent().find("a#commenter");
+    var $target_id = $target.text();
+    var $input_area = $("#comment_form textarea");
+    $('html, body').stop().animate( {
+      'scrollTop': $input_area.offset().top
+    }, 500, 'swing');
+    $input_area.focus();
+    $input_area.val("u/"+$target_id+", ");
     {% endif %}
     return false;
   });

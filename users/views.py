@@ -17,6 +17,8 @@ from groups.models import Group
 from notifications.models import Notification
 from django.core.paginator import  Paginator
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.views.generic import ListView
+from django.shortcuts import redirect
 
 # Create your views here.
 User = settings.AUTH_USER_MODEL
@@ -179,3 +181,22 @@ def all_friends(request):
         'p_obj':p_obj
     })
 
+@login_required
+def block_spammer(request, user_id):
+    spammer = get_object_or_404(CustomUser, id=user_id)
+    blocker = request.user
+    if spammer in blocker.profile.contact_list.all():
+        blocker.profile.contact_list.remove(spammer)
+        spammer.profile.contact_list.remove(blocker)
+        return redirect('users:profile_show_user', username=spammer)
+    else:
+        return redirect('/')
+        
+class UsersPageView(ListView):
+    model = User
+    paginate_by = 20
+    template_name = 'view_all_users.html'
+    context_object_name = 'users'
+
+    def get_queryset(self, **kwargs):
+        return CustomUser.objects.exclude(username=self.request.user.username)

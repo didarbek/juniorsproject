@@ -87,8 +87,7 @@
       </ul>
       {% if user.is_authenticated %}
       <a href="{% url 'posts:trending' %}" class="nav-link link" style="color:#e25822" title="Trending"><i class="fas fa-fire fa-lg"></i></a>
-      <a href="{% url 'groups:create_group' %}" class="nav-link link" title="Create Group"><small><i class="fas fa-plus"></i></small> <i class="fas fa-users"></i></a>
-      <a href="{% url 'posts:new_post' %}" class="nav-link link" title="Create Post"><i  class="fas fa-pen"></i></a> 
+      <a href="{% url 'posts:new_post' %}" id="check_messages" class="nav-link link" title="Create Post"><i  class="fas fa-pen"></i><span id="messages_count"></span></a> 
       <a href="{% url 'notifications:activities' %}" id="check_activities" class="nav-link link" title="Notifications"><i class="fas fa-bell"></i><span id="activities_count"></span></a>
       <a href="{% url 'messenger:inbox' %}" class="nav-link link"><i class="fas fa-inbox"></i></a>
       <ul class="navbar-nav">
@@ -103,9 +102,10 @@
                   <i class="fas fa-user-alt fa-sm pr-2"></i> 
                     My Profile
                 </a>
-              <a class="dropdown-item" href="{% url 'groups:user_subscription_list' request.user.username %}">Subscriptions</a>
               <a class="dropdown-item" href="{% url 'groups:user_created_groups' request.user.username %}"><i class="fas fa-users"></i> My Groups</a>
-              <a class="dropdown-item" href="{% url 'users:all_friends'%}"><i class="fas fa-user-friends"></i> All Friends</a>              
+              <a href="{% url 'groups:create_group' %}" class="dropdown-item" title="Create Group"><small>New group</a>
+              <a class="dropdown-item" href="{% url 'groups:user_subscription_list' request.user.username %}">Subscriptions</a>
+              <a class="dropdown-item" href="{% url 'users:all_friends'%}">All Friends</a>              
               <a class="dropdown-item" href="{% url 'users:all_message_requests'%}">Requests</a>              
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'users:logout' %}" >

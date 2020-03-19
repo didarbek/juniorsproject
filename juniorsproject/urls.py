@@ -23,13 +23,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('chat/', include('chat.urls')),
     path('messages/', include('messenger.urls')),
-
+    path('', include('notifications.urls')),
     path('account/', include('users.urls')),
     path('', include('reports.urls')),
     path('', include('groups.urls')),
     path('', include('posts.urls')),
-    path('', include('notifications.urls')),
     path('comment/', include('comments.urls')),
+    path('', include('esearch.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
 
 

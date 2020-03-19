@@ -87,9 +87,9 @@
       </ul>
       {% if user.is_authenticated %}
       <a href="{% url 'posts:trending' %}" class="nav-link link" style="color:#e25822" title="Trending"><i class="fas fa-fire fa-lg"></i></a>
-      <a href="{% url 'posts:new_post' %}" id="check_messages" class="nav-link link" title="Create Post"><i  class="fas fa-pen"></i><span id="messages_count"></span></a> 
-      <a href="{% url 'notifications:activities' %}" id="check_activities" class="nav-link link" title="Notifications"><i class="fas fa-bell"></i><span id="activities_count"></span></a>
-      <a href="{% url 'messenger:inbox' %}" class="nav-link link"><i class="fas fa-inbox"></i></a>
+      <a href="{% url 'posts:new_post' %}" class="nav-link link" title="Create Post"><i  class="fas fa-pen"></i></a> 
+      <a href="{% url 'notifications:activities' %}" id="check_activities" class="nav-link link" title="Notifications"><i class="fas fa-bell"></i><small><span class="badge badge-pill badge-danger" style="vertical-align: top;" id="activities_count"></span></small></a>
+      <a href="{% url 'messenger:inbox' %}" id="check_messages" class="nav-link link"><i class="fas fa-inbox"></i><small><span class="badge badge-pill badge-danger" style="vertical-align: top;" id="messages_count"></span></small></a>
       <ul class="navbar-nav">
         <li>
           <div class="dropdown mr-3 ml-3 ">

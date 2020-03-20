@@ -23,7 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('chat/', include('chat.urls')),
     path('messages/', include('messenger.urls')),
-
     path('account/', include('users.urls')),
     path('', include('reports.urls')),
     path('', include('groups.urls')),

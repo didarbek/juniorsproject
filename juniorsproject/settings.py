@@ -29,7 +29,7 @@ DEBUG = True
 
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['rocky-chamber-77478.herokuapp.com','127.0.0.1']
 
 
 # Application definition

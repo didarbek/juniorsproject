@@ -39,7 +39,7 @@ oauthlib==3.0.1
 olefile==0.46
 packaging==19.0
 pandas==0.24.1
-Pillow==5.4.1
+Pillow==6.2.0
 psycopg2==2.7.7
 psycopg2-binary==2.7.7
 whitenoise==5.0.1

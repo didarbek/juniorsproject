@@ -4,7 +4,6 @@ from django.conf import settings
 from django.utils import timezone
 from groups.models import Group
 from slugify import UniqueSlugify
-
 # Create your models here.
 
 User = settings.AUTH_USER_MODEL

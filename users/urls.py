@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .views import (Signup, profile,
                    user_show_profile, FollowersPageView, FollowingPageView,
                    follow_user, all_message_requests, send_message_request,
-                   accept_message_request, all_friends
+                   accept_message_request, all_friends,UsersPageView,block_spammer
                    )
                    
 
@@ -29,4 +29,6 @@ urlpatterns = [
     path('accept_message_request/<user_id>', accept_message_request, name='accept_message_request'),
     path('friends/all/',all_friends, name='all_friends'),
     path('friends/requests/',all_message_requests, name='all_message_requests'),
+    path('u/',UsersPageView.as_view(),name='view_all_users'),
+    path('u/block_spammer/<user_id>/',block_spammer,name='block_spammer'),
     ]

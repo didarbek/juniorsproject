@@ -26,6 +26,5 @@ class ActivitiesPage(LoginRequiredMixin,ListView):
 @login_required
 @ajax_required
 def check_activities(request):
-    post_events = Notification.objects.filter(Target=request.user,is_read=False).exclude(Actor=request.user)
+    post_events = Notification.objects.filter(Target=request.user, is_read=False).exclude(Actor=request.user)
     return HttpResponse(len(post_events))
-    

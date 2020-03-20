@@ -59,7 +59,7 @@
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
-                            <a href="" class="btn btn-primary btn-sm" id="block_spammer" style="margin-right: 10px;" title="Block this user">Block</a>
+                            <a href="{% url 'users:block_spammer' user.id %}" class="btn btn-primary btn-sm" id="block_spammer" style="margin-right: 10px;" title="Block this user">Block</a>
                           </div>
                         </div>
                       </div>
@@ -134,7 +134,7 @@
     });
     </script>
     
-    <script>
+    <script type="text/javascript">
     // Follow user
     $(document).ready(function(){
         $("a#follow_user").on("click", function () {

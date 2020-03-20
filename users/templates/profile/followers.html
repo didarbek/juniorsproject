@@ -15,7 +15,7 @@
 
       <div style="float:right; width:90%;">
         <h5 style="font-size:16px;">
-          <a href="#"
+          <a href="{% url 'users:profile_show_user' user.id %}"
             class="card-link"
             title="{{ user_follower.profile.user.username }}">{{ user_follower.profile.screen_name }}</a>
           </h5>

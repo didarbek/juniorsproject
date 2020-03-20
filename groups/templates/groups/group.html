@@ -167,4 +167,37 @@
     <!-- /.row -->
 
   <!-- /.container -->
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("a#subscribe_group").on("click", function () {
+        {% if not request.user.is_authenticated %}
+        window.location.href = "{% url 'users:login' %}";
+        {% else %}
+        var $msg=$(this);
+        var $subscribe_url=$(this).attr("href");
+        var $group_subscribers=$('span#group_subscribers')
+        $.ajax({
+          url: $subscribe_url,
+          type: 'GET',
+          success: function (data) {
+            if ($msg.text() == 'Subscribe') {
+              $msg.removeClass('btn-primary');
+              $msg.addClass('btn-secondary');
+              $msg.text('Unsubscribe');
+              $board_subscribers.text(data);
+            } else if ($msg.text() == 'Unsubscribe') {
+              $msg.removeClass('btn-secondary');
+              $msg.addClass('btn-primary');
+              $msg.text('Subscribe');
+              $group_subscribers.text(data);
+            } else { console.log('Unexpected error!'); }
+          }
+        });
+        {% endif %}
+        return false;
+      });
+    });
+    </script>
+    
 {% endblock content %}

@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'notifications',
     'comments',
     'messenger',
+    'esearch',
 
     # allauth apps
     'allauth',
@@ -161,8 +162,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

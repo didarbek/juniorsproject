@@ -22,7 +22,7 @@ import debug_toolbar
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('users.urls')),
-    path('', include('posts.urls')),
+    # path('', include('posts.urls')),
     path('messages/', include('messenger.urls')),
     path('', include('notifications.urls')),
     path('', include('reports.urls')),

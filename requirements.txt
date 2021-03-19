@@ -24,5 +24,5 @@ Unidecode==0.4.21
 urllib3==1.23
 utils==1.0.1
 django-debug-toolbar==1.10.1
-pillow==5.4.1
+pillow==8.1.1
 markdown==3.0.1
